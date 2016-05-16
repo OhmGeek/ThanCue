@@ -10,6 +10,6 @@ public class SoundCue extends Cue {
     }
 
     public boolean playCue() {
-
+        return false;
     }
 }
