@@ -1,7 +1,8 @@
 package mian;
 
-import javax.swing.*;
-import java.nio.file.Path;
+import java.applet.*;
+import java.net.*;
+import java.nio.file.Paths;
 
 /**
  * Created by ryan on 15/05/16.
@@ -23,6 +24,16 @@ public class SoundCue extends Cue {
     }
 
     public void playCue() {
-	JOptionPane.showMessageDialog(null,"Playing Cue", "Test",JOptionPane.INFORMATION_MESSAGE);
+        //todo use vlc
+	    try {
+            URL u;
+            u = Paths.get(soundPath).toUri().toURL();
+            System.out.println(u.toString());
+            AudioClip sound = Applet.newAudioClip(u);
+            sound.play(); //one can also loop this
+
+        } catch(Exception ex) {
+            System.out.println("Error in playing song");
+        }
     }
 }
