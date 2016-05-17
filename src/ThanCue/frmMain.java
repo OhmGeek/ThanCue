@@ -1,4 +1,4 @@
-package mian;
+package ThanCue;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

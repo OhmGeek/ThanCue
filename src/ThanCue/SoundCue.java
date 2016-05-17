@@ -1,4 +1,4 @@
-package mian;
+package ThanCue;
 
 import java.applet.*;
 import java.net.*;
@@ -31,7 +31,6 @@ public class SoundCue extends Cue {
             System.out.println(u.toString());
             AudioClip sound = Applet.newAudioClip(u);
             sound.play(); //one can also loop this
-
         } catch(Exception ex) {
             System.out.println("Error in playing song");
         }

@@ -1,4 +1,4 @@
-package mian;
+package ThanCue;
 
 
 import java.awt.datatransfer.DataFlavor;
