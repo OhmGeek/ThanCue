@@ -1,8 +1,6 @@
 package mian;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ryan on 17/05/16.
@@ -21,7 +19,7 @@ public class ProgManager {
     }
     public void go() {
         //now create the default view and display it.
-        PanelMain mainPanel = new PanelMain();
+        frmMain mainPanel = new frmMain();
         setContentDisplay(mainPanel.getPanel());
 
     }

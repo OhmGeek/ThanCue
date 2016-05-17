@@ -5,23 +5,33 @@ package mian;
  */
 public abstract class Cue {
 
+    private String cueType;
     private String cueName;
 
     public Cue() {
+        cueType = "Untyped";
         cueName = "Unnamed Cue";
     }
 
-    public String getCueName() {
+    private String getCueName() {
         return cueName;
     }
 
-    public void setCueName(String name) {
+    void setCueType(String cueType) {
+        this.cueType = cueType;
+    }
+
+    private String getCueType() {
+        return cueType;
+    }
+
+    void setCueName(String name) {
         cueName = name;
     }
 
     @Override
     public String toString() {
-        return getCueName();
+        return getCueType() + " - " + getCueName();
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or pushing over a table.

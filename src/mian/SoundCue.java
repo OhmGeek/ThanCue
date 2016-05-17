@@ -11,7 +11,7 @@ public class SoundCue extends Cue {
     private Path soundPath;
 
     public SoundCue() {
-
+        setCueType("Sound");
     }
 
     public void setFilePath(Path soundPath) {
