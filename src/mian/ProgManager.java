@@ -11,10 +11,9 @@ import java.util.List;
 public class ProgManager {
     private JFrame window;
     private static final String PROG_NAME = "ThanCue";
-    private List<Cue> cueCollection;
 
     public ProgManager() {
-        cueCollection = new ArrayList<Cue>();
+
         window = new JFrame();
         setWindowTitle(PROG_NAME);
 
