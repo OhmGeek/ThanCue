@@ -17,20 +17,22 @@ public class ProgManager {
         window = new JFrame();
         setWindowTitle(PROG_NAME);
 
+
+    }
+    public void go() {
         //now create the default view and display it.
         PanelMain mainPanel = new PanelMain();
         setContentDisplay(mainPanel.getPanel());
 
     }
-
-    private void setContentDisplay(JPanel p) {
+    public void setContentDisplay(JPanel p) {
         window.setContentPane(p);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.pack();
         window.setVisible(true);
     }
 
-    private void setWindowTitle(String title) {
+    public void setWindowTitle(String title) {
         window.setTitle(title);
     }
 
