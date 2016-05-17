@@ -5,6 +5,6 @@ package mian;
  */
 public abstract class Cue {
 
-    public abstract boolean playCue(); //this plays the cue, be it lighting, sound, video or pushing over a table.
+    public abstract void playCue(); //this plays the cue, be it lighting, sound, video or pushing over a table.
 
 }

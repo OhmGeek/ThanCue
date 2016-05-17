@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Created by ryan on 17/05/16.
+ *
  */
 public class ProgManager {
     private JFrame window;
@@ -13,8 +14,11 @@ public class ProgManager {
     public ProgManager() {
         window = new JFrame();
         setWindowTitle(PROG_NAME);
-        PanelMain panel = new PanelMain();
-        setContentDisplay(panel.getPanel());
+
+        //now create the default view and display it.
+        PanelMain mainPanel = new PanelMain();
+        setContentDisplay(mainPanel.getPanel());
+
     }
 
     private void setContentDisplay(JPanel p) {
