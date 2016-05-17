@@ -7,7 +7,7 @@ import javax.swing.*;
  */
 
 
-//todo: we might want to create a separate prog manager which allows everything to be customsed (including title).
+
 
 public class Main {
     public static void main(String[] args) {
