@@ -9,12 +9,12 @@ public class ProgManager {
     private JFrame window;
     private static final String PROG_NAME = "ThanCue";
 
-    
+
     public ProgManager() {
         window = new JFrame();
         setWindowTitle(PROG_NAME);
         PanelMain panel = new PanelMain();
-        setContentDisplay(panel);
+        setContentDisplay(panel.getPanel());
     }
 
     private void setContentDisplay(JPanel p) {
