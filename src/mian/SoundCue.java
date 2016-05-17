@@ -8,17 +8,17 @@ import java.nio.file.Path;
  */
 public class SoundCue extends Cue {
 
-    private Path soundPath;
+    private String soundPath;
 
     public SoundCue() {
         setCueType("Sound");
     }
 
-    public void setFilePath(Path soundPath) {
+    public void setFilePath(String soundPath) {
         this.soundPath = soundPath;
     }
 
-    public Path getFilePath() {
+    public String getFilePath() {
         return this.soundPath;
     }
 

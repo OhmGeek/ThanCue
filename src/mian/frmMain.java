@@ -1,6 +1,7 @@
 package mian;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,29 @@ public class frmMain {
     private List<Cue> cueCollection;
     private Random r; // purely for adding test cues todo remove
 
-    frmMain() {
+
+
+
+    public frmMain() {
+
+        new FileDrop(this.getPanel(), files -> {
+            if(cueCollection != null) {
+
+                for (File f : files)
+                {
+                    //todo add checking to the type. Only allow for sound cues or videos.
+                     SoundCue cToAdd = new SoundCue();
+                     cToAdd.setCueName("New Dragged Cue" + " " + f.getAbsolutePath());
+                     cToAdd.setFilePath(f.getAbsolutePath());
+                     cueCollection.add(cToAdd);
+                     lstCues.setListData(cues());
+                }
+            }
+        });
+
+
+
+
         r = new Random();
 
         cueCollection = new ArrayList<>(); //this stores the latest cues. We can load this in from somewhere or create
@@ -69,6 +92,7 @@ public class frmMain {
         btnNextCue.addActionListener(actionEvent -> playSelectedCue());
     }
 
+    //model stuff might be nicer because it's awesome. (Cue)(Object)(Cue)(Object)
     private Cue[] cues() { // todo if we want Object[], THEN we can just use cueCollection.toArray(); // todo look into models
         Object[] a = cueCollection.toArray();
         return Arrays.copyOf(a, a.length, Cue[].class);
