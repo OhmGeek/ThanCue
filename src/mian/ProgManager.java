@@ -1,6 +1,8 @@
 package mian;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ryan on 17/05/16.
@@ -9,9 +11,10 @@ import javax.swing.*;
 public class ProgManager {
     private JFrame window;
     private static final String PROG_NAME = "ThanCue";
-
+    private List<Cue> cueCollection;
 
     public ProgManager() {
+        cueCollection = new ArrayList<Cue>();
         window = new JFrame();
         setWindowTitle(PROG_NAME);
 
