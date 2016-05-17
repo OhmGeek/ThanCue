@@ -33,9 +33,14 @@ public class frmMain {
         cueCollection = new ArrayList<>();
         lstCues.setListData(cues());
 
+        registerCustomListRenderer();
         registerActionListeners();
         createMenu();
         registerFileDrop();
+    }
+
+    private void registerCustomListRenderer() {
+        lstCues.setCellRenderer(new CueEntryRenderer());
     }
 
     private void registerFileDrop() {
@@ -61,7 +66,7 @@ public class frmMain {
         menuEdit = new JMenu("Edit");
         menuEdit.setMnemonic(KeyEvent.VK_E);
 
-        menuItemFileNew = new JMenuItem("New", new ImageIcon());
+        menuItemFileNew = new JMenuItem("New");
         menuItemFileNew.setMnemonic(KeyEvent.VK_N);
         menuItemFileNew.addActionListener(actionEvent -> {
             JOptionPane.showMessageDialog(null, "New Cue dialog here", "Test", JOptionPane.INFORMATION_MESSAGE);
@@ -69,7 +74,7 @@ public class frmMain {
         menuItemFileOpen = new JMenuItem("Open");
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         // todo action listeners from here down
-        menuItemFileSave = new JMenuItem("Save");
+        menuItemFileSave = new JMenuItem("Save", new ImageIcon("img/save.png"));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
         menuItemFileSaveAs = new JMenuItem("Save as");
         // todo what mnemonic for save as?
@@ -101,10 +106,12 @@ public class frmMain {
 
     private void registerActionListeners() {
         btnAddCue.addActionListener(actionEvent -> {
-            Cue c = new SoundCue();
-            c.setCueName("Test cue " + r.nextInt());
+            Cue c = new UnknownCue();
+            c.setCueName("Test cue " + r.nextInt(1000));
             cueCollection.add(c);
+            int sel = lstCues.getSelectedIndex();
             lstCues.setListData(cues());
+            lstCues.setSelectedIndex(sel);
         });
 
         btnMoveUp.addActionListener(actionEvent -> {
@@ -151,6 +158,11 @@ public class frmMain {
             return; //add some exceptions maybe. For now this is good enough.
         }
         selectedCue.playCue();
+        int sel = lstCues.getSelectedIndex() + 1;
+        if (sel == cueCollection.size()){
+            sel = 0;
+        }
+        lstCues.setSelectedIndex(sel);
     }
 
 
@@ -158,4 +170,5 @@ public class frmMain {
     JPanel getPanel() {
         return this.pnlMain;
     }
+
 }

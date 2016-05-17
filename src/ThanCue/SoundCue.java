@@ -13,6 +13,7 @@ public class SoundCue extends Cue {
 
     public SoundCue() {
         setCueType("Sound");
+        setIcon("img/music.png");
     }
 
     public void setFilePath(String soundPath) {
@@ -23,6 +24,7 @@ public class SoundCue extends Cue {
         return this.soundPath;
     }
 
+    @Override
     public void playCue() {
         //todo use vlc
 	    try {
