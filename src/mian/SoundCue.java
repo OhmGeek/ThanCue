@@ -12,13 +12,16 @@ public class SoundCue extends Cue {
     public SoundCue() {
 
     }
+
     public void setFilePath(Path soundPath) {
         this.soundPath = soundPath;
     }
+
     public Path getFilePath() {
         return this.soundPath;
     }
+
     public void playCue() {
-       
+
     }
 }
