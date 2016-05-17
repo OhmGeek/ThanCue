@@ -31,7 +31,6 @@ public class frmMain {
         r = new Random();
 
         cueCollection = new ArrayList<>();
-        populateCueCollection();
         lstCues.setListData(cues());
 
         registerActionListeners();
@@ -154,14 +153,7 @@ public class frmMain {
         selectedCue.playCue();
     }
 
-    private void populateCueCollection() {
-        Cue c1 = new SoundCue();
-        Cue c2 = new SoundCue();
-        c1.setCueName("Ryan's cue");
-        c2.setCueName("Mike's cue");
-        cueCollection.add(c1);
-        cueCollection.add(c2);
-    }
+
 
     JPanel getPanel() {
         return this.pnlMain;
