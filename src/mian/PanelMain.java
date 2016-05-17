@@ -15,13 +15,21 @@ public class PanelMain {
     public PanelMain() {
         cueCollection = new ArrayList<Cue>(); //this stores the latest cues. We can load this in from somewhere or create
                                             //new.
-
         populateCueCollection(); //this is a test.
-
-
-
         lstCues.setListData(cueCollection.toArray());
     }
+
+
+    private void playSelectedCue() {
+        Cue selectedCue = (Cue)lstCues.getSelectedValue();
+
+        //if no cue selected, simply ignore it.
+        if(selectedCue == null)
+            return; //add some exceptions maybe. For now this is good enough.
+
+        selectedCue.playCue();
+    }
+
 
     private void populateCueCollection() {
         Cue c1 = new SoundCue();
