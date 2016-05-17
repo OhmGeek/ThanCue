@@ -27,10 +27,11 @@ public class ProgManager {
     }
     public void setContentDisplay(JPanel p) {
         window.setContentPane(p);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         window.pack();
         window.setVisible(true);
     }
+
 
     public void setWindowTitle(String title) {
         window.setTitle(title);

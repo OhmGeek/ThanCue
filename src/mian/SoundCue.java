@@ -1,5 +1,6 @@
 package mian;
 
+import javax.swing.*;
 import java.nio.file.Path;
 
 /**
@@ -22,6 +23,6 @@ public class SoundCue extends Cue {
     }
 
     public void playCue() {
-
+	JOptionPane.showMessageDialog(null,"Playing Cue", "Test",JOptionPane.INFORMATION_MESSAGE);
     }
 }

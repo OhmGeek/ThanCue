@@ -1,6 +1,9 @@
 package mian;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,13 @@ public class PanelMain {
                                             //new.
         populateCueCollection(); //this is a test.
         lstCues.setListData(cueCollection.toArray());
+        
+        btnNextCue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                playSelectedCue();
+            }
+        });
     }
 
 
@@ -26,9 +36,10 @@ public class PanelMain {
         Cue selectedCue = (Cue)lstCues.getSelectedValue();
 
         //if no cue selected, simply ignore it.
-        if(selectedCue == null)
+        if(selectedCue == null) {
+            System.out.println("Selected Cue is null");
             return; //add some exceptions maybe. For now this is good enough.
-
+        }
         selectedCue.playCue();
     }
 
