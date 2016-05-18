@@ -26,6 +26,13 @@ public class frmMain {
     private Random r; // purely for adding test cues todo remove
 
     public frmMain(JFrame frame) {
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
         this.frame = frame;
 
         r = new Random();
