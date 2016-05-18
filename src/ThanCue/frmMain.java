@@ -1,6 +1,8 @@
 package ThanCue;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -29,14 +31,12 @@ public class frmMain {
         //set the UI to match the OS default feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         //set the jframe
         this.frame = frame;
-
 
         r = new Random();
 
@@ -45,14 +45,10 @@ public class frmMain {
         lstCues.setListData(cues());
 
         //deal with menus, file dropping, and list rendering.
-        registerCustomListRenderer();
+        lstCues.setCellRenderer(new CueEntryRenderer());
         registerActionListeners();
         createMenu();
         registerFileDrop();
-    }
-
-    private void registerCustomListRenderer() {
-        lstCues.setCellRenderer(new CueEntryRenderer());
     }
 
     private void registerFileDrop() {
@@ -92,7 +88,7 @@ public class frmMain {
         // todo what mnemonic for save as?
         menuItemShowMode = new JCheckBoxMenuItem("Show mode");
         menuItemShowMode.addActionListener(actionEvent -> {
-            if (menuItemShowMode.isSelected()) {
+            if (menuItemShowMode.getState()) {
                 btnAddCue.setEnabled(false);
                 btnMoveUp.setEnabled(false);
                 btnMoveDown.setEnabled(false);
@@ -153,6 +149,14 @@ public class frmMain {
         });
 
         btnNextCue.addActionListener(actionEvent -> playSelectedCue());
+
+        lstCues.addListSelectionListener(listSelectionEvent -> {
+            if (lstCues.isSelectionEmpty()){
+                btnNextCue.setEnabled(false);
+            }else{
+                btnNextCue.setEnabled(true);
+            }
+        });
     }
 
     //model stuff might be nicer because it's awesome. (Cue)(Object)(Cue)(Object)
@@ -170,13 +174,22 @@ public class frmMain {
             return; //add some exceptions maybe. For now this is good enough.
         }
         selectedCue.playCue();
-        int sel = lstCues.getSelectedIndex() + 1;
-        if (sel == cueCollection.size()){
-            sel = 0;
-        }
-        lstCues.setSelectedIndex(sel);
-    }
 
+        //advance selection
+        int sel = lstCues.getSelectedIndex() + 1;
+        if (sel == cueCollection.size()) {
+            if(menuItemShowMode.getState()){
+                //DO NOT LOOP AROUND in show mode
+                lstCues.clearSelection();
+            }else{
+                //do loop around out of show mode
+                lstCues.setSelectedIndex(0);
+            }
+        }else {
+            //not at the end, ie. not ready to try and loop yet
+            lstCues.setSelectedIndex(sel);
+        }
+    }
 
 
     JPanel getPanel() {
