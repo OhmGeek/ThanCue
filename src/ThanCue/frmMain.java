@@ -26,20 +26,25 @@ public class frmMain {
     private Random r; // purely for adding test cues todo remove
 
     public frmMain(JFrame frame) {
-
+        //set the UI to match the OS default feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch(Exception ex) {
             ex.printStackTrace();
         }
+
+        //set the jframe
         this.frame = frame;
+
 
         r = new Random();
 
+        //create the cue collection and set the list data
         cueCollection = new ArrayList<>();
         lstCues.setListData(cues());
 
+        //deal with menus, file dropping, and list rendering.
         registerCustomListRenderer();
         registerActionListeners();
         createMenu();
