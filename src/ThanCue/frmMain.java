@@ -33,8 +33,8 @@ public class frmMain {
         //set the UI to match the OS default feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         //set the jframe
