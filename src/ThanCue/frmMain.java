@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +20,7 @@ public class frmMain {
     private JButton btnNextCue, btnAddCue, btnMoveUp, btnMoveDown;
     private JScrollPane scrTableScroller;
     private JTable tblCueView;
+    private JButton btnEditCue;
     private JMenuBar menuBar;
     private JMenu menuFile, menuEdit;
     private JMenuItem menuItemFileNew, menuItemFileOpen, menuItemFileSave, menuItemFileSaveAs;
@@ -51,7 +53,7 @@ public class frmMain {
         registerFileDrop();
     }
 
-    private final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
+    private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
 
     private void updateTable() {
         Object[][] cuesAtts = new Object[cueCollection.size()][];
@@ -59,7 +61,7 @@ public class frmMain {
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
             cuesAtts[i][0] = i;
         }
-        tblCueView.setModel(new DefaultTableModel(cuesAtts, columnNames) {
+        tblCueView.setModel(new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
                     Integer.class, ImageIcon.class, String.class, String.class, String.class
             };
@@ -83,7 +85,7 @@ public class frmMain {
                 for (File f : files) {
                     //todo add checking to the type. Only allow for sound cues or videos.
                     SoundCue cToAdd = new SoundCue();
-                    cToAdd.setCueName(f.getAbsolutePath());
+                    cToAdd.setCueName(f.getName());
                     cToAdd.setFilePath(f.getAbsolutePath());
                     cueCollection.add(cToAdd);
                 }
@@ -116,10 +118,12 @@ public class frmMain {
         menuItemShowMode.addActionListener(actionEvent -> {
             if (menuItemShowMode.getState()) {
                 btnAddCue.setEnabled(false);
+                btnEditCue.setEnabled(false);
                 btnMoveUp.setEnabled(false);
                 btnMoveDown.setEnabled(false);
             } else {
                 btnAddCue.setEnabled(true);
+                btnEditCue.setEnabled(true);
                 btnMoveUp.setEnabled(true);
                 btnMoveDown.setEnabled(true);
             }
@@ -152,6 +156,11 @@ public class frmMain {
             }
         });
         btnAddCue.setFont(new Font("Arial", Font.PLAIN, 25));
+
+        btnEditCue.addActionListener(actionEvent -> {
+            //new form pop up here for editing the cue yo
+        });
+        btnEditCue.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnMoveUp.addActionListener(actionEvent -> {
             if (tblCueView.getSelectedRows().length == 0)
