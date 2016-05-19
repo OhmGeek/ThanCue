@@ -54,7 +54,7 @@ public abstract class Cue {
         return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_"," ")};
     }
 
-    public abstract void playCue(); //this plays the cue, be it lighting, sound, video or pushing over a table.
+    public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
 
     private static ImageIcon getIcon(String type){
         /*
