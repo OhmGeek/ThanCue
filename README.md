@@ -5,17 +5,17 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 # Development Team
 This software is being developed jointly by Mike Croall and Ryan Collins.
 
-# Features to implement:
+# Planned Features
 ## Show Mode
-Back/Pause button, in case someone accidentally presses go.
-A larger Go Button
+- Back/Pause button, in case someone accidentally presses go
+- A larger Go Button
 
 ## General
 - Ability to change the windows (allowing for different displays inside the main window)
 - Play using VLC
 - Multiple tracks play at a time
-- Drop down menu for changing cue behaviour.
-- Sound cue can start and end at different points
+- Drop down menu for changing cue behaviour (in table entry's behaviour cell)
+- Sound cue can start and end at different points (start start point and duration, loop if start + duration is after end of clip)
 - Sound cue can fade in/out within a certain time
 - Cue Numbering (useful for sound cues on a script)
 - Saving cues in a zip file structure (including the sound files themselves)
