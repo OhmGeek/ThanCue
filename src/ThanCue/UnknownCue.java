@@ -7,7 +7,6 @@ public class UnknownCue extends Cue {
 
     public UnknownCue() {
         setCueType("Unknown");
-        setIcon("img/unknown.png");
     }
 
     @Override

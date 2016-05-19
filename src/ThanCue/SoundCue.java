@@ -13,7 +13,6 @@ public class SoundCue extends Cue {
 
     public SoundCue() {
         setCueType("Sound");
-        setIcon("img/music.png");
     }
 
     public void setFilePath(String soundPath) {

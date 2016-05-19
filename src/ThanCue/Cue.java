@@ -9,36 +9,40 @@ public abstract class Cue {
 
     private String cueType;
     private String cueName;
-    private static ImageIcon icon;
+    private CueBehaviour behaviour;
 
     public Cue() {
         cueType = "Unset Cue";
         cueName = "Unset Cue";
-        icon = new ImageIcon("img/unknown.png");
+        behaviour = CueBehaviour.PLAY_ON_GO;
     }
 
     String getCueName() {
         return cueName;
     }
 
-    void setCueType(String cueType) {
-        this.cueType = cueType;
-    }
-
     String getCueType() {
         return cueType;
+    }
+
+    ImageIcon getIcon(){
+        return Cue.getIcon(cueType);
+    }
+
+    CueBehaviour getBehaviour() {
+        return behaviour;
+    }
+
+    void setCueType(String cueType) {
+        this.cueType = cueType;
     }
 
     void setCueName(String name) {
         cueName = name;
     }
 
-    ImageIcon getIcon(){
-        return icon;
-    }
-
-    void setIcon(String path){
-        icon = new ImageIcon(path);
+    void setBehaviour(CueBehaviour behaviour) {
+        this.behaviour = behaviour;
     }
 
     @Override
@@ -46,7 +50,27 @@ public abstract class Cue {
         return getCueType() + " - " + getCueName();
     }
 
+    public Object[] getAttributeArray(){
+        return new Object[]{Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_"," ")};
+    }
+
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or pushing over a table.
 
+    private static ImageIcon getIcon(String type){
+        /*
 
+        Note: required to do this way, else ALL table entries get the icon of the most recently added cue
+
+         */
+        switch(type.toLowerCase()){
+            case "sound":
+                return new ImageIcon("img/music.png");
+            case "light":
+                return new ImageIcon("img/light.png");
+            case "video":
+                return new ImageIcon("img/video.png");
+            default:
+                return new ImageIcon("img/unknown.png");
+        }
+    }
 }

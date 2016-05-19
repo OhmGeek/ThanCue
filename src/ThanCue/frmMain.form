@@ -13,20 +13,8 @@
           <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <enabled value="false"/>
+          <enabled value="true"/>
           <text value="&#10;Play cue&#10;"/>
-        </properties>
-      </component>
-      <component id="f2f6c" class="javax.swing.JList" binding="lstCues">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties>
-          <model>
-            <item value="no cues"/>
-          </model>
         </properties>
       </component>
       <component id="ff619" class="javax.swing.JButton" binding="btnAddCue">
@@ -53,6 +41,21 @@
           <text value="Move up"/>
         </properties>
       </component>
+      <scrollpane id="e7277" binding="scrCueListScroll">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12515840"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="ece9" class="javax.swing.JTable" binding="lstCuesT">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
