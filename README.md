@@ -5,12 +5,12 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 # Development Team
 This software is being developed jointly by Mike Croall and Ryan Collins.
 
-# Planned Features
-## Show Mode
+### Planned Features
+#### Show Mode
 - Back/Pause button, in case someone accidentally presses go
 - A larger Go Button
 
-## General
+#### General
 - Ability to change the windows (allowing for different displays inside the main window)
 - Play using VLC
 - Multiple tracks play at a time
