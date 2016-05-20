@@ -109,7 +109,7 @@ public class frmMain {
         });
         menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
-        // todo action listeners from here down
+        // todo all action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
         menuItemFileSave.addActionListener(actionEvent -> {
@@ -178,7 +178,7 @@ public class frmMain {
         btnAddCue.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnEditCue.addActionListener(actionEvent -> {
-            //new form pop up here for editing the cue yo
+            // todo new form pop up here for editing the cue yo
         });
         btnEditCue.setFont(new Font("Arial", Font.PLAIN, 25));
 
@@ -233,6 +233,7 @@ public class frmMain {
             return;
         }
         Cue selectedCue = cueCollection.get(tblCueView.getSelectedRow());
+        int selCueIndex = tblCueView.getSelectedRow();
 
         //if no cue selected, simply ignore it.
         if (selectedCue == null) {
@@ -241,8 +242,16 @@ public class frmMain {
         }
         selectedCue.playCue();
 
+        //play WITH previous todo untested, so test
+        while(cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).getBehaviour() == CueBehaviour.PLAY_WITH_PREVIOUS){
+            selCueIndex++;
+            selectedCue = cueCollection.get(selCueIndex);
+            selectedCue.playCue();
+        }
+
+
         //advance selection
-        int sel = tblCueView.getSelectedRow() + 1;
+        int sel = selCueIndex + 1;
         if (sel == cueCollection.size()) {
             if (menuItemShowMode.getState()) {
                 //DO NOT LOOP AROUND in show mode
