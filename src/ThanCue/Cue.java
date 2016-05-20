@@ -2,15 +2,16 @@ package ThanCue;
 
 import javax.swing.*;
 
+
 /**
  * Created by ryan on 15/05/16.
  */
 public abstract class Cue {
-
     private static final ImageIcon imgSoundIcon = new ImageIcon(Cue.class.getResource("/img/music.png"));
     private static final ImageIcon imgVideoIcon = new ImageIcon(Cue.class.getResource("/img/video.png"));
     private static final ImageIcon imgLightIcon = new ImageIcon(Cue.class.getResource("/img/light.png"));
     private static final ImageIcon imgUnknownIcon = new ImageIcon(Cue.class.getResource("/img/unknown.png"));
+
 
     private String cueType;
     private String cueName;
@@ -56,7 +57,7 @@ public abstract class Cue {
     }
 
     public String getFileString() {
-        return "BANTAAAAAAAA";
+        return "BADGER!!!!";
     }
 
 
@@ -83,4 +84,7 @@ public abstract class Cue {
                 return imgUnknownIcon;
         }
     }
+
+
+
 }
