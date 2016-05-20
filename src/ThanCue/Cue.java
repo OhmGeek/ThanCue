@@ -56,7 +56,7 @@ public abstract class Cue {
     }
 
     public String getFileString() {
-        return "";
+        return "BANTAAAAAAAA";
     }
 
 

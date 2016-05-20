@@ -42,7 +42,8 @@ public class CueFileManager {
                 zipStream.write(dataRead,0,dataRead.length);
             }
         }
-
+        pw.close();
+        zipStream.close();
 
 
 

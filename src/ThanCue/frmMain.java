@@ -115,10 +115,19 @@ public class frmMain {
         menuItemFileSave.addActionListener(actionEvent -> {
             CueFileManager man = new CueFileManager();
             try {
-                man.writeCue("/home/ryan/Desktop", "mystack", cueCollection);
+                JFileChooser filePicker = new JFileChooser();
+                filePicker.setDialogTitle("Specify destination");
+                int userSelection = filePicker.showSaveDialog(this.frame);
+                if(userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToSave = filePicker.getSelectedFile();
+                    man.writeCue(fileToSave.getParent() + "/", fileToSave.getName(), cueCollection);
+                    System.out.println(fileToSave.getParent() + fileToSave.getName());
+                }
+
             }
             catch(Exception ex) {
                 System.out.println("Error!");
+                ex.printStackTrace();
             }
         });
 
