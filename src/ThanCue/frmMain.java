@@ -2,10 +2,11 @@ package ThanCue;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -17,8 +18,9 @@ public class frmMain {
     private JFrame frame;
     private JPanel pnlMain;
     private JButton btnNextCue, btnAddCue, btnMoveUp, btnMoveDown;
-    private JScrollPane scrCueListScroll;
-    private JTable lstCuesT;
+    private JScrollPane scrTableScroller;
+    private JTable tblCueView;
+    private JButton btnEditCue;
     private JMenuBar menuBar;
     private JMenu menuFile, menuEdit;
     private JMenuItem menuItemFileNew, menuItemFileOpen, menuItemFileSave, menuItemFileSaveAs;
@@ -31,8 +33,8 @@ public class frmMain {
         //set the UI to match the OS default feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         //set the jframe
@@ -46,33 +48,24 @@ public class frmMain {
         //deal with menus, file dropping, and list rendering.
         updateTable();
         tableSetupOneTimeRun();
-        registerActionListeners();
-        createMenu();
+        buttonSetupOneTimeRun();
+        menuSetupOneTimeRun();
         registerFileDrop();
     }
 
-    private void tableSetupOneTimeRun() {
-        lstCuesT.setColumnSelectionAllowed(false);
-        lstCuesT.getSelectionModel().addListSelectionListener(listSelectionEvent -> {
-            if(lstCuesT.getSelectedRows().length > 0){
-                btnNextCue.setEnabled(true);
-            }else{
-                btnNextCue.setEnabled(false);
-            }
-        });
-    }
+    private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
 
-    private final String[] columnNames = {"Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
     private void updateTable() {
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
+            cuesAtts[i][0] = i;
         }
-        lstCuesT.setModel(new DefaultTableModel(cuesAtts, columnNames) {
+        tblCueView.setModel(new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
-                    ImageIcon.class, String.class, String.class, String.class
+                    Integer.class, ImageIcon.class, String.class, String.class, String.class
             };
-            boolean[] canEdit = new boolean[]{false, false, false, false}; //one for each column
+            boolean[] canEdit = new boolean[]{false, false, false, false, false}; //one for each column
 
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -92,7 +85,7 @@ public class frmMain {
                 for (File f : files) {
                     //todo add checking to the type. Only allow for sound cues or videos.
                     SoundCue cToAdd = new SoundCue();
-                    cToAdd.setCueName(f.getAbsolutePath());
+                    cToAdd.setCueName(f.getName());
                     cToAdd.setFilePath(f.getAbsolutePath());
                     cueCollection.add(cToAdd);
                 }
@@ -101,7 +94,7 @@ public class frmMain {
         });
     }
 
-    private void createMenu() {
+    private void menuSetupOneTimeRun() {
         menuBar = new JMenuBar();
 
         menuFile = new JMenu("File");
@@ -125,10 +118,12 @@ public class frmMain {
         menuItemShowMode.addActionListener(actionEvent -> {
             if (menuItemShowMode.getState()) {
                 btnAddCue.setEnabled(false);
+                btnEditCue.setEnabled(false);
                 btnMoveUp.setEnabled(false);
                 btnMoveDown.setEnabled(false);
             } else {
                 btnAddCue.setEnabled(true);
+                btnEditCue.setEnabled(true);
                 btnMoveUp.setEnabled(true);
                 btnMoveDown.setEnabled(true);
             }
@@ -147,62 +142,77 @@ public class frmMain {
         frame.setJMenuBar(menuBar);
     }
 
-    private void registerActionListeners() {
+    private void buttonSetupOneTimeRun() {
         btnAddCue.addActionListener(actionEvent -> {
             Cue c = new UnknownCue();
             c.setCueName("Test cue " + r.nextInt(1000));
             cueCollection.add(c);
-            if(lstCuesT.getSelectedRows().length != 0) {
-                int sel = lstCuesT.getSelectedRow();
+            if(tblCueView.getSelectedRows().length != 0) {
+                int sel = tblCueView.getSelectedRow();
                 updateTable();
-                lstCuesT.setRowSelectionInterval(sel, sel);
+                tblCueView.setRowSelectionInterval(sel, sel);
             }else{
                 updateTable();
             }
         });
+        btnAddCue.setFont(new Font("Arial", Font.PLAIN, 25));
+
+        btnEditCue.addActionListener(actionEvent -> {
+            //new form pop up here for editing the cue yo
+        });
+        btnEditCue.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnMoveUp.addActionListener(actionEvent -> {
-            if (lstCuesT.getSelectedRows().length == 0)
+            if (tblCueView.getSelectedRows().length == 0)
                 return;
-            int toMove = lstCuesT.getSelectedRow(); // todo support moving multiple indices at once
+            int toMove = tblCueView.getSelectedRow(); // todo support moving multiple indices at once
             if (toMove > 0) {
                 Cue toSwapWith = cueCollection.get(toMove - 1);
                 cueCollection.set(toMove - 1, cueCollection.get(toMove));
                 cueCollection.set(toMove, toSwapWith);
                 updateTable();
-                lstCuesT.setRowSelectionInterval(toMove - 1, toMove - 1);
+                tblCueView.setRowSelectionInterval(toMove - 1, toMove - 1);
             }
         });
+        btnMoveUp.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnMoveDown.addActionListener(actionEvent -> {
-            if (lstCuesT.getSelectedRows().length == 0)
+            if (tblCueView.getSelectedRows().length == 0)
                 return;
-            int toMove = lstCuesT.getSelectedRow(); // todo support moving multiple indices at once
+            int toMove = tblCueView.getSelectedRow(); // todo support moving multiple indices at once
             if (toMove < cueCollection.size() - 1) {
                 Cue toSwapWith = cueCollection.get(toMove + 1);
                 cueCollection.set(toMove + 1, cueCollection.get(toMove));
                 cueCollection.set(toMove, toSwapWith);
                 updateTable();
-                lstCuesT.setRowSelectionInterval(toMove + 1, toMove + 1);
+                tblCueView.setRowSelectionInterval(toMove + 1, toMove + 1);
             }
         });
+        btnMoveDown.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnNextCue.addActionListener(actionEvent -> playSelectedCue());
+        btnNextCue.setFont(new Font("Arial", Font.PLAIN, 40));
 
-        // note: lstCues (now lstCuesT) selection changed listener migrated to method: tableSetupOneTimeRun()
+        // note: lstCues (now tblCueView) selection changed listener migrated to method: tableSetupOneTimeRun()
     }
 
-    //model stuff might be nicer because it's awesome. (Cue)(Object)(Cue)(Object)
-    private Cue[] cues() { // todo if we want Object[], THEN we can just use cueCollection.toArray(); // todo look into models
-        Object[] a = cueCollection.toArray();
-        return Arrays.copyOf(a, a.length, Cue[].class);
+    private void tableSetupOneTimeRun() {
+        tblCueView.setFont(new Font("Arial", Font.PLAIN, 14));
+        tblCueView.setColumnSelectionAllowed(false);
+        tblCueView.getSelectionModel().addListSelectionListener(listSelectionEvent -> {
+            if(tblCueView.getSelectedRows().length > 0){
+                btnNextCue.setEnabled(true);
+            }else{
+                btnNextCue.setEnabled(false);
+            }
+        });
     }
 
     private void playSelectedCue() {
-        if(lstCuesT.getSelectedRows().length == 0){
+        if(tblCueView.getSelectedRows().length == 0){
             return;
         }
-        Cue selectedCue = cueCollection.get(lstCuesT.getSelectedRow());
+        Cue selectedCue = cueCollection.get(tblCueView.getSelectedRow());
 
         //if no cue selected, simply ignore it.
         if (selectedCue == null) {
@@ -212,21 +222,20 @@ public class frmMain {
         selectedCue.playCue();
 
         //advance selection
-        int sel = lstCuesT.getSelectedRow() + 1;
+        int sel = tblCueView.getSelectedRow() + 1;
         if (sel == cueCollection.size()) {
             if (menuItemShowMode.getState()) {
                 //DO NOT LOOP AROUND in show mode
-                lstCuesT.clearSelection();
+                tblCueView.clearSelection();
             } else {
                 //do loop around out of show mode
-                lstCuesT.setRowSelectionInterval(0, 0);
+                tblCueView.setRowSelectionInterval(0, 0);
             }
         } else {
             //not at the end, ie. not ready to try and loop yet
-            lstCuesT.setRowSelectionInterval(sel, sel);
+            tblCueView.setRowSelectionInterval(sel, sel);
         }
     }
-
 
     JPanel getPanel() {
         return this.pnlMain;
