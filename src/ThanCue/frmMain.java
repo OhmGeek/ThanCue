@@ -107,7 +107,7 @@ public class frmMain {
         menuItemFileNew.addActionListener(actionEvent -> {
             JOptionPane.showMessageDialog(null, "New Cue dialog here", "Test", JOptionPane.INFORMATION_MESSAGE);
         });
-        menuItemFileOpen = new JMenuItem("Open");
+        menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         // todo action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
