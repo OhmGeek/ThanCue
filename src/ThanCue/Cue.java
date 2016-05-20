@@ -50,6 +50,13 @@ public abstract class Cue {
         return getCueType() + " - " + getCueName();
     }
 
+    public String getFileString() {
+
+
+        return "";
+    }
+
+
     public Object[] getAttributeArray(){
         return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_"," ")};
     }
