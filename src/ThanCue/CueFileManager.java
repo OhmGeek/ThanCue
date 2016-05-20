@@ -13,6 +13,7 @@ import java.util.zip.ZipOutputStream;
  * Created by ryan on 18/05/16.
  */
 public class CueFileManager {
+
     public CueFileManager() {
 
     }
@@ -34,8 +35,10 @@ public class CueFileManager {
             if(c instanceof SoundCue) {
                 SoundCue sound = (SoundCue) c;
                 //if the file is a sound cue, then also write the corresponding sound file.
-                ZipEntry e = new ZipEntry(""); //this needs to use the end part of file path.
-                Path path = Paths.get(sound.getFilePath());
+                Path path = sound.getFilePath();
+
+                ZipEntry e = new ZipEntry(path.getFileName().toString()); //this needs to use the end part of file path.
+
                 byte[] dataRead = Files.readAllBytes(path);
 
                 zipStream.putNextEntry(e);

@@ -2,6 +2,7 @@ package ThanCue;
 
 import java.applet.*;
 import java.net.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -9,17 +10,19 @@ import java.nio.file.Paths;
  */
 public class SoundCue extends Cue {
 
-    private String soundPath;
+    private Path soundPath;
 
     public SoundCue() {
         setCueType("Sound");
     }
 
     public void setFilePath(String soundPath) {
-        this.soundPath = soundPath;
+        Path p = Paths.get(soundPath);
+        this.soundPath = p;
+
     }
 
-    public String getFilePath() {
+    public Path getFilePath() {
         return this.soundPath;
     }
 
@@ -28,7 +31,7 @@ public class SoundCue extends Cue {
         //todo use vlc
 	    try {
             URL u;
-            u = Paths.get(soundPath).toUri().toURL();
+            u = soundPath.toUri().toURL();
             System.out.println(u.toString());
             AudioClip sound = Applet.newAudioClip(u);
             sound.play(); //one can also loop this
