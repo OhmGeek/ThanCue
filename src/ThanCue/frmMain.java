@@ -110,7 +110,7 @@ public class frmMain {
         menuItemFileOpen = new JMenuItem("Open");
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         // todo action listeners from here down
-        menuItemFileSave = new JMenuItem("Save", new ImageIcon("img/save.png"));
+        menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("img/save.png")));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
         menuItemFileSaveAs = new JMenuItem("Save as");
         // todo what mnemonic for save as?

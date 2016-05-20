@@ -61,7 +61,7 @@ public abstract class Cue {
 
 
     public Object[] getAttributeArray(){
-        return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_"," ")};
+        return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
