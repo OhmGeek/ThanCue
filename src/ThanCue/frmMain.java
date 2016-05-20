@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +16,7 @@ public class frmMain {
 
     private JFrame frame;
     private JPanel pnlMain;
-    private JButton btnNextCue, btnAddCue, btnMoveUp, btnMoveDown;
+    private JButton btnPlay, btnAdd, btnMoveUp, btnMoveDown;
     private JScrollPane scrTableScroller;
     private JTable tblCueView;
     private JButton btnEditCue;
@@ -109,6 +108,9 @@ public class frmMain {
         });
         menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
+        menuItemFileOpen.addActionListener(actionEvent -> {
+            // todo load from zip
+        });
         // todo all action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
@@ -137,12 +139,12 @@ public class frmMain {
         menuItemShowMode = new JCheckBoxMenuItem("Show mode");
         menuItemShowMode.addActionListener(actionEvent -> {
             if (menuItemShowMode.getState()) {
-                btnAddCue.setEnabled(false);
+                btnAdd.setEnabled(false);
                 btnEditCue.setEnabled(false);
                 btnMoveUp.setEnabled(false);
                 btnMoveDown.setEnabled(false);
             } else {
-                btnAddCue.setEnabled(true);
+                btnAdd.setEnabled(true);
                 btnEditCue.setEnabled(true);
                 btnMoveUp.setEnabled(true);
                 btnMoveDown.setEnabled(true);
@@ -163,7 +165,7 @@ public class frmMain {
     }
 
     private void buttonSetupOneTimeRun() {
-        btnAddCue.addActionListener(actionEvent -> {
+        btnAdd.addActionListener(actionEvent -> {
             Cue c = new UnknownCue();
             c.setCueName("Test cue " + r.nextInt(1000));
             cueCollection.add(c);
@@ -175,7 +177,7 @@ public class frmMain {
                 updateTable();
             }
         });
-        btnAddCue.setFont(new Font("Arial", Font.PLAIN, 25));
+        btnAdd.setFont(new Font("Arial", Font.PLAIN, 25));
 
         btnEditCue.addActionListener(actionEvent -> {
             // todo new form pop up here for editing the cue yo
@@ -210,8 +212,8 @@ public class frmMain {
         });
         btnMoveDown.setFont(new Font("Arial", Font.PLAIN, 25));
 
-        btnNextCue.addActionListener(actionEvent -> playSelectedCue());
-        btnNextCue.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnPlay.addActionListener(actionEvent -> playSelectedCue());
+        btnPlay.setFont(new Font("Arial", Font.PLAIN, 40));
 
         // note: lstCues (now tblCueView) selection changed listener migrated to method: tableSetupOneTimeRun()
     }
@@ -221,9 +223,9 @@ public class frmMain {
         tblCueView.setColumnSelectionAllowed(false);
         tblCueView.getSelectionModel().addListSelectionListener(listSelectionEvent -> {
             if(tblCueView.getSelectedRows().length > 0){
-                btnNextCue.setEnabled(true);
+                btnPlay.setEnabled(true);
             }else{
-                btnNextCue.setEnabled(false);
+                btnPlay.setEnabled(false);
             }
         });
     }
