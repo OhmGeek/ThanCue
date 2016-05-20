@@ -7,6 +7,11 @@ import javax.swing.*;
  */
 public abstract class Cue {
 
+    private static final ImageIcon imgSoundIcon = new ImageIcon(Cue.class.getResource("/img/music.png"));
+    private static final ImageIcon imgVideoIcon = new ImageIcon(Cue.class.getResource("/img/video.png"));
+    private static final ImageIcon imgLightIcon = new ImageIcon(Cue.class.getResource("/img/light.png"));
+    private static final ImageIcon imgUnknownIcon = new ImageIcon(Cue.class.getResource("/img/unknown.png"));
+
     private String cueType;
     private String cueName;
     private CueBehaviour behaviour;
@@ -25,7 +30,7 @@ public abstract class Cue {
         return cueType;
     }
 
-    ImageIcon getIcon(){
+    ImageIcon getIcon() {
         return Cue.getIcon(cueType);
     }
 
@@ -50,27 +55,27 @@ public abstract class Cue {
         return getCueType() + " - " + getCueName();
     }
 
-    public Object[] getAttributeArray(){
-        return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_"," ")};
+    public Object[] getAttributeArray() {
+        return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
 
-    private static ImageIcon getIcon(String type){
+    private static ImageIcon getIcon(String type) {
         /*
 
         Note: required to do this way, else ALL table entries get the icon of the most recently added cue
 
          */
-        switch(type.toLowerCase()){
+        switch (type.toLowerCase()) {
             case "sound":
-                return new ImageIcon("img/music.png");
-            case "light":
-                return new ImageIcon("img/light.png");
+                return imgSoundIcon;
             case "video":
-                return new ImageIcon("img/video.png");
+                return imgVideoIcon;
+            case "light":
+                return imgLightIcon;
             default:
-                return new ImageIcon("img/unknown.png");
+                return imgUnknownIcon;
         }
     }
 }
