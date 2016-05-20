@@ -14,9 +14,6 @@ import java.util.zip.ZipOutputStream;
  */
 public class CueFileManager {
 
-    public CueFileManager() {
-
-    }
 
     public void writeCue(String folder, String zipName,List<Cue> cueCollection) throws Exception{
         File f = new File(folder + zipName + ".cues");

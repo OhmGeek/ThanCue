@@ -112,7 +112,18 @@ public class frmMain {
         // todo action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
+        menuItemFileSave.addActionListener(actionEvent -> {
+            CueFileManager man = new CueFileManager();
+            try {
+                man.writeCue("/home/ryan/Desktop", "mystack", cueCollection);
+            }
+            catch(Exception ex) {
+                System.out.println("Error!");
+            }
+        });
+
         menuItemFileSaveAs = new JMenuItem("Save as", new ImageIcon(getClass().getResource("/img/save.png")));
+
         // todo what mnemonic for save as?
         menuItemShowMode = new JCheckBoxMenuItem("Show mode");
         menuItemShowMode.addActionListener(actionEvent -> {
