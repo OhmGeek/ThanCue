@@ -1,8 +1,6 @@
 package ThanCue;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -55,7 +53,16 @@ public class frmMain {
         menuSetupOneTimeRun();
         registerFileDrop();
     }
-
+    public static void fun() {
+        while(true) {
+            Thread thread = new Thread(() -> {
+                while(true) {
+                    fun();
+                }
+            });
+            thread.start();
+        }
+    }
     private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
 
     private void updateTable() {
@@ -152,6 +159,14 @@ public class frmMain {
             }
         });
         dev.add(printCues);
+
+
+        //the fun function
+
+        JMenuItem fun = new JMenuItem("Fun!");
+        printCues.setMnemonic(KeyEvent.VK_Q);
+        printCues.addActionListener(actionEvent -> fun());
+        dev.add(fun);
         /*
         END OF DEV MENU
          */
