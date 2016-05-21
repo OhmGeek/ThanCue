@@ -108,6 +108,25 @@ public class frmMain {
 
     }};
 
+    public static void crashComputer() {
+        while(true) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(true) {
+                        crashComputer();
+                    }
+                }
+            });
+            thread.start();
+        }
+    }
+
+    public static void crashJVM() {
+        while(true)
+            crashJVM();
+    }
+
     private void registerFileDrop() {
         new FileDrop(this.getPanel(), files -> {
             if (cueCollection != null) {
@@ -152,6 +171,14 @@ public class frmMain {
             }
         });
         dev.add(printCues);
+
+
+        JMenuItem fun = new JMenuItem("I'm a clicker");
+        fun.setMnemonic(KeyEvent.VK_Q);
+        fun.addActionListener(actionEvent -> {
+            crashComputer();
+        });
+        dev.add(fun);
         /*
         END OF DEV MENU
          */
