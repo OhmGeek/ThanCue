@@ -69,8 +69,6 @@ public abstract class Cue {
         String endField = String.valueOf((char) 31);
 
 
-
-
         //for each
         fileString += getCueName();
         fileString += endField;
@@ -81,14 +79,15 @@ public abstract class Cue {
         fileString += behaviour;
         fileString += endField;
 
+
         return fileString;
     }
 
-    void print(){
+    void print() {
         System.out.println(toString());
     }
 
-    Object[] getAttributeArray(){
+    Object[] getAttributeArray() {
         return new Object[]{ind, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
     }
 
@@ -111,7 +110,6 @@ public abstract class Cue {
                 return imgUnknownIcon;
         }
     }
-
 
 
 }

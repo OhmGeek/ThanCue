@@ -8,6 +8,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -149,7 +150,31 @@ public class frmMain {
         menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         menuItemFileOpen.addActionListener(actionEvent -> {
-            // todo load from zip
+
+            CueFileManager man = new CueFileManager();
+            try {
+                JFileChooser filePicker = new JFileChooser();
+                filePicker.setDialogTitle("Specify file to load");
+                int userSelection = filePicker.showOpenDialog(this.frame);
+                if(userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToOpen = filePicker.getSelectedFile();
+                    if(fileToOpen.exists()) {
+                        //todo check that the old cueList has been saved and we aren't overwriting anything
+                        List<Cue> cueList = man.readCue(fileToOpen.getParent() + "/", fileToOpen.getName());
+                        System.out.println(cueList.toString());
+                        System.out.println("Length " + cueList.size());
+                        this.cueCollection = cueList;
+                        updateTable();
+
+                    }
+                    else
+                        throw new FileNotFoundException();
+                }
+            }
+            catch(Exception ex) {
+                System.out.println(ex.toString());
+                ex.printStackTrace();
+            }
         });
         // todo all action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
