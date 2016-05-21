@@ -150,7 +150,6 @@ public class frmMain {
         menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         menuItemFileOpen.addActionListener(actionEvent -> {
-            // todo load from zip
 
             CueFileManager man = new CueFileManager();
             try {
@@ -159,8 +158,13 @@ public class frmMain {
                 int userSelection = filePicker.showOpenDialog(this.frame);
                 if(userSelection == JFileChooser.APPROVE_OPTION) {
                     File fileToOpen = filePicker.getSelectedFile();
-                    if(fileToOpen.exists())
-                        man.readCue(fileToOpen.getParent() + "/",fileToOpen.getName());
+                    if(fileToOpen.exists()) {
+                        //todo check that the old cueList has been saved and we aren't overwriting anything
+                        List<Cue> cueList = man.readCue(fileToOpen.getParent() + "/", fileToOpen.getName());
+                        this.cueCollection = cueList;
+                        updateTable();
+
+                    }
                     else
                         throw new FileNotFoundException();
                 }
