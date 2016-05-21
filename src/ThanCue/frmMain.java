@@ -83,11 +83,16 @@ public class frmMain {
             int row = tableModelEvent.getFirstRow();
             int column = tableModelEvent.getColumn();
             Object newVal = tblCueView.getValueAt(row, column);
-            System.out.println("Column " + column + " Row " + row + " changed to " + newVal.toString());
+            System.out.println("\nColumn " + column + " Row " + row + " changed to " + newVal.toString());
 
             Cue c = cueCollection.get(row);
-            if(tblCueView.getColumnName(3).equals("Name")){
-                c.setCueName(newVal.toString());
+            switch(tblCueView.getColumnName(column)){
+                case "Name":
+                    c.setCueName(newVal.toString());
+                    break;
+                default:
+                    System.out.println("Unexpected column " + tblCueView.getColumnName(column) + " was changed!");
+                    break;
             }
             cueCollection.set(row, c);
         });
