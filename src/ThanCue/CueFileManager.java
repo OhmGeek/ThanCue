@@ -45,7 +45,7 @@ public class CueFileManager {
         pw.close();
         fr.close();
         Path indexPath = Paths.get(folder + "index.dat");
-        ZipEntry e = new ZipEntry(folder + "index.dat");
+        ZipEntry e = new ZipEntry("index.dat");
         byte[] dataRead = Files.readAllBytes(indexPath);
         zipStream.putNextEntry(e);
         zipStream.write(dataRead,0,dataRead.length);
