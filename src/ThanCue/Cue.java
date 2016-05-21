@@ -1,5 +1,7 @@
 package ThanCue;
 
+import sun.nio.cs.US_ASCII;
+
 import javax.swing.*;
 
 
@@ -57,7 +59,23 @@ public abstract class Cue {
     }
 
     public String getFileString() {
-        return "BADGER!!!!";
+        String fileString = "";
+        String endField = String.valueOf((char) 31);
+
+
+
+
+        //for each
+        fileString += getCueName();
+        fileString += endField;
+
+        fileString += getCueType();
+        fileString += endField;
+
+        fileString += behaviour;
+        fileString += endField;
+
+        return fileString;
     }
 
 

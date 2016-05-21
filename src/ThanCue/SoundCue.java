@@ -1,5 +1,6 @@
 package ThanCue;
 
+import javax.print.DocFlavor;
 import java.applet.*;
 import java.net.*;
 import java.nio.file.Path;
@@ -38,5 +39,17 @@ public class SoundCue extends Cue {
         } catch(Exception ex) {
             System.out.println("Error in playing song");
         }
+    }
+
+    @Override
+    public String getFileString() {
+        String current = super.getFileString();
+        String endRecord = String.valueOf((char) 30);
+        String endField = String.valueOf((char) 31);
+
+        current += getFilePath().getFileName().toString(); //gets the name and extension.
+        current += endField;
+        current += endRecord;
+        return current;
     }
 }
