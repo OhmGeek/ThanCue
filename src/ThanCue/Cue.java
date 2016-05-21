@@ -18,16 +18,17 @@ public abstract class Cue {
     private CueBehaviour behaviour;
 
     public Cue() {
+        ind = -1;
         cueType = "Unset Cue";
         cueName = "Unset Cue";
         behaviour = CueBehaviour.PLAY_ON_GO;
     }
 
-    public int getInd() {
+    private int getInd() {
         return ind;
     }
 
-    public void setInd(int ind) {
+    void setInd(int ind) {
         this.ind = ind;
     }
 

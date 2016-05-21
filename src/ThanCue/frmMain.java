@@ -84,10 +84,10 @@ public class frmMain {
             int row = tableModelEvent.getFirstRow();
             int column = tableModelEvent.getColumn();
             Object newVal = tblCueView.getValueAt(row, column);
-            System.out.println("\nColumn " + column + " Row " + row + " changed to " + newVal.toString());
+            System.out.println("\nColumn " + column + " Row " + row + " manually changed to " + newVal.toString());
 
             Cue c = cueCollection.get(row);
-            switch(tblCueView.getColumnName(column)){
+            switch (tblCueView.getColumnName(column)) {
                 case "Name":
                     c.setCueName(newVal.toString());
                     break;
@@ -96,16 +96,18 @@ public class frmMain {
                     break;
             }
             cueCollection.set(row, c);
+            System.out.println("List has been updated to reflect change");
         });
         tblCueView.setModel(model);
     }
 
-    private static final ArrayList<String> soundExtensions = new ArrayList<String>(){{
+    private static final ArrayList<String> soundExtensions = new ArrayList<String>() {{
         add("mp3");
         add("wav");
         add("ogg");
 
     }};
+
     private void registerFileDrop() {
         new FileDrop(this.getPanel(), files -> {
             if (cueCollection != null) {
@@ -113,11 +115,13 @@ public class frmMain {
                     String[] nameParts = f.getName().split(".");
                     String extension = nameParts[nameParts.length - 1];
                     //todo BETTER add checking to the type. Only allow for sound cues or videos.
-                    if(soundExtensions.contains(extension)) {
+                    if (soundExtensions.contains(extension)) {
                         SoundCue cToAdd = new SoundCue();
                         cToAdd.setCueName(f.getName());
                         cToAdd.setFilePath(f.getAbsolutePath());
                         cueCollection.add(cToAdd);
+                    } else {
+
                     }
                 }
                 updateTable();
@@ -166,9 +170,9 @@ public class frmMain {
                 JFileChooser filePicker = new JFileChooser();
                 filePicker.setDialogTitle("Specify file to load");
                 int userSelection = filePicker.showOpenDialog(this.frame);
-                if(userSelection == JFileChooser.APPROVE_OPTION) {
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
                     File fileToOpen = filePicker.getSelectedFile();
-                    if(fileToOpen.exists()) {
+                    if (fileToOpen.exists()) {
                         //todo check that the old cueList has been saved and we aren't overwriting anything
                         List<Cue> cueList = man.readCue(fileToOpen.getParent() + "/", fileToOpen.getName());
                         System.out.println(cueList.toString());
@@ -176,12 +180,10 @@ public class frmMain {
                         this.cueCollection = cueList;
                         updateTable();
 
-                    }
-                    else
+                    } else
                         throw new FileNotFoundException();
                 }
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 System.out.println(ex.toString());
                 ex.printStackTrace();
             }
