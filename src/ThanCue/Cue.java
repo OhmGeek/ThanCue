@@ -1,6 +1,5 @@
 package ThanCue;
 
-
 import javax.swing.*;
 
 
@@ -13,7 +12,7 @@ public abstract class Cue {
     private static final ImageIcon imgLightIcon = new ImageIcon(Cue.class.getResource("/img/light.png"));
     private static final ImageIcon imgUnknownIcon = new ImageIcon(Cue.class.getResource("/img/unknown.png"));
 
-
+    private int ind;
     private String cueType;
     private String cueName;
     private CueBehaviour behaviour;
@@ -22,6 +21,14 @@ public abstract class Cue {
         cueType = "Unset Cue";
         cueName = "Unset Cue";
         behaviour = CueBehaviour.PLAY_ON_GO;
+    }
+
+    public int getInd() {
+        return ind;
+    }
+
+    public void setInd(int ind) {
+        this.ind = ind;
     }
 
     String getCueName() {
@@ -54,14 +61,12 @@ public abstract class Cue {
 
     @Override
     public String toString() {
-        return getCueType() + " - " + getCueName();
+        return "" + getInd() + ". " + getCueType() + " - " + getCueName() + " - " + getBehaviour().name().toLowerCase().replace("_", " ");
     }
 
     public String getFileString() {
         String fileString = "";
         String endField = String.valueOf((char) 31);
-
-
 
 
         //for each
@@ -75,16 +80,15 @@ public abstract class Cue {
         fileString += endField;
 
 
-
         return fileString;
     }
 
-    public void print(){
-        System.out.println(cueType + " - " + cueName + " - " + behaviour.name().toLowerCase().replace("_", " "));
+    void print() {
+        System.out.println(toString());
     }
 
-    public Object[] getAttributeArray(){
-        return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
+    Object[] getAttributeArray() {
+        return new Object[]{ind, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
@@ -106,7 +110,6 @@ public abstract class Cue {
                 return imgUnknownIcon;
         }
     }
-
 
 
 }

@@ -61,8 +61,8 @@ public class frmMain {
     private void updateTable() {
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
+            cueCollection.get(i).setInd(i);
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
-            cuesAtts[i][0] = i;
         }
         TableModel model = new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
@@ -100,15 +100,25 @@ public class frmMain {
         tblCueView.setModel(model);
     }
 
+    private static final ArrayList<String> soundExtensions = new ArrayList<String>(){{
+        add("mp3");
+        add("wav");
+        add("ogg");
+
+    }};
     private void registerFileDrop() {
         new FileDrop(this.getPanel(), files -> {
             if (cueCollection != null) {
                 for (File f : files) {
-                    //todo add checking to the type. Only allow for sound cues or videos.
-                    SoundCue cToAdd = new SoundCue();
-                    cToAdd.setCueName(f.getName());
-                    cToAdd.setFilePath(f.getAbsolutePath());
-                    cueCollection.add(cToAdd);
+                    String[] nameParts = f.getName().split(".");
+                    String extension = nameParts[nameParts.length - 1];
+                    //todo BETTER add checking to the type. Only allow for sound cues or videos.
+                    if(soundExtensions.contains(extension)) {
+                        SoundCue cToAdd = new SoundCue();
+                        cToAdd.setCueName(f.getName());
+                        cToAdd.setFilePath(f.getAbsolutePath());
+                        cueCollection.add(cToAdd);
+                    }
                 }
                 updateTable();
             }
