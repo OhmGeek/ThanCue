@@ -161,6 +161,8 @@ public class frmMain {
                     if(fileToOpen.exists()) {
                         //todo check that the old cueList has been saved and we aren't overwriting anything
                         List<Cue> cueList = man.readCue(fileToOpen.getParent() + "/", fileToOpen.getName());
+                        System.out.println(cueList.toString());
+                        System.out.println("Length " + cueList.size());
                         this.cueCollection = cueList;
                         updateTable();
 
