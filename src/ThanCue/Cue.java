@@ -1,6 +1,5 @@
 package ThanCue;
 
-import sun.nio.cs.US_ASCII;
 
 import javax.swing.*;
 
@@ -74,6 +73,8 @@ public abstract class Cue {
 
         fileString += behaviour;
         fileString += endField;
+
+
 
         return fileString;
     }

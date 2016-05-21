@@ -17,6 +17,9 @@ public class SoundCue extends Cue {
         setCueType("Sound");
     }
 
+
+
+
     public void setFilePath(String soundPath) {
         Path p = Paths.get(soundPath);
         this.soundPath = p;
@@ -44,9 +47,13 @@ public class SoundCue extends Cue {
     @Override
     public String getFileString() {
         String current = super.getFileString();
+
+        //todo put all constants in a separate class (called Constants). Perhaps a FileConstants one?
         String endRecord = String.valueOf((char) 30);
         String endField = String.valueOf((char) 31);
 
+
+        current = "sc" + endField + current; //marks file as a sound cue.
         current += getFilePath().getFileName().toString(); //gets the name and extension.
         current += endField;
         current += endRecord;

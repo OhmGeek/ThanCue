@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -110,6 +111,24 @@ public class frmMain {
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
         menuItemFileOpen.addActionListener(actionEvent -> {
             // todo load from zip
+
+            CueFileManager man = new CueFileManager();
+            try {
+                JFileChooser filePicker = new JFileChooser();
+                filePicker.setDialogTitle("Specify file to load");
+                int userSelection = filePicker.showOpenDialog(this.frame);
+                if(userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToOpen = filePicker.getSelectedFile();
+                    if(fileToOpen.exists())
+                        man.readCue(fileToOpen.getParent() + "/",fileToOpen.getName());
+                    else
+                        throw new FileNotFoundException();
+                }
+            }
+            catch(Exception ex) {
+                System.out.println(ex.toString());
+                ex.printStackTrace();
+            }
         });
         // todo all action listeners from here down
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
