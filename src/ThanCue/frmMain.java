@@ -53,16 +53,7 @@ public class frmMain {
         menuSetupOneTimeRun();
         registerFileDrop();
     }
-    public static void fun() {
-        while(true) {
-            Thread thread = new Thread(() -> {
-                while(true) {
-                    fun();
-                }
-            });
-            thread.start();
-        }
-    }
+
     private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
 
     private void updateTable() {
@@ -154,19 +145,9 @@ public class frmMain {
         printCues.setMnemonic(KeyEvent.VK_P);
         printCues.addActionListener(actionEvent -> {
             System.out.println("\nCues:");
-            for (Cue c : cueCollection) {
-                c.print();
-            }
+            cueCollection.forEach(Cue::print);
         });
         dev.add(printCues);
-
-
-        //the fun function
-
-        JMenuItem fun = new JMenuItem("Fun!");
-        printCues.setMnemonic(KeyEvent.VK_Q);
-        printCues.addActionListener(actionEvent -> fun());
-        dev.add(fun);
         /*
         END OF DEV MENU
          */
