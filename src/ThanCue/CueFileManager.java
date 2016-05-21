@@ -4,10 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -18,18 +15,19 @@ import java.util.zip.ZipOutputStream;
  */
 public class CueFileManager {
 
-    public List<Cue> readCue(String folder, String zipName) throws Exception {
-
+    public List<Cue> readCue(File zipFile) throws Exception {
+        System.out.println(zipFile.getPath().toString());
         //todo refactor and make readCue nicer. It's currently awful.
-        String endField = String.valueOf((char) 31);
+        String endField = String.valueOf((char) 30);
         List<Cue> cuesLoaded = new ArrayList<>();
 
-        ZipFile f = new ZipFile(folder + zipName);
+        ZipFile f = new ZipFile(zipFile.getPath());
         Enumeration<? extends ZipEntry> files = f.entries();
         if(f == null) {
             System.out.println("Files not in zip file");
             throw new FileNotFoundException();
         }
+
         while(files.hasMoreElements()) {
             ZipEntry e = files.nextElement();
 
@@ -37,25 +35,30 @@ public class CueFileManager {
                 //read the file and load it in.
                 InputStream stream = f.getInputStream(e);
                 BufferedReader r = new BufferedReader(new InputStreamReader(stream));
-                Scanner sc = new Scanner(r);
-                while(sc.hasNext()) {
-                    String record = r.readLine();
-
-                    String[] arrayOfFields = record.split(endField);
-                    if(arrayOfFields.length <= 1)
-                        throw new FileNotFoundException();
-
-                    //todo use switch instead
-                    if(arrayOfFields[0].equals("sc")) {
-                        //sound cue
-                        SoundCue c = new SoundCue();
-                        c.setCueName(arrayOfFields[1]);
-                        c.setCueType(arrayOfFields[2]);
-                        c.setCueName(arrayOfFields[3]);
-                        c.setFilePath("zip:///" + folder + arrayOfFields[4]);
-                        cuesLoaded.add(c);
-                    }
+                String record = r.readLine();
+                if(record == null) {
+                    throw new NoSuchElementException();
                 }
+                do {
+
+                    if (record != null) {
+                        String[] arrayOfFields = record.split(endField);
+                        if (arrayOfFields.length <= 1)
+                            throw new FileNotFoundException();
+
+                        //todo use switch instead
+                        if (arrayOfFields[0].equals("sc")) {
+                            //sound cue
+                            SoundCue c = new SoundCue();
+                            c.setCueName(arrayOfFields[1]);
+                            c.setCueType(arrayOfFields[2]);
+                            c.setCueName(arrayOfFields[3]);
+                            c.setFilePath("zip:///" + zipFile.getParent().toString() + arrayOfFields[4]);
+                            cuesLoaded.add(c);
+                        }
+                    }
+                    record = r.readLine();
+                } while(record != null);
 
             }
 
