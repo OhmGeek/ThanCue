@@ -101,6 +101,25 @@ public class frmMain {
         menuEdit = new JMenu("Edit");
         menuEdit.setMnemonic(KeyEvent.VK_E);
 
+        /*
+        DEV MENU
+         */
+        JMenu dev = new JMenu("Dev");
+        dev.setMnemonic(KeyEvent.VK_D);
+        menuBar.add(dev);
+        JMenuItem printCues = new JMenuItem("Print all cues");
+        printCues.setMnemonic(KeyEvent.VK_P);
+        printCues.addActionListener(actionEvent -> {
+            System.out.println("\nCues:");
+            for(Cue c : cueCollection){
+                c.print();
+            }
+        });
+        dev.add(printCues);
+        /*
+        END OF DEV MENU
+         */
+
         menuItemFileNew = new JMenuItem("New");
         menuItemFileNew.setMnemonic(KeyEvent.VK_N);
         menuItemFileNew.addActionListener(actionEvent -> {

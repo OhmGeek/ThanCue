@@ -78,6 +78,9 @@ public abstract class Cue {
         return fileString;
     }
 
+    public void print(){
+        System.out.println(cueType + " - " + cueName + " - " + behaviour.name().toLowerCase().replace("_", " "));
+    }
 
     public Object[] getAttributeArray(){
         return new Object[]{0, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
