@@ -60,8 +60,8 @@ public class frmMain {
     private void updateTable() {
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
+            cueCollection.get(i).setInd(i);
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
-            cuesAtts[i][0] = i;
         }
         TableModel model = new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
