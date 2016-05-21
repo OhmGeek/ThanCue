@@ -1,7 +1,10 @@
 package ThanCue;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -60,11 +63,11 @@ public class frmMain {
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
             cuesAtts[i][0] = i;
         }
-        tblCueView.setModel(new DefaultTableModel(cuesAtts, frmMain.columnNames) {
+        TableModel model = new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
                     Integer.class, ImageIcon.class, String.class, String.class, String.class
             };
-            boolean[] canEdit = new boolean[]{false, false, false, false, false}; //one for each column
+            boolean[] canEdit = new boolean[]{false, false, false, true, false}; //one for each column
 
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -75,7 +78,20 @@ public class frmMain {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
             }
+        };
+        model.addTableModelListener(tableModelEvent -> {
+            int row = tableModelEvent.getFirstRow();
+            int column = tableModelEvent.getColumn();
+            Object newVal = tblCueView.getValueAt(row, column);
+            System.out.println("Column " + column + " Row " + row + " changed to " + newVal.toString());
+
+            Cue c = cueCollection.get(row);
+            if(tblCueView.getColumnName(3).equals("Name")){
+                c.setCueName(newVal.toString());
+            }
+            cueCollection.set(row, c);
         });
+        tblCueView.setModel(model);
     }
 
     private void registerFileDrop() {
@@ -111,7 +127,7 @@ public class frmMain {
         printCues.setMnemonic(KeyEvent.VK_P);
         printCues.addActionListener(actionEvent -> {
             System.out.println("\nCues:");
-            for(Cue c : cueCollection){
+            for (Cue c : cueCollection) {
                 c.print();
             }
         });
@@ -139,14 +155,13 @@ public class frmMain {
                 JFileChooser filePicker = new JFileChooser();
                 filePicker.setDialogTitle("Specify destination");
                 int userSelection = filePicker.showSaveDialog(this.frame);
-                if(userSelection == JFileChooser.APPROVE_OPTION) {
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
                     File fileToSave = filePicker.getSelectedFile();
                     man.writeCue(fileToSave.getParent() + "/", fileToSave.getName(), cueCollection);
                     System.out.println(fileToSave.getParent() + fileToSave.getName());
                 }
 
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 System.out.println("Error!");
                 ex.printStackTrace();
             }
@@ -188,11 +203,11 @@ public class frmMain {
             Cue c = new UnknownCue();
             c.setCueName("Test cue " + r.nextInt(1000));
             cueCollection.add(c);
-            if(tblCueView.getSelectedRows().length != 0) {
+            if (tblCueView.getSelectedRows().length != 0) {
                 int sel = tblCueView.getSelectedRow();
                 updateTable();
                 tblCueView.setRowSelectionInterval(sel, sel);
-            }else{
+            } else {
                 updateTable();
             }
         });
@@ -241,16 +256,16 @@ public class frmMain {
         tblCueView.setFont(new Font("Arial", Font.PLAIN, 14));
         tblCueView.setColumnSelectionAllowed(false);
         tblCueView.getSelectionModel().addListSelectionListener(listSelectionEvent -> {
-            if(tblCueView.getSelectedRows().length > 0){
+            if (tblCueView.getSelectedRows().length > 0) {
                 btnPlay.setEnabled(true);
-            }else{
+            } else {
                 btnPlay.setEnabled(false);
             }
         });
     }
 
     private void playSelectedCue() {
-        if(tblCueView.getSelectedRows().length == 0){
+        if (tblCueView.getSelectedRows().length == 0) {
             return;
         }
         Cue selectedCue = cueCollection.get(tblCueView.getSelectedRow());
@@ -264,7 +279,7 @@ public class frmMain {
         selectedCue.playCue();
 
         //play WITH previous todo untested, so test
-        while(cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).getBehaviour() == CueBehaviour.PLAY_WITH_PREVIOUS){
+        while (cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).getBehaviour() == CueBehaviour.PLAY_WITH_PREVIOUS) {
             selCueIndex++;
             selectedCue = cueCollection.get(selCueIndex);
             selectedCue.playCue();
