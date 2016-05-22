@@ -5,6 +5,16 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 # Development Team
 This software is being developed jointly by Mike Croall and Ryan Collins.
 
+# Usage
+In terminal:
+
+    java -jar /path/to/dev.jar
+OR 
+Make the jar executable...
+
+    chmod +x /path/to/dev.jar
+and simply double click it!
+
 ### Planned Features
 #### Show Mode
 - Back/Pause button, in case someone accidentally presses go

@@ -115,10 +115,11 @@ public class frmMain {
         new FileDrop(this.getPanel(), files -> {
             if (cueCollection != null) {
                 for (File f : files) {
-                    String[] nameParts = f.getName().split(".");
-                    String extension = nameParts[nameParts.length - 1];
+                    System.out.println("File to add: " + f.getName());
+                    String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
+                    System.out.println("Found extension: " + ext);
                     //todo BETTER add checking to the type. Only allow for sound cues or videos.
-                    if (soundExtensions.contains(extension)) {
+                    if (soundExtensions.contains(ext)) {
                         SoundCue cToAdd = new SoundCue();
                         cToAdd.setCueName(f.getName());
                         cToAdd.setFilePath(f.getAbsolutePath());
@@ -239,7 +240,6 @@ public class frmMain {
         menuItemRedo.addActionListener(actionEvent -> redo());
 
 
-
         menuBar.add(menuFile);
         menuFile.add(menuItemFileNew);
         menuFile.add(menuItemFileOpen);
@@ -254,6 +254,7 @@ public class frmMain {
 
         frame.setJMenuBar(menuBar);
     }
+
     private void undo() {
         System.out.println("Undo");
     }
@@ -261,6 +262,7 @@ public class frmMain {
     private void redo() {
         System.out.println("Redo");
     }
+
     private void buttonSetupOneTimeRun() {
         btnAdd.addActionListener(actionEvent -> {
             Cue c = new UnknownCue();
