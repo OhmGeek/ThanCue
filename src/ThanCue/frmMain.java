@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +27,7 @@ public class frmMain {
     private JMenuBar menuBar;
     private JMenu menuFile, menuEdit;
     private JMenuItem menuItemFileNew, menuItemFileOpen, menuItemFileSave, menuItemFileSaveAs;
+    private JMenuItem menuItemUndo, menuItemRedo;
     private JCheckBoxMenuItem menuItemShowMode;
 
     private List<Cue> cueCollection;
@@ -223,6 +226,18 @@ public class frmMain {
             }
         });
 
+
+        menuItemUndo = new JMenuItem("Undo");
+        menuItemUndo.setMnemonic(KeyEvent.VK_Z);
+        menuItemUndo.addActionListener(actionEvent -> undo());
+
+
+        menuItemRedo = new JMenuItem("Redo");
+        menuItemRedo.setMnemonic(KeyEvent.VK_Z);
+        menuItemRedo.addActionListener(actionEvent -> redo());
+
+
+
         menuBar.add(menuFile);
         menuFile.add(menuItemFileNew);
         menuFile.add(menuItemFileOpen);
@@ -232,10 +247,18 @@ public class frmMain {
         menuFile.add(menuItemShowMode);
 
         menuBar.add(menuEdit);
+        menuEdit.add(menuItemUndo);
+        menuEdit.add(menuItemRedo);
 
         frame.setJMenuBar(menuBar);
     }
+    private void undo() {
+        System.out.println("Undo");
+    }
 
+    private void redo() {
+        System.out.println("Redo");
+    }
     private void buttonSetupOneTimeRun() {
         btnAdd.addActionListener(actionEvent -> {
             Cue c = new UnknownCue();
