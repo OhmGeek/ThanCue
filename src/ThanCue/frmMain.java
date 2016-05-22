@@ -60,6 +60,8 @@ public class frmMain {
     private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
 
     private void updateTable() {
+
+        //todo store individual col widths - this'll make the table not jump when moving cues.
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
             cueCollection.get(i).setInd(i);
