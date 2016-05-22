@@ -15,6 +15,8 @@ Make the jar executable...
     chmod +x /path/to/dev.jar
 and simply double click it!
 
+Please note that the software can only play .wav files currently, but we will be adding VLC support - it's coning soon!
+
 ### Planned Features
 #### Show Mode
 - Back/Pause button, in case someone accidentally presses go
