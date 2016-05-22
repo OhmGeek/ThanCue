@@ -109,36 +109,6 @@ public class CueFileManager {
         zipStream.putNextEntry(e);
         zipStream.write(dataRead,0,dataRead.length);
         zipStream.close();
-
-
-
-
-//        File f = new File(filePath);
-//        ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(f));
-//
-//        List<ZipEntry> filesToWrite = new ArrayList<>();
-//
-//
-//
-//        ZipEntry e = new ZipEntry(f
-//        stream.putNextEntry(e);
-//        FileWriter fr = new FileWriter(filePath);
-//        PrintWriter pw = new PrintWriter(fr);
-//        for(Cue c : cueCollection) {
-//            pw.println(c.getFileString()); //this string obtained from the cue class/version
-//            addFilesToListIfNecessary(c,filesToWrite);
-//        }
-//
-//        ZipEntry e = new ZipEntry(filePath + "/entries.dat");
-//
-//        for(ZipEntry e : filesToWrite) {
-//            stream.putNextEntry(e);
-//            stream.write(l)
-//        }
-//
-//        stream.write(stuff);
-//        stream.closeEntry();
-//        stream.close();
     }
 
 }

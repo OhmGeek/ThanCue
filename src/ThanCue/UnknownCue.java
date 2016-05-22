@@ -11,6 +11,6 @@ public class UnknownCue extends Cue {
 
     @Override
     public void playCue() {
-
+        System.out.println("Unknown cue has been played.");
     }
 }

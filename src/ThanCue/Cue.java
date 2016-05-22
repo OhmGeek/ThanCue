@@ -28,35 +28,35 @@ public abstract class Cue {
         return ind;
     }
 
-    void setInd(int ind) {
+    public void setInd(int ind) {
         this.ind = ind;
     }
 
-    String getCueName() {
+    public String getCueName() {
         return cueName;
     }
 
-    String getCueType() {
+    public String getCueType() {
         return cueType;
     }
 
-    ImageIcon getIcon() {
+    public ImageIcon getIcon() {
         return Cue.getIcon(cueType);
     }
 
-    CueBehaviour getBehaviour() {
+    public CueBehaviour getBehaviour() {
         return behaviour;
     }
 
-    void setCueType(String cueType) {
+    public void setCueType(String cueType) {
         this.cueType = cueType;
     }
 
-    void setCueName(String name) {
+    public void setCueName(String name) {
         cueName = name;
     }
 
-    void setBehaviour(CueBehaviour behaviour) {
+    public void setBehaviour(CueBehaviour behaviour) {
         this.behaviour = behaviour;
     }
 
@@ -84,11 +84,11 @@ public abstract class Cue {
         return fileString;
     }
 
-    void print() {
+    public void print() {
         System.out.println(toString());
     }
 
-    Object[] getAttributeArray() {
+    public Object[] getAttributeArray() {
         return new Object[]{ind, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
     }
 
