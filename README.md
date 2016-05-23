@@ -3,7 +3,7 @@
 Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 
 # Development Team
-This software is being developed jointly by Mike Croall and Ryan Collins.
+This software is being developed jointly by [Mike Croall](https://www.github.com/MikeCroall "Mike Croall") and [Ryan Collins](https://www.github.com/OhmGeek "Ryan Collins").
 
 # Usage
 In terminal:
@@ -15,7 +15,7 @@ Make the jar executable...
     chmod +x /path/to/dev.jar
 and simply double click it!
 
-Please note that the software can only play .wav files currently, but we will be adding VLC support - it's coning soon!
+Please note that the software can only play .wav files currently, but we will be adding VLC support - it's coming soon!
 
 ### Planned Features
 #### Show Mode
