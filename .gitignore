@@ -2,3 +2,4 @@
 *.class
 out/img/
 META-INF/MANIFEST.MF
+.idea/
