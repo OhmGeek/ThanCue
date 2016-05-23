@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -161,7 +159,8 @@ public class frmMain {
         menuItemFileNew = new JMenuItem("New");
         menuItemFileNew.setMnemonic(KeyEvent.VK_N);
         menuItemFileNew.addActionListener(actionEvent -> {
-            JOptionPane.showMessageDialog(null, "New Cue dialog here", "Test", JOptionPane.INFORMATION_MESSAGE);
+            // todo actual window for choosing new cue stuff
+            // JOptionPane.showMessageDialog(null, "New Cue dialog here", "Test", JOptionPane.INFORMATION_MESSAGE);
         });
         menuItemFileOpen = new JMenuItem("Open", new ImageIcon(getClass().getResource("/img/open.png")));
         menuItemFileOpen.setMnemonic(KeyEvent.VK_O);
