@@ -1,3 +1,4 @@
 *.xml
 *.class
 out/img/
+META-INF/MANIFEST.MF
