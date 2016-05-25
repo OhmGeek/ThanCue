@@ -12,6 +12,8 @@ import java.io.IOException;
  */
 
 public class Main {
+    public static final String VERSION_NAME = "0.6c";
+
     public static void main(String[] args) {
         try {
             new JFXPanel();
@@ -25,9 +27,9 @@ public class Main {
             ex.printStackTrace();
         }
 
-        System.out.println(System.getProperty("os.name").toLowerCase());
+        System.out.println("Running on OS: " + System.getProperty("os.name").toLowerCase());
 
-        JFrame window = new JFrame("ThanCue v0.5");
+        JFrame window = new JFrame("ThanCue" + VERSION_NAME);
         frmMain mainPanel = new frmMain(window);
 
         window.setContentPane(mainPanel.getPanel());

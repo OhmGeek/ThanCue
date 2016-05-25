@@ -116,7 +116,7 @@ public class frmMain {
                     System.out.println("File to add: " + f.getName());
                     String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
                     System.out.println("Found extension: " + ext);
-                    //todo BETTER add checking to the type. Only allow for sound cues or videos.
+                    //todo BETTER checking to the type. Only allow for sound cues or videos.
                     if (soundExtensions.contains(ext)) {
                         SoundCue cToAdd = new SoundCue();
                         cToAdd.setCueName(f.getName());
@@ -239,7 +239,7 @@ public class frmMain {
 
         menuItemInfo = new JMenuItem("Info");
         menuItemInfo.addActionListener(actionEvent -> {
-            JOptionPane.showMessageDialog(null, "Version 0.6b", "ThanCue", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, Main.VERSION_NAME, "ThanCue", JOptionPane.INFORMATION_MESSAGE);
         });
 
         menuBar.add(menuFile);

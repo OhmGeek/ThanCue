@@ -8,4 +8,7 @@
     <release id="4" version="0.6b" releaseDate="2016-05-25T00:00:00.000+00:00" licenseVersion="1">
         <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="independent" />
     </release>
+    <release id="5" version="0.6c" releaseDate="2016-05-25T00:00:00.000+00:00" licenseVersion="1">
+        <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="independent" />
+    </release>
 </application>
