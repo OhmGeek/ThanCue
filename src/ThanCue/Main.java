@@ -25,6 +25,8 @@ public class Main {
             ex.printStackTrace();
         }
 
+        System.out.println(System.getProperty("os.name").toLowerCase());
+
         JFrame window = new JFrame("ThanCue v0.5");
         frmMain mainPanel = new frmMain(window);
 

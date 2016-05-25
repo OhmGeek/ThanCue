@@ -23,12 +23,13 @@
  */
 package com.briksoftware.updatefx.core;
 
-import com.briksoftware.updatefx.gui.UpdateDialogController;
-import javafx.application.Platform;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
+
+import com.briksoftware.updatefx.gui.UpdateDialogController;
+
+import javafx.application.Platform;
 
 /**
  * <p>This is the entry point for the UpdateFX framework.</p>
