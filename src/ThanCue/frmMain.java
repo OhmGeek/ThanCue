@@ -23,9 +23,9 @@ public class frmMain {
     private JTable tblCueView;
     private JButton btnEditCue;
     private JMenuBar menuBar;
-    private JMenu menuFile, menuEdit;
+    private JMenu menuFile, menuEdit, menuAbout;
     private JMenuItem menuItemFileNew, menuItemFileOpen, menuItemFileSave, menuItemFileSaveAs;
-    private JMenuItem menuItemUndo, menuItemRedo;
+    private JMenuItem menuItemUndo, menuItemRedo, menuItemInfo;
     private JCheckBoxMenuItem menuItemShowMode;
 
     private List<Cue> cueCollection;
@@ -138,6 +138,7 @@ public class frmMain {
         menuFile.setMnemonic(KeyEvent.VK_F);
         menuEdit = new JMenu("Edit");
         menuEdit.setMnemonic(KeyEvent.VK_E);
+        menuAbout = new JMenu("About");
 
         /*
         DEV MENU
@@ -189,7 +190,7 @@ public class frmMain {
                 ex.printStackTrace();
             }
         });
-        // todo all action listeners from here down
+        // todo all action listeners
         menuItemFileSave = new JMenuItem("Save", new ImageIcon(getClass().getResource("/img/save.png")));
         menuItemFileSave.setMnemonic(KeyEvent.VK_S);
         menuItemFileSave.addActionListener(actionEvent -> {
@@ -228,16 +229,18 @@ public class frmMain {
             }
         });
 
-
         menuItemUndo = new JMenuItem("Undo");
         menuItemUndo.setMnemonic(KeyEvent.VK_Z);
         menuItemUndo.addActionListener(actionEvent -> undo());
-
 
         menuItemRedo = new JMenuItem("Redo");
         menuItemRedo.setMnemonic(KeyEvent.VK_Z);
         menuItemRedo.addActionListener(actionEvent -> redo());
 
+        menuItemInfo = new JMenuItem("Info");
+        menuItemInfo.addActionListener(actionEvent -> {
+            JOptionPane.showMessageDialog(null, "Version 0.6b", "ThanCue", JOptionPane.INFORMATION_MESSAGE);
+        });
 
         menuBar.add(menuFile);
         menuFile.add(menuItemFileNew);
@@ -250,6 +253,9 @@ public class frmMain {
         menuBar.add(menuEdit);
         menuEdit.add(menuItemUndo);
         menuEdit.add(menuItemRedo);
+
+        menuBar.add(menuAbout);
+        menuAbout.add(menuItemInfo);
 
         frame.setJMenuBar(menuBar);
     }

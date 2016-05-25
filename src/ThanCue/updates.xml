@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <application xmlns="http://www.briksoftware.com/updatefx" name="ThanCue" changelog="http://example.com/changelog">
-    <release id="2" version="0.5b" releaseDate="2016-05-23T00:00:00.000+02:00" licenseVersion="1">
+    <release id="3" version="0.6" releaseDate="2016-05-25T00:00:00.000+00:00" licenseVersion="1">
         <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="mac" />
         <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="win_x86" />
         <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="win_x64" />
+    </release>
+    <release id="4" version="0.6b" releaseDate="2016-05-25T00:00:00.000+00:00" licenseVersion="1">
+        <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="independent" />
     </release>
 </application>
