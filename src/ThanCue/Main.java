@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 
 public class Main {
-    public static final String VERSION_NAME = "0.6c";
+    public static final String VERSION_NAME = "ScriptMade";
 
     public static void main(String[] args) {
         try {
