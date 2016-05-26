@@ -15,7 +15,11 @@ Make the jar executable...
     chmod +x /path/to/dev.jar
 and simply double click it!
 
-To use the script to change release id and name, open a terminal in the main repo directory:
+To use the script to change release id and name, open a terminal in the main repo directory.
+Make sure the script is executable:
+
+    chmod +x cv.sh
+Run the script:
 
     ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
 and check your files updated!
