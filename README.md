@@ -15,6 +15,11 @@ Make the jar executable...
     chmod +x /path/to/dev.jar
 and simply double click it!
 
+To use the script to change release id and name, open a terminal in the main repo directory:
+
+    ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
+and check your files updated!
+
 Please note that the software can only play .wav files currently, but we will be adding VLC support - it's coming soon!
 
 ### Planned Features
