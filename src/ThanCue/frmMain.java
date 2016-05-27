@@ -1,5 +1,13 @@
 package ThanCue;
 
+import com.briksoftware.updatefx.model.Application;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -14,7 +22,7 @@ import java.util.Random;
 /**
  * Created by mike on 15/05/16.
  */
-public class frmMain {
+public class frmMain extends Application{
 
     private JFrame frame;
     private JPanel pnlMain;
@@ -30,8 +38,15 @@ public class frmMain {
 
     private List<Cue> cueCollection;
     private Random r; // purely for adding test cues todo remove
+    public Pane load() {
 
-    public frmMain(JFrame frame) {
+        SwingNode swingNode = new SwingNode();
+        swingNode.setContent(this.getPanel());
+        Pane p = new Pane();
+        p.getChildren().add(swingNode);
+        return p;
+    }
+    public frmMain() {
         //set the UI to match the OS default feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -39,23 +54,31 @@ public class frmMain {
             e.printStackTrace();
         }
 
+
+
         //set the jframe
-        this.frame = frame;
+
 
         r = new Random();
 
         //create the cue collection and set the list data
         cueCollection = new ArrayList<>();
 
-        //deal with menus, file dropping, and list rendering.
+
+
+
+        //deal with menus file dropping, and list rendering.
         updateTable();
         tableSetupOneTimeRun();
         buttonSetupOneTimeRun();
         menuSetupOneTimeRun();
         registerFileDrop();
+
     }
 
     private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
+
+
 
     private void updateTable() {
 

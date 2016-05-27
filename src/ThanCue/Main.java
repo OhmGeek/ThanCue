@@ -1,8 +1,13 @@
 package ThanCue;
 
 import com.briksoftware.updatefx.core.UpdateFX;
+import com.briksoftware.updatefx.model.Application;
+import com.sun.javafx.tk.Toolkit;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -29,12 +34,16 @@ public class Main {
 
         System.out.println("Running on OS: " + System.getProperty("os.name").toLowerCase());
 
-        JFrame window = new JFrame("ThanCue" + VERSION_NAME);
-        frmMain mainPanel = new frmMain(window);
+        Platform.setImplicitExit(false);
 
-        window.setContentPane(mainPanel.getPanel());
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.pack();
-        window.setVisible(true);
+        Platform.runLater(() -> {
+            Stage window = new Stage();
+            frmMain mainForm = new frmMain();
+            Pane p = mainForm.load();
+            System.out.println("IVE DONE SOMETHING DADDY!");
+            window.setScene(new Scene(p,500,500));
+            window.showAndWait();
+        });
+
     }
 }
