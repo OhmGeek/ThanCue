@@ -1,7 +1,7 @@
 <!-- 
 <?xml version="ScriptMade"
 -->
-<application xmlns="http://www.briksoftware.com/updatefx" name="ThanCue" changelog="http://example.com/changelog">
+<application xmlns="http://www.briksoftware.com/updatefx" name="ThanCue" changelog="https://rawgit.com/OhmGeek/ThanCue/dev/src/ThanCue/changelog.txt">
     <release 
         id="6"
         version="ScriptMade"
