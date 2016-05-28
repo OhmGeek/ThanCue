@@ -262,7 +262,7 @@ public class frmMain extends Application{
 
         menuItemInfo = new JMenuItem("Info");
         menuItemInfo.addActionListener(actionEvent -> {
-            JOptionPane.showMessageDialog(null, Main.VERSION_NAME, "ThanCue", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, Constants.VERSION_NAME, "ThanCue", JOptionPane.INFORMATION_MESSAGE);
         });
 
         menuBar.add(menuFile);
