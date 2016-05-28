@@ -7,9 +7,32 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.Controller">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.Controller">
     <children>
-    <ScrollPane maxHeight="500" maxWidth="500" minHeight="500" minWidth="500" fx:id="the_pane"></ScrollPane>
+    <MenuBar fx:id="menu_bar">
+         <Menu text="Dev">
+             <items>
+                 <MenuItem text="Print All Cues" fx:id="btnPrintCues"/>
+             </items>
+         </Menu>
 
+        <Menu text="File">
+            <items>
+                <MenuItem text="New" fx:id="btnNew"/>
+                <MenuItem text="Open" fx:id="btnOpen"/>
+                <MenuItem text="Save" fx:id="btnSave"/>
+                <MenuItem text="Save As" fx:id="btnSaveAs"/>
+                <MenuItem text="Exit" fx:id="btnExit"/>
+            </items>
+        </Menu>
+
+        <Menu text="Edit">
+            <items>
+                <MenuItem text="Undo" fx:id="btnUndo"/>
+                <MenuItem text="Redo" fx:id="btnRedo"/>
+            </items>
+        </Menu>
+    </MenuBar>
+<ListView fx:id="lvView"/>
     </children>
-</Pane>
+</GridPane>
