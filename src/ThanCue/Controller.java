@@ -40,7 +40,7 @@ public class Controller {
     @FXML
     private MenuItem btnRedo;
     @FXML
-    private ListView<Cue> lvView;
+    private TableView<Cue> tblView;
 
     //form buttons
     @FXML

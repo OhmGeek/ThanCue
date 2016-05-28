@@ -33,7 +33,7 @@
             </items>
         </Menu>
     </MenuBar>
-<ListView fx:id="lvView" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+<TableView fx:id="tblView" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <Button fx:id="btnGo" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     </children>
 </GridPane>
