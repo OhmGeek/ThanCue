@@ -9,7 +9,7 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.Controller">
     <children>
-    <MenuBar fx:id="menu_bar">
+    <MenuBar fx:id="menu_bar" GridPane.columnIndex="0" GridPane.rowIndex="0">
          <Menu text="Dev">
              <items>
                  <MenuItem text="Print All Cues" fx:id="btnPrintCues"/>
@@ -33,6 +33,7 @@
             </items>
         </Menu>
     </MenuBar>
-<ListView fx:id="lvView"/>
+<ListView fx:id="lvView" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Button fx:id="btnGo" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     </children>
 </GridPane>

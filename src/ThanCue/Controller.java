@@ -8,10 +8,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 import javax.swing.*;
@@ -45,6 +42,13 @@ public class Controller {
     @FXML
     private ListView<Cue> lvView;
 
+    //form buttons
+    @FXML
+    private Button btnGo;
+
+
+
+
     @FXML
     public void initialize() {
         System.out.println("second");
@@ -57,15 +61,19 @@ public class Controller {
 
         });
 
-
+        //File Menu
         btnNew.setOnAction(event -> System.out.println("New Cue"));
         btnOpen.setOnAction(event -> System.out.println("Open cue stack"));
         btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         btnExit.setOnAction(event -> Platform.exit());
 
+        //Edit Menu
         btnUndo.setOnAction(event -> System.out.println("Undo"));
         btnRedo.setOnAction(event -> System.out.println("Redo"));
+
+        //Form Buttons
+        btnGo.setOnAction(event -> System.out.println("Play a cue"));
     }
 }
 
