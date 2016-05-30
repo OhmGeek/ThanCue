@@ -51,7 +51,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        System.out.println("second");
+        System.out.println("Let's get this party started!");
         setActions();
     }
 
