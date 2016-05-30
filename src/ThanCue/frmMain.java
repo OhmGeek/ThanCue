@@ -1,12 +1,8 @@
 package ThanCue;
 
 import com.briksoftware.updatefx.model.Application;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingNode;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -85,7 +81,7 @@ public class frmMain extends Application{
         //todo store individual col widths - this'll make the table not jump when moving cues.
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
-            cueCollection.get(i).setInd(i);
+            cueCollection.get(i).setIndex(i);
             cuesAtts[i] = cueCollection.get(i).getAttributeArray();
         }
         TableModel model = new DefaultTableModel(cuesAtts, frmMain.columnNames) {

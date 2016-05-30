@@ -1,5 +1,8 @@
 package ThanCue;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import javax.swing.*;
 
 
@@ -12,36 +15,34 @@ public abstract class Cue {
     private static final ImageIcon imgLightIcon = new ImageIcon(Cue.class.getResource("/img/light.png"));
     private static final ImageIcon imgUnknownIcon = new ImageIcon(Cue.class.getResource("/img/unknown.png"));
 
-    private int ind;
-    private String cueType;
+    private SimpleIntegerProperty index;
+    private SimpleStringProperty cueType;
     private String cueName;
     private CueBehaviour behaviour;
 
     public Cue() {
-        ind = -1;
-        cueType = "Unset Cue";
+        index = new SimpleIntegerProperty(-1);
+        cueType = new SimpleStringProperty("Unset Cue");
         cueName = "Unset Cue";
         behaviour = CueBehaviour.PLAY_ON_GO;
     }
 
-    private int getInd() {
-        return ind;
+    private int getIndex() {
+        return index.get();
     }
 
-    public void setInd(int ind) {
-        this.ind = ind;
-    }
+    public void setIndex(int index) { this.index.set(index); }
 
     public String getCueName() {
         return cueName;
     }
 
     public String getCueType() {
-        return cueType;
+        return cueType.get();
     }
 
     public ImageIcon getIcon() {
-        return Cue.getIcon(cueType);
+        return Cue.getIcon(getCueType());
     }
 
     public CueBehaviour getBehaviour() {
@@ -49,7 +50,7 @@ public abstract class Cue {
     }
 
     public void setCueType(String cueType) {
-        this.cueType = cueType;
+        this.cueType.set(cueType);
     }
 
     public void setCueName(String name) {
@@ -62,7 +63,7 @@ public abstract class Cue {
 
     @Override
     public String toString() {
-        return "" + getInd() + ". " + getCueType() + " - " + getCueName() + " - " + getBehaviour().name().toLowerCase().replace("_", " ");
+        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getBehaviour().name().toLowerCase().replace("_", " ");
     }
 
     public String getFileString() {
@@ -89,7 +90,7 @@ public abstract class Cue {
     }
 
     public Object[] getAttributeArray() {
-        return new Object[]{ind, Cue.getIcon(cueType), cueType, cueName, behaviour.name().toLowerCase().replace("_", " ")};
+        return new Object[]{getIndex(), Cue.getIcon(getCueType()), getCueType(), getCueName(), behaviour.name().toLowerCase().replace("_", " ")};
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping

@@ -1,12 +1,15 @@
 package ThanCue;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
+import javafx.util.Callback;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class Controller {
@@ -48,12 +51,54 @@ public class Controller {
     @FXML
     private Button btnGo;
 
+    ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
+            new SoundCue(),
+            new SoundCue()
+    );
+
 
     @FXML
     public void initialize() {
         System.out.println("Initialising fxml controller");
         setActions();
         setSizes();
+        setTableData();
+    }
+
+    private void setTableData() {
+        TableColumn<Cue, Integer> clmIndex = new TableColumn<>("Index");
+        TableColumn<Cue, ImageIcon> clmIcon = new TableColumn<>("Icon");
+        TableColumn clmType = new TableColumn("Type");
+        TableColumn clmName = new TableColumn("Name");
+        TableColumn clmBehaviour = new TableColumn("Behaviour");
+
+        clmIndex.setCellValueFactory(new PropertyValueFactory<Cue, Integer>("index"));
+        clmIcon.setCellFactory(new Callback<TableColumn<Cue, ImageIcon>, TableCell<Cue, ImageIcon>>() {
+            @Override
+            public TableCell<Cue, ImageIcon> call(TableColumn<Cue, ImageIcon> col) {
+                return new TableCell<Cue, ImageIcon>() {
+                    @Override
+                    protected void updateItem(ImageIcon ico, boolean empty) {
+                        super.updateItem(ico, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            if (ico == null){
+                                setText("ImageIcon ico is null");
+                            }else {
+                                setText("Image found " + ico.toString());
+                            }
+                        }
+                    }
+                };
+            }
+        });
+        clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
+
+
+        tblView.getColumns().addAll(clmIndex, clmIcon, clmType, clmName, clmBehaviour);
+
+        tblView.setItems(cueCollection);
     }
 
     private void setSizes() {

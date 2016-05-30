@@ -1,8 +1,8 @@
 package ThanCue;
 
-import javax.print.DocFlavor;
-import java.applet.*;
-import java.net.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,6 +14,7 @@ public class SoundCue extends Cue {
     private Path soundPath;
 
     public SoundCue() {
+        setIndex(53);
         setCueType("Sound");
     }
 
