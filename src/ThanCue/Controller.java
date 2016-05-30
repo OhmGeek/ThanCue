@@ -59,7 +59,11 @@ public class Controller {
 
     @FXML
     public void initialize() {
+<<<<<<< HEAD
+        System.out.println("Let's get this party started!");
+=======
         System.out.println("Initialising fxml controller");
+>>>>>>> 7710778240bab5b1318e165d260da6cb54e43f21
         setActions();
         setSizes();
         setTableData();
