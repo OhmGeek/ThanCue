@@ -50,6 +50,14 @@ public class Controller {
     //Form buttons
     @FXML
     private Button btnGo;
+    @FXML
+    private Button btnMoveUp;
+    @FXML
+    private Button btnMoveDown;
+    @FXML
+    private Button btnAddCue;
+    @FXML
+    private Button btnEditCue;
 
     ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
             new SoundCue(),
@@ -59,11 +67,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-<<<<<<< HEAD
         System.out.println("Let's get this party started!");
-=======
-        System.out.println("Initialising fxml controller");
->>>>>>> 7710778240bab5b1318e165d260da6cb54e43f21
         setActions();
         setSizes();
         setTableData();
@@ -107,6 +111,10 @@ public class Controller {
 
     private void setSizes() {
         //allow growing
+        btnAddCue.setMaxWidth(Double.MAX_VALUE);
+        btnEditCue.setMaxWidth(Double.MAX_VALUE);
+        btnMoveUp.setMaxWidth(Double.MAX_VALUE);
+        btnMoveDown.setMaxWidth(Double.MAX_VALUE);
         btnGo.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         btnGo.setPrefHeight(140);
 
@@ -130,12 +138,17 @@ public class Controller {
         rowConstraintMaybeGrow.setVgrow(Priority.SOMETIMES);
         rowConstraintGrow.setVgrow(Priority.ALWAYS);
         grid_pane.getRowConstraints().add(rowConstraintNoGrow);
+        grid_pane.getRowConstraints().add(rowConstraintNoGrow);
         grid_pane.getRowConstraints().add(rowConstraintGrow);
         grid_pane.getRowConstraints().add(rowConstraintMaybeGrow);
 
         //make btnGo grow
         GridPane.setFillWidth(btnGo, true);
         GridPane.setFillHeight(btnGo, true);
+        HBox.setHgrow(btnAddCue, Priority.ALWAYS);
+        HBox.setHgrow(btnEditCue, Priority.ALWAYS);
+        HBox.setHgrow(btnMoveUp, Priority.ALWAYS);
+        HBox.setHgrow(btnMoveDown, Priority.ALWAYS);
 
         //update layouts
         anchor_pane.layout();

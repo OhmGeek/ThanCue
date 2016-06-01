@@ -7,6 +7,9 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.layout.GridPane?>
 
+<?import com.sun.javafx.scene.control.skin.TableHeaderRow?>
+<?import com.sun.javafx.scene.control.skin.TableColumnHeader?>
+
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.Controller"
             fx:id="anchor_pane">
     <children>
@@ -38,9 +41,16 @@
                     </Menu>
                 </MenuBar>
 
-                <TableView fx:id="tblView" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <HBox fx:id="hbxMoveButtonContainer" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Button fx:id="btnAddCue" text="Add cue"/>
+                    <Button fx:id="btnEditCue" text="Edit cue"/>
+                    <Button fx:id="btnMoveUp" text="Move up"/>
+                    <Button fx:id="btnMoveDown" text="Move down"/>
+                </HBox>
 
-                <Button text="Go" fx:id="btnGo" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TableView fx:id="tblView" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+                <Button text="Go" fx:id="btnGo" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
             </children>
         </GridPane>
