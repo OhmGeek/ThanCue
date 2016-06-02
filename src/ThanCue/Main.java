@@ -17,13 +17,9 @@ public class Main extends Application {
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")");
         primaryStage.setScene(new Scene(root,600,550));
         primaryStage.show();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
 
         //check for updates
+        System.out.println("Checking for updates...");
         try {
             UpdateFX updater = new UpdateFX(Main.class);
             updater.checkUpdates();
@@ -31,5 +27,10 @@ public class Main extends Application {
             System.out.println("Updating failed");
             ex.printStackTrace();
         }
+    }
+
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
