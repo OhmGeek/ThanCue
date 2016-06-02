@@ -1,10 +1,10 @@
 <!-- 
-<?xml version="0.7.4c"
+<?xml version="0.7d"
 -->
 <application xmlns="http://www.briksoftware.com/updatefx" name="ThanCue" changelog="http://example.com/changelog">
     <release 
-        id="17"
-        version="0.7.4c"
+        id="0.7.2"
+        version="0.7d"
         releaseDate="2016-05-25T00:00:00.000+00:00" 
         licenseVersion="1">
         <binary href="https://rawgit.com/OhmGeek/ThanCue/dev/out/artifacts/dev_jar/dev.jar" size="10000" platform="independent" />
