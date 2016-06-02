@@ -14,17 +14,14 @@ public class SoundCue extends Cue {
     private Path soundPath;
 
     public SoundCue() {
-        setIndex(53);
-        setCueType("Sound");
+        this.setCueName("Mad sounds");
+        this.setCueType("Sound");
     }
-
-
-
 
     public void setFilePath(String soundPath) {
         Path p = Paths.get(soundPath);
         this.soundPath = p;
-
+        this.setCueName(soundPath);
     }
 
     public Path getFilePath() {
@@ -41,7 +38,7 @@ public class SoundCue extends Cue {
             AudioClip sound = Applet.newAudioClip(u);
             sound.play(); //one can also loop this
         } catch(Exception ex) {
-            System.out.println("Error in playing song");
+            System.out.println("Error in playing sound cue");
         }
     }
 

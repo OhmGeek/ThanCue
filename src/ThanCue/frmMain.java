@@ -82,7 +82,7 @@ public class frmMain extends Application{
         Object[][] cuesAtts = new Object[cueCollection.size()][];
         for (int i = 0; i < cueCollection.size(); i++) {
             cueCollection.get(i).setIndex(i);
-            cuesAtts[i] = cueCollection.get(i).getAttributeArray();
+            //cuesAtts[i] = cueCollection.get(i).getAttributeArray(); // NOTE only commented to avoid error upon removing cue.getAttributeArray
         }
         TableModel model = new DefaultTableModel(cuesAtts, frmMain.columnNames) {
             Class[] types = new Class[]{
@@ -368,7 +368,7 @@ public class frmMain extends Application{
         selectedCue.playCue();
 
         //play WITH previous todo untested, so test
-        while (cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).getBehaviour() == CueBehaviour.PLAY_WITH_PREVIOUS) {
+        while (cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).behaviourNonProperty == CueBehaviour.PLAY_WITH_PREVIOUS) {
             selCueIndex++;
             selectedCue = cueCollection.get(selCueIndex);
             selectedCue.playCue();

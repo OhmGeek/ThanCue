@@ -1,15 +1,16 @@
 package ThanCue;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
 
-import javax.swing.*;
 import java.util.Random;
 
 public class Controller {
@@ -61,6 +62,10 @@ public class Controller {
 
     ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
             new SoundCue(),
+            new SoundCue(),
+            new UnknownCue(),
+            new UnknownCue(),
+            new UnknownCue(),
             new SoundCue()
     );
 
@@ -73,39 +78,61 @@ public class Controller {
         setTableData();
     }
 
+    // todo where are all the lines of "-1" printing from?!
+
     private void setTableData() {
+        //update indexes
+        for (int i = 0; i < cueCollection.size(); i++){
+            Cue c = cueCollection.get(i);
+            c.setIndex(i);
+            cueCollection.set(i, c);
+            System.out.println("Setting id of cue " + i); // todo remove entire loop (only for testing (I think))
+        }
+
+        //create columns
         TableColumn<Cue, Integer> clmIndex = new TableColumn<>("Index");
-        TableColumn<Cue, ImageIcon> clmIcon = new TableColumn<>("Icon");
+        clmIndex.setSortable(false);
         TableColumn clmType = new TableColumn("Type");
+        clmType.setSortable(false);
         TableColumn clmName = new TableColumn("Name");
+        clmName.setSortable(false);
         TableColumn clmBehaviour = new TableColumn("Behaviour");
+        clmBehaviour.setSortable(false);
 
-        clmIndex.setCellValueFactory(new PropertyValueFactory<Cue, Integer>("index"));
-        clmIcon.setCellFactory(new Callback<TableColumn<Cue, ImageIcon>, TableCell<Cue, ImageIcon>>() {
-            @Override
-            public TableCell<Cue, ImageIcon> call(TableColumn<Cue, ImageIcon> col) {
-                return new TableCell<Cue, ImageIcon>() {
-                    @Override
-                    protected void updateItem(ImageIcon ico, boolean empty) {
-                        super.updateItem(ico, empty);
-                        if (empty) {
-                            setText(null);
-                        } else {
-                            if (ico == null){
-                                setText("ImageIcon ico is null");
-                            }else {
-                                setText("Image found " + ico.toString());
-                            }
-                        }
-                    }
-                };
-            }
-        });
+        //set cell 'renderers'
+        clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
+        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+
         clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
+        clmType.setCellFactory((Callback<TableColumn<Cue, String>, TableCell<Cue, String>>) param -> {
+            TableCell<Cue, String> cell = new TableCell<Cue, String>(){
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    if(item!=null){
+                        HBox box = new HBox();
+                        box.setSpacing(10) ;
+
+                        Label typeName = new Label(item);
+                        ImageView imageview = Cue.getImageView(item);
+
+                        box.getChildren().addAll(imageview, typeName);
+                        setGraphic(box);
+                    }
+                }
+            };
+            System.out.println(cell.getIndex());
+            return cell;
+        });
+
+        clmName.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueName"));
+
+        clmBehaviour.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueBehaviour"));
 
 
-        tblView.getColumns().addAll(clmIndex, clmIcon, clmType, clmName, clmBehaviour);
+        //add columns
+        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour);
 
+        //link data to table
         tblView.setItems(cueCollection);
     }
 
@@ -159,12 +186,16 @@ public class Controller {
 
     private void setActions() {
         btnPrintCues.setOnAction(event -> {
-
+            System.out.println("\nCues:");
+            for (Cue cue : cueCollection) {
+                System.out.print("\t");
+                cue.print();
+            }
         });
 
         //File Menu
-        btnNew.setOnAction(event -> System.out.println("New Cue"));
-        btnOpen.setOnAction(event -> System.out.println("Open cue stack"));
+        btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
+        btnOpen.setOnAction(event -> System.out.println("Open Cue Stack"));
         btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         btnExit.setOnAction(event -> Platform.exit());
@@ -175,6 +206,10 @@ public class Controller {
 
         //Form Buttons
         btnGo.setOnAction(event -> System.out.println("Play a cue"));
+        btnAddCue.setOnAction(event -> System.out.println("Add a cue"));
+        btnEditCue.setOnAction(event -> System.out.println("Edit this cue"));
+        btnMoveUp.setOnAction(event -> System.out.println("Move this cue up"));
+        btnMoveDown.setOnAction(event -> System.out.println("Move this cue down"));
     }
 }
 

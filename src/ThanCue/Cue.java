@@ -2,68 +2,71 @@ package ThanCue;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-
-import javax.swing.*;
+import javafx.scene.image.ImageView;
 
 
 /**
  * Created by ryan on 15/05/16.
  */
 public abstract class Cue {
-    private static final ImageIcon imgSoundIcon = new ImageIcon(Cue.class.getResource("/img/music.png"));
-    private static final ImageIcon imgVideoIcon = new ImageIcon(Cue.class.getResource("/img/video.png"));
-    private static final ImageIcon imgLightIcon = new ImageIcon(Cue.class.getResource("/img/light.png"));
-    private static final ImageIcon imgUnknownIcon = new ImageIcon(Cue.class.getResource("/img/unknown.png"));
+    private static final String IMG_SOUND_ICON = "/img/music.png";
+    private static final String IMG_VIDEO_ICON = "/img/video.png";
+    private static final String IMG_LIGHT_ICON = "/img/light.png";
+    private static final String IMG_UNKNOWN_ICON = "/img/unknown.png";
 
-    private SimpleIntegerProperty index;
+    private SimpleIntegerProperty ind;
     private SimpleStringProperty cueType;
-    private String cueName;
-    private CueBehaviour behaviour;
+    private SimpleStringProperty cueName;
+    private SimpleStringProperty cueBehaviour;
+
+    //fields that can't be a property (and thus are wrapped by one above)
+    public CueBehaviour behaviourNonProperty;
 
     public Cue() {
-        index = new SimpleIntegerProperty(-1);
-        cueType = new SimpleStringProperty("Unset Cue");
-        cueName = "Unset Cue";
-        behaviour = CueBehaviour.PLAY_ON_GO;
+        ind = new SimpleIntegerProperty(0);
+        cueType = new SimpleStringProperty("Unset Type");
+        cueName = new SimpleStringProperty("Unset Name");
+        behaviourNonProperty = CueBehaviour.PLAY_ON_GO;
+        cueBehaviour = new SimpleStringProperty(behaviourNonProperty.name().replace('_',' ').toLowerCase());
     }
 
-    private int getIndex() {
-        return index.get();
+    // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
+    // so DO NOT UNDER ANY CIRCUMSTANCE make these packageLocal. It has caused many a headache already. :)
+
+    public  int getIndex() {
+        return ind.get();
     }
 
-    public void setIndex(int index) { this.index.set(index); }
+    public void setIndex(Integer index) { ind.set(index); }
 
     public String getCueName() {
-        return cueName;
+        return cueName.get();
+    }
+
+    public void setCueName(String name) {
+        cueName.set(name);
     }
 
     public String getCueType() {
         return cueType.get();
     }
 
-    public ImageIcon getIcon() {
-        return Cue.getIcon(getCueType());
-    }
-
-    public CueBehaviour getBehaviour() {
-        return behaviour;
-    }
-
     public void setCueType(String cueType) {
         this.cueType.set(cueType);
     }
 
-    public void setCueName(String name) {
-        cueName = name;
+    public String getCueBehaviour() {
+        return cueBehaviour.get();
     }
 
-    public void setBehaviour(CueBehaviour behaviour) {
-        this.behaviour = behaviour;
+    public void setCueBehaviour(CueBehaviour behaviour) {
+        this.behaviourNonProperty = behaviour;
+        this.cueBehaviour.set(behaviour.name().replace('_',' ').toLowerCase());
     }
 
     @Override
     public String toString() {
-        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getBehaviour().name().toLowerCase().replace("_", " ");
+        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour();
     }
 
     public String getFileString() {
@@ -78,7 +81,7 @@ public abstract class Cue {
         fileString += getCueType();
         fileString += endField;
 
-        fileString += behaviour;
+        fileString += behaviourNonProperty;
         fileString += endField;
 
 
@@ -89,27 +92,24 @@ public abstract class Cue {
         System.out.println(toString());
     }
 
+    /*
     public Object[] getAttributeArray() {
-        return new Object[]{getIndex(), Cue.getIcon(getCueType()), getCueType(), getCueName(), behaviour.name().toLowerCase().replace("_", " ")};
+        return new Object[]{getIndex(), Cue.getImageView(getCueType()), getCueType(), getCueName(), behaviourNonProperty.name().toLowerCase().replace("_", " ")};
     }
+    */
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
 
-    private static ImageIcon getIcon(String type) {
-        /*
-
-        Note: required to do this way, else ALL table entries get the icon of the most recently added cue
-
-         */
+    public static ImageView getImageView(String type){
         switch (type.toLowerCase()) {
             case "sound":
-                return imgSoundIcon;
+                return new ImageView(IMG_SOUND_ICON);
             case "video":
-                return imgVideoIcon;
+                return new ImageView(IMG_VIDEO_ICON);
             case "light":
-                return imgLightIcon;
+                return new ImageView(IMG_LIGHT_ICON);
             default:
-                return imgUnknownIcon;
+                return new ImageView(IMG_UNKNOWN_ICON);
         }
     }
 

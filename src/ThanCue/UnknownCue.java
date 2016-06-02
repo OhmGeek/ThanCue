@@ -6,7 +6,8 @@ package ThanCue;
 public class UnknownCue extends Cue {
 
     public UnknownCue() {
-        setCueType("Unknown");
+        this.setCueType("Unknown");
+        this.setCueName("Who knows?");
     }
 
     @Override

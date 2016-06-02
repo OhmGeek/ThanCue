@@ -4,10 +4,12 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -23,20 +25,20 @@ public class CueFileManager {
 
         ZipFile f = new ZipFile(zipFile.getPath());
         Enumeration<? extends ZipEntry> files = f.entries();
-        if(f == null) {
+        if (f == null) {
             System.out.println("Files not in zip file");
             throw new FileNotFoundException();
         }
 
-        while(files.hasMoreElements()) {
+        while (files.hasMoreElements()) {
             ZipEntry e = files.nextElement();
 
-            if(e.getName().contains("index.dat")) {
+            if (e.getName().contains("index.dat")) {
                 //read the file and load it in.
                 InputStream stream = f.getInputStream(e);
                 BufferedReader r = new BufferedReader(new InputStreamReader(stream));
                 String record = r.readLine();
-                if(record == null) {
+                if (record == null) {
                     throw new NoSuchElementException();
                 }
                 do {
@@ -58,23 +60,14 @@ public class CueFileManager {
                         }
                     }
                     record = r.readLine();
-                } while(record != null);
-
+                } while (record != null);
             }
-
-
         }
-
-
         return cuesLoaded;
-
-
     }
 
 
-
-
-    public void writeCue(String folder, String zipName,List<Cue> cueCollection) throws Exception{
+    public void writeCue(String folder, String zipName, List<Cue> cueCollection) throws Exception {
         File f = new File(folder + zipName + ".cues");
         ZipOutputStream zipStream = new ZipOutputStream(new FileOutputStream(f));
 
@@ -85,10 +78,10 @@ public class CueFileManager {
         //go through all cues now
         //and for each one, write to cpf and then write files.
 
-        for(Cue c : cueCollection) {
+        for (Cue c : cueCollection) {
             pw.println(c.getFileString()); //write the file string for the cue itself.
 
-            if(c instanceof SoundCue) {
+            if (c instanceof SoundCue) {
                 SoundCue sound = (SoundCue) c;
                 //if the file is a sound cue, then also write the corresponding sound file.
                 Path path = sound.getFilePath();
@@ -98,7 +91,7 @@ public class CueFileManager {
                 byte[] dataRead = Files.readAllBytes(path);
 
                 zipStream.putNextEntry(e);
-                zipStream.write(dataRead,0,dataRead.length);
+                zipStream.write(dataRead, 0, dataRead.length);
             }
         }
         pw.close();
@@ -107,7 +100,7 @@ public class CueFileManager {
         ZipEntry e = new ZipEntry("index.dat");
         byte[] dataRead = Files.readAllBytes(indexPath);
         zipStream.putNextEntry(e);
-        zipStream.write(dataRead,0,dataRead.length);
+        zipStream.write(dataRead, 0, dataRead.length);
         zipStream.close();
     }
 
