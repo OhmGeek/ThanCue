@@ -50,18 +50,12 @@ public class frmMain extends Application{
             e.printStackTrace();
         }
 
-
-
         //set the jframe
-
 
         r = new Random();
 
         //create the cue collection and set the list data
         cueCollection = new ArrayList<>();
-
-
-
 
         //deal with menus file dropping, and list rendering.
         updateTable();
