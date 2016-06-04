@@ -1,20 +1,39 @@
 package ThanCue;
 
+import com.sun.glass.ui.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Controller {
     private Random r; // purely for adding test cues todo remove
+    private static final List<String> soundExtensions = new ArrayList<String>() {{
+        add("mp3");
+        add("wav");
+        add("ogg");
+
+    }};
+
+
+
 
     //Container panes
     @FXML
@@ -70,14 +89,62 @@ public class Controller {
     );
 
 
+
     @FXML
     public void initialize() {
         System.out.println("Let's get this party started!");
         setActions();
         setSizes();
         setTableData();
+        registerDragAndDrop();
+
+
+
     }
 
+    private void registerDragAndDrop() {
+        for(Node c : anchor_pane.getChildren()) {
+            if(c instanceof Region) {
+                Region r = (Region) c;
+
+                r.setOnDragOver(event -> {
+                    event.acceptTransferModes(TransferMode.ANY);
+                });
+
+
+                r.setOnDragDropped(event -> {
+
+                    System.out.println("DRAGGING AND DROPPIN'");
+                    Dragboard db = event.getDragboard();
+                    if (db.hasFiles()) {
+                        List<File> fileList = db.getFiles();
+                        for (File f : fileList) {
+                            System.out.println("File to add: " + f.getName());
+                            String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
+                            System.out.println("Found extension: " + ext);
+                            //todo BETTER checking to the type. Only allow for sound cues or videos.
+                            if (soundExtensions.contains(ext))
+                            {
+                                SoundCue cToAdd = new SoundCue();
+                                cToAdd.setCueName(f.getName());
+                                cToAdd.setFilePath(f.getAbsolutePath());
+                                cueCollection.add(cToAdd);
+                            }
+
+                        }
+                        event.setDropCompleted(true);
+                    }
+                    event.consume();
+                    setTableData();
+                });
+            }
+    }
+
+
+
+
+
+    }
     // todo where are all the lines of "-1" printing from?!
 
     private void setTableData() {
@@ -135,6 +202,9 @@ public class Controller {
         //link data to table
         tblView.setItems(cueCollection);
     }
+
+
+
 
     private void setSizes() {
         //allow growing
