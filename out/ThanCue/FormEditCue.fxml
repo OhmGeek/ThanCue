@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ThanCue.FormEditCueController"
+            fx:id="anchor_pane_form_edit_cue">
+    <children>
+        <GridPane fx:id="grid_pane_form_edit_cue">
+            <children>
+                <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"> <!-- todo make this form actually useful -->
+                    <Button fx:id="btn1" text="TODO"/>
+                    <Button fx:id="btn2" text="TODO"/>
+                    <Button fx:id="btn3" text="TODO"/>
+                    <Button fx:id="btn4" text="TODO"/>
+                </HBox>
+
+                <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <Button fx:id="btnSaveChanges" text="Save"/>
+                    <Button fx:id="btnCancelChanges" text="Cancel"/>
+                </HBox>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

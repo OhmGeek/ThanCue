@@ -1,39 +1,35 @@
 package ThanCue;
 
-import com.sun.glass.ui.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class Controller {
-    private Random r; // purely for adding test cues todo remove
+public class FormMainController {
     private static final List<String> soundExtensions = new ArrayList<String>() {{
         add("mp3");
         add("wav");
         add("ogg");
 
     }};
-
-
-
 
     //Container panes
     @FXML
@@ -89,7 +85,6 @@ public class Controller {
     );
 
 
-
     @FXML
     public void initialize() {
         System.out.println("Let's get this party started!");
@@ -97,23 +92,18 @@ public class Controller {
         setSizes();
         setTableData();
         registerDragAndDrop();
-
-
-
     }
 
     private void registerDragAndDrop() {
-        for(Node c : anchor_pane.getChildren()) {
-            if(c instanceof Region) {
+        for (Node c : anchor_pane.getChildren()) {
+            if (c instanceof Region) {
                 Region r = (Region) c;
 
                 r.setOnDragOver(event -> {
                     event.acceptTransferModes(TransferMode.ANY);
                 });
 
-
                 r.setOnDragDropped(event -> {
-
                     System.out.println("DRAGGING AND DROPPIN'");
                     Dragboard db = event.getDragboard();
                     if (db.hasFiles()) {
@@ -123,14 +113,12 @@ public class Controller {
                             String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
                             System.out.println("Found extension: " + ext);
                             //todo BETTER checking to the type. Only allow for sound cues or videos.
-                            if (soundExtensions.contains(ext))
-                            {
+                            if (soundExtensions.contains(ext)) {
                                 SoundCue cToAdd = new SoundCue();
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setFilePath(f.getAbsolutePath());
                                 cueCollection.add(cToAdd);
                             }
-
                         }
                         event.setDropCompleted(true);
                     }
@@ -138,18 +126,13 @@ public class Controller {
                     setTableData();
                 });
             }
-    }
-
-
-
-
-
+        }
     }
     // todo where are all the lines of "-1" printing from?!
 
     private void setTableData() {
         //update indexes
-        for (int i = 0; i < cueCollection.size(); i++){
+        for (int i = 0; i < cueCollection.size(); i++) {
             Cue c = cueCollection.get(i);
             c.setIndex(i);
             cueCollection.set(i, c);
@@ -172,12 +155,12 @@ public class Controller {
 
         clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
         clmType.setCellFactory((Callback<TableColumn<Cue, String>, TableCell<Cue, String>>) param -> {
-            TableCell<Cue, String> cell = new TableCell<Cue, String>(){
+            TableCell<Cue, String> cell = new TableCell<Cue, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
-                    if(item!=null){
+                    if (item != null) {
                         HBox box = new HBox();
-                        box.setSpacing(10) ;
+                        box.setSpacing(10);
 
                         Label typeName = new Label(item);
                         ImageView imageview = Cue.getImageView(item);
@@ -202,9 +185,6 @@ public class Controller {
         //link data to table
         tblView.setItems(cueCollection);
     }
-
-
-
 
     private void setSizes() {
         //allow growing
@@ -271,9 +251,29 @@ public class Controller {
         //Form Buttons
         btnGo.setOnAction(event -> System.out.println("Play a cue"));
         btnAddCue.setOnAction(event -> System.out.println("Add a cue"));
-        btnEditCue.setOnAction(event -> System.out.println("Edit this cue"));
+        btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+    }
+
+    private void editSelectedCue() {
+        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
+            //get cue and pass to dialog
+            Cue c = tblView.getSelectionModel().getSelectedItem();
+            // todo how do we pass this cue into the controller for the other form?
+            Parent root;
+            try {
+                root = FXMLLoader.load(getClass().getResource("FormEditCue.fxml"));
+                Stage stage = new Stage();
+                stage.setTitle("Edit Cue");
+                stage.setScene(new Scene(root, 400, 350));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showDialogNothingSelected();
+        }
     }
 
     private void printAllCues() {
@@ -285,9 +285,9 @@ public class Controller {
     }
 
     private void moveSelectedCueUp() {
-        if(tblView.getSelectionModel().getSelectedCells().size() > 0){
+        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
             int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
-            if (firstSelection > 0){ //if not already at the top
+            if (firstSelection > 0) { //if not already at the top
                 Cue swapDown = cueCollection.get(firstSelection - 1);
                 Cue swapUp = cueCollection.get(firstSelection);
                 swapDown.setIndex(swapDown.getIndex() + 1);
@@ -296,13 +296,15 @@ public class Controller {
                 cueCollection.set(firstSelection, swapDown);
                 tblView.getSelectionModel().clearAndSelect(firstSelection - 1);
             }
+        } else {
+            showDialogNothingSelected();
         }
     }
 
     private void moveSelectedCueDown() {
-        if(tblView.getSelectionModel().getSelectedCells().size() > 0){
+        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
             int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
-            if (firstSelection < cueCollection.size() - 1){ //if not already at the bottom
+            if (firstSelection < cueCollection.size() - 1) { //if not already at the bottom
                 Cue swapDown = cueCollection.get(firstSelection);
                 Cue swapUp = cueCollection.get(firstSelection + 1);
                 swapDown.setIndex(swapDown.getIndex() + 1);
@@ -311,7 +313,15 @@ public class Controller {
                 cueCollection.set(firstSelection + 1, swapDown);
                 tblView.getSelectionModel().clearAndSelect(firstSelection + 1);
             }
+        } else {
+            showDialogNothingSelected();
         }
+    }
+
+    private void showDialogNothingSelected() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You must have a cue selected to do that!", ButtonType.OK);
+        alert.setHeaderText("Selection issue");
+        alert.showAndWait();
     }
 }
 
