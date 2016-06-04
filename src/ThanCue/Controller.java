@@ -86,7 +86,7 @@ public class Controller {
             Cue c = cueCollection.get(i);
             c.setIndex(i);
             cueCollection.set(i, c);
-            System.out.println("Setting id of cue " + i); // todo remove entire loop (only for testing (I think))
+            System.out.println("Setting id of cue " + i); // todo remove entire loop (only for testing (I think)) todo set ids upon creation of cue, and upon moving of cue
         }
 
         //create columns
@@ -185,13 +185,7 @@ public class Controller {
     }
 
     private void setActions() {
-        btnPrintCues.setOnAction(event -> {
-            System.out.println("\nCues:");
-            for (Cue cue : cueCollection) {
-                System.out.print("\t");
-                cue.print();
-            }
-        });
+        btnPrintCues.setOnAction(event -> printAllCues());
 
         //File Menu
         btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
@@ -208,8 +202,46 @@ public class Controller {
         btnGo.setOnAction(event -> System.out.println("Play a cue"));
         btnAddCue.setOnAction(event -> System.out.println("Add a cue"));
         btnEditCue.setOnAction(event -> System.out.println("Edit this cue"));
-        btnMoveUp.setOnAction(event -> System.out.println("Move this cue up"));
-        btnMoveDown.setOnAction(event -> System.out.println("Move this cue down"));
+        btnMoveUp.setOnAction(event -> moveSelectedCueUp());
+        btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+    }
+
+    private void printAllCues() {
+        System.out.println("\nCues:");
+        for (Cue cue : cueCollection) {
+            System.out.print("\t");
+            cue.print();
+        }
+    }
+
+    private void moveSelectedCueUp() {
+        if(tblView.getSelectionModel().getSelectedCells().size() > 0){
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            if (firstSelection > 0){ //if not already at the top
+                Cue swapDown = cueCollection.get(firstSelection - 1);
+                Cue swapUp = cueCollection.get(firstSelection);
+                swapDown.setIndex(swapDown.getIndex() + 1);
+                swapUp.setIndex(swapUp.getIndex() - 1);
+                cueCollection.set(firstSelection - 1, swapUp);
+                cueCollection.set(firstSelection, swapDown);
+                tblView.getSelectionModel().clearAndSelect(firstSelection - 1);
+            }
+        }
+    }
+
+    private void moveSelectedCueDown() {
+        if(tblView.getSelectionModel().getSelectedCells().size() > 0){
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            if (firstSelection < cueCollection.size() - 1){ //if not already at the bottom
+                Cue swapDown = cueCollection.get(firstSelection);
+                Cue swapUp = cueCollection.get(firstSelection + 1);
+                swapDown.setIndex(swapDown.getIndex() + 1);
+                swapUp.setIndex(swapUp.getIndex() - 1);
+                cueCollection.set(firstSelection, swapUp);
+                cueCollection.set(firstSelection + 1, swapDown);
+                tblView.getSelectionModel().clearAndSelect(firstSelection + 1);
+            }
+        }
     }
 }
 
