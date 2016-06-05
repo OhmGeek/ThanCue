@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -250,10 +251,26 @@ public class FormMainController {
 
         //Form Buttons
         btnGo.setOnAction(event -> System.out.println("Play a cue"));
-        btnAddCue.setOnAction(event -> System.out.println("Add a cue"));
+        btnAddCue.setOnAction(event -> addNewCue());
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+    }
+
+    private void addNewCue() {
+        // todo how do we let the form know to create a NEW cue for this one and return it back to here?
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("FormEditCue.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("New Cue");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(anchor_pane.getScene().getWindow());
+            stage.setScene(new Scene(root, 400, 350));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void editSelectedCue() {
@@ -266,6 +283,8 @@ public class FormMainController {
                 root = FXMLLoader.load(getClass().getResource("FormEditCue.fxml"));
                 Stage stage = new Stage();
                 stage.setTitle("Edit Cue");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(anchor_pane.getScene().getWindow());
                 stage.setScene(new Scene(root, 400, 350));
                 stage.show();
             } catch (IOException e) {
