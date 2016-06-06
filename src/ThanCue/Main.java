@@ -20,20 +20,20 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 600, 550));
         primaryStage.show();
 
-        Platform.runLater(() -> {
-            // todo check that this now works to update (moved it into Platform.runLater, didn't test yet)
-            //check for updates
-            System.out.println("Checking for updates...");
-            try {
-                UpdateFX updater = new UpdateFX(Main.class);
-                updater.checkUpdates();
-            } catch (IOException ex) {
-                System.out.println("Updating failed");
-                ex.printStackTrace();
-            }
-        });
+    Platform.runLater(() -> {
+        // todo check that this now works to update (moved it into Platform.runLater, didn't test yet)
+        //check for updates
+        System.out.println("Checking for updates...");
+        try {
+            UpdateFX updater = new UpdateFX(Main.class);
+            updater.checkUpdates();
+        } catch (IOException ex) {
+            System.out.println("Updating failed");
+            ex.printStackTrace();
+        }
+    });
 
-    }
+}
 
 
     public static void main(String[] args) {

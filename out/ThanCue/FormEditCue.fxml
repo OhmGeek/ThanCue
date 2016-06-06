@@ -16,7 +16,11 @@
                     <Button fx:id="btn4" text="TODO"/>
                 </HBox>
                 <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <Label fx:id="lblCueInfo" text="null"/>
+                    <VBox>
+                        <Label fx:id="lblCueInfo" text="null"/>
+                        <ComboBox fx:id="cmbCueType"/>
+                    </VBox>
+
                 </HBox>
                 <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
                     <Button fx:id="btnSaveChanges" text="Save"/>
