@@ -21,7 +21,7 @@ public class Main extends Application {
         primaryStage.show();
 
     Platform.runLater(() -> {
-        // todo check that this now works to update (moved it into Platform.runLater, didn't test yet)
+        // todo check if this works
         //check for updates
         System.out.println("Checking for updates...");
         try {

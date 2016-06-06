@@ -40,6 +40,7 @@ public class FormEditCueController {
     @FXML
     public void initialize() {
         cmbCueType.getItems().addAll(cueTypeOptions);
+        cmbCueType.getSelectionModel().select(0); //todo this needs to select the type of the passed in cue
     }
 
     public void setEditObject(Cue c){
