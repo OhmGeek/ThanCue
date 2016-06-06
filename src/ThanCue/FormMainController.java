@@ -249,7 +249,13 @@ public class FormMainController {
         btnRedo.setOnAction(event -> System.out.println("Redo"));
 
         //Form Buttons
-        btnGo.setOnAction(event -> System.out.println("Play a cue"));
+        btnGo.setOnAction(event -> {
+                    List<Cue> selectedCuesToPlay = tblView.getSelectionModel().getSelectedItems();
+                    selectedCuesToPlay.forEach(cue -> {
+                        if(cue instanceof SoundCue)
+                            cue.playCue();
+                    });
+                });
         btnAddCue.setOnAction(event -> addNewCue());
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
