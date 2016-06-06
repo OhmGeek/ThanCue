@@ -13,11 +13,11 @@ import java.io.IOException;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FormMain.fxml"));
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")");
-        primaryStage.setScene(new Scene(root,600,550));
+        primaryStage.setScene(new Scene(root, 600, 550));
         primaryStage.show();
 
         Platform.runLater(() -> {
@@ -27,7 +27,7 @@ public class Main extends Application {
             try {
                 UpdateFX updater = new UpdateFX(Main.class);
                 updater.checkUpdates();
-            }catch(IOException ex){
+            } catch (IOException ex) {
                 System.out.println("Updating failed");
                 ex.printStackTrace();
             }

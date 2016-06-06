@@ -15,7 +15,9 @@
                     <Button fx:id="btn3" text="TODO"/>
                     <Button fx:id="btn4" text="TODO"/>
                 </HBox>
-
+                <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label fx:id="lblCueInfo" text="null"/>
+                </HBox>
                 <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
                     <Button fx:id="btnSaveChanges" text="Save"/>
                     <Button fx:id="btnCancelChanges" text="Cancel"/>

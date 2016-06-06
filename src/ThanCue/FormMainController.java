@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -258,15 +257,16 @@ public class FormMainController {
     }
 
     private void addNewCue() {
-        // todo how do we let the form know to create a NEW cue for this one and return it back to here?
-        Parent root;
+        // todo how do we get the edited (was blank) cue back from the controller? is the cue passing purely a reference?
+        FXMLLoader root;
         try {
-            root = FXMLLoader.load(getClass().getResource("FormEditCue.fxml"));
+            root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
             Stage stage = new Stage();
             stage.setTitle("New Cue");
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
-            stage.setScene(new Scene(root, 400, 350));
+            stage.setScene(new Scene(root.load(), 400, 350));
+            root.<FormEditCueController>getController().setEditObject(null);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -275,17 +275,19 @@ public class FormMainController {
 
     private void editSelectedCue() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
+            // todo how do we get the edits back from the controller? is the cue passing purely a reference?
             //get cue and pass to dialog
+            int selectedIndex = tblView.getSelectionModel().getSelectedIndex();
             Cue c = tblView.getSelectionModel().getSelectedItem();
-            // todo how do we pass this cue into the controller for the other form?
-            Parent root;
+            FXMLLoader root;
             try {
-                root = FXMLLoader.load(getClass().getResource("FormEditCue.fxml"));
+                root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
                 Stage stage = new Stage();
                 stage.setTitle("Edit Cue");
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(anchor_pane.getScene().getWindow());
-                stage.setScene(new Scene(root, 400, 350));
+                stage.setScene(new Scene(root.load(), 400, 350));
+                root.<FormEditCueController>getController().setEditObject(c);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
