@@ -122,15 +122,15 @@ public class FormMainController {
                         }
                         event.setDropCompleted(true);
                     }
+                    refreshTable();
                     event.consume();
-                    setTableData();
                 });
             }
         }
-    }
-    // todo where are all the lines of "-1" printing from?!
 
-    private void setTableData() {
+    }
+
+    private void refreshTable() {
         //update indexes
         for (int i = 0; i < cueCollection.size(); i++) {
             Cue c = cueCollection.get(i);
@@ -138,6 +138,11 @@ public class FormMainController {
             cueCollection.set(i, c);
             System.out.println("Setting id of cue " + i); // todo remove entire loop (only for testing (I think)) todo set ids upon creation of cue, and upon moving of cue
         }
+
+        tblView.refresh();
+    }
+    private void setTableData() {
+
 
         //create columns
         TableColumn<Cue, Integer> clmIndex = new TableColumn<>("Index");
@@ -159,6 +164,7 @@ public class FormMainController {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     if (item != null) {
+                        super.updateItem(item,empty);
                         HBox box = new HBox();
                         box.setSpacing(10);
 
@@ -167,10 +173,12 @@ public class FormMainController {
 
                         box.getChildren().addAll(imageview, typeName);
                         setGraphic(box);
+
                     }
+
                 }
             };
-            System.out.println(cell.getIndex());
+            System.out.println("Cell index: " + cell.getIndex()); //todo find why cellIndex is -1. It shouldn't be.
             return cell;
         });
 
@@ -182,8 +190,10 @@ public class FormMainController {
         //add columns
         tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour);
 
+
         //link data to table
         tblView.setItems(cueCollection);
+        refreshTable();
     }
 
     private void setSizes() {
@@ -249,7 +259,13 @@ public class FormMainController {
         btnRedo.setOnAction(event -> System.out.println("Redo"));
 
         //Form Buttons
-        btnGo.setOnAction(event -> System.out.println("Play a cue"));
+        btnGo.setOnAction(event -> {
+                    List<Cue> selectedCuesToPlay = tblView.getSelectionModel().getSelectedItems();
+                    selectedCuesToPlay.forEach(cue -> {
+                        if(cue instanceof SoundCue)
+                            cue.playCue();
+                    });
+                });
         btnAddCue.setOnAction(event -> addNewCue());
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
