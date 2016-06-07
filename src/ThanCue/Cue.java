@@ -20,6 +20,7 @@ public abstract class Cue {
     private SimpleStringProperty cueBehaviour;
 
     //fields that can't be a property (and thus are wrapped by one above)
+    public CueType cueTypeNonProperty;
     public CueBehaviour behaviourNonProperty;
 
     public Cue() {
@@ -28,6 +29,8 @@ public abstract class Cue {
         cueName = new SimpleStringProperty("Unset Name");
         behaviourNonProperty = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(behaviourNonProperty.name().replace('_',' ').toLowerCase());
+        cueTypeNonProperty = CueType.UNSET;
+        cueType = new SimpleStringProperty(cueTypeNonProperty.name().toLowerCase());
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -51,8 +54,9 @@ public abstract class Cue {
         return cueType.get();
     }
 
-    public void setCueType(String cueType) {
-        this.cueType.set(cueType);
+    public void setCueType(CueType cueType) {
+        this.cueTypeNonProperty = cueType;
+        this.cueType.set(cueType.name().toLowerCase());
     }
 
     public String getCueBehaviour() {

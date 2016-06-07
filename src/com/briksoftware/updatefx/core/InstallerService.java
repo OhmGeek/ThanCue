@@ -23,14 +23,13 @@
  */
 package com.briksoftware.updatefx.core;
 
-import java.nio.file.Path;
-
+import com.briksoftware.updatefx.util.PIDUtil;
+import com.briksoftware.updatefx.util.ScriptUtil;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-import com.briksoftware.updatefx.util.PIDUtil;
-import com.briksoftware.updatefx.util.ScriptUtil;
+import java.nio.file.Path;
 
 public class InstallerService extends Service<Void> {
 	private Path installer;
@@ -61,6 +60,9 @@ public class InstallerService extends Service<Void> {
 				case "msi":
 					handleMSIInstallation();
 					break;
+				case "jar":
+					handleJARInstallation();
+					break;
 				default:
 					throw new IllegalArgumentException(String.format("installers with extension %s are not supported", extension));
 				}
@@ -83,5 +85,10 @@ public class InstallerService extends Service<Void> {
 	private void handleMSIInstallation() throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	private void handleJARInstallation() throws Exception {
+		new ProcessBuilder("java", "-jar", installer.toAbsolutePath().toString()).start();
+		//todo RYAN this only runs the new jar, does not replace the current jar
 	}
 }

@@ -19,7 +19,7 @@ public class CueFileManager {
 
     public List<Cue> readCue(File zipFile) throws Exception {
         System.out.println(zipFile.getPath().toString());
-        //todo refactor and make readCue nicer. It's currently awful.
+        //todo refactor and make readCue nicer. It's currently awful. Also make sure it works :)
         String endField = String.valueOf((char) 30);
         List<Cue> cuesLoaded = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class CueFileManager {
                             //sound cue
                             SoundCue c = new SoundCue();
                             c.setCueName(arrayOfFields[1]);
-                            c.setCueType(arrayOfFields[2]);
+                            //c.setCueType(arrayOfFields[2]); //todo fix cue type
                             c.setCueName(arrayOfFields[3]);
                             c.setFilePath("zip:///" + zipFile.getParent().toString() + arrayOfFields[4]);
                             cuesLoaded.add(c);
