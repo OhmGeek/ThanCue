@@ -362,7 +362,7 @@ public class frmMain extends Application{
         selectedCue.playCue();
 
         //play WITH previous todo untested, so test
-        while (cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).behaviourNonProperty == CueBehaviour.PLAY_WITH_PREVIOUS) {
+        while (cueCollection.size() > selCueIndex + 1 && cueCollection.get(selCueIndex + 1).cueBehaviourEnum == CueBehaviour.PLAY_WITH_PREVIOUS) {
             selCueIndex++;
             selectedCue = cueCollection.get(selCueIndex);
             selectedCue.playCue();

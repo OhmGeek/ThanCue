@@ -20,17 +20,17 @@ public abstract class Cue {
     private SimpleStringProperty cueBehaviour;
 
     //fields that can't be a property (and thus are wrapped by one above)
-    public CueType cueTypeNonProperty;
-    public CueBehaviour behaviourNonProperty;
+    public CueType cueTypeEnum;
+    public CueBehaviour cueBehaviourEnum;
 
     public Cue() {
         ind = new SimpleIntegerProperty(0);
         cueType = new SimpleStringProperty("Unset Type");
         cueName = new SimpleStringProperty("Unset Name");
-        behaviourNonProperty = CueBehaviour.PLAY_ON_GO;
-        cueBehaviour = new SimpleStringProperty(behaviourNonProperty.name().replace('_',' ').toLowerCase());
-        cueTypeNonProperty = CueType.UNSET;
-        cueType = new SimpleStringProperty(cueTypeNonProperty.name().toLowerCase());
+        cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
+        cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_',' ').toLowerCase());
+        cueTypeEnum = CueType.UNSET;
+        cueType = new SimpleStringProperty(cueTypeEnum.name().toLowerCase());
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -55,7 +55,7 @@ public abstract class Cue {
     }
 
     public void setCueType(CueType cueType) {
-        this.cueTypeNonProperty = cueType;
+        this.cueTypeEnum = cueType;
         this.cueType.set(cueType.name().toLowerCase());
     }
 
@@ -64,7 +64,7 @@ public abstract class Cue {
     }
 
     public void setCueBehaviour(CueBehaviour behaviour) {
-        this.behaviourNonProperty = behaviour;
+        this.cueBehaviourEnum = behaviour;
         this.cueBehaviour.set(behaviour.name().replace('_',' ').toLowerCase());
     }
 
@@ -77,7 +77,6 @@ public abstract class Cue {
         String fileString = "";
         String endField = String.valueOf((char) 31);
 
-
         //for each
         fileString += getCueName();
         fileString += endField;
@@ -85,7 +84,7 @@ public abstract class Cue {
         fileString += getCueType();
         fileString += endField;
 
-        fileString += behaviourNonProperty;
+        fileString += getCueBehaviour();
         fileString += endField;
 
 
@@ -95,12 +94,6 @@ public abstract class Cue {
     public void print() {
         System.out.println(toString());
     }
-
-    /*
-    public Object[] getAttributeArray() {
-        return new Object[]{getIndex(), Cue.getImageView(getCueType()), getCueType(), getCueName(), behaviourNonProperty.name().toLowerCase().replace("_", " ")};
-    }
-    */
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
 

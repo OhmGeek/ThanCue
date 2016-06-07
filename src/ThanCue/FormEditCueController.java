@@ -1,13 +1,15 @@
 package ThanCue;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 
-import static ThanCue.CueType.*;
+import static ThanCue.CueType.UNSET;
 
 /**
  * Created by mike on 04/06/16.
@@ -27,13 +29,17 @@ public class FormEditCueController {
     @FXML
     private Label lblCueInfo;
     @FXML
+    private Label lblCueName;
+    @FXML
     private Label lblCueType;
     @FXML
-    private Label lblCueName;
+    private Label lblCueBehaviour;
 
     //Selectors
     @FXML
     private ComboBox cmbCueType;
+    @FXML
+    private ComboBox cmbCueBehaviour;
 
     //Text areas
     @FXML
@@ -52,6 +58,8 @@ public class FormEditCueController {
 
         cmbCueType.getItems().setAll(CueType.values());
         cmbCueType.getSelectionModel().select(UNSET);
+        cmbCueBehaviour.getItems().setAll(CueBehaviour.values());
+        cmbCueBehaviour.getSelectionModel().select(CueBehaviour.PLAY_ON_GO);
     }
 
     private void setActions() {
@@ -74,21 +82,9 @@ public class FormEditCueController {
         AnchorPane.setRightAnchor(grid_pane_form_edit_cue, .0);
 
         //make grid columns wide as parent
-        ColumnConstraints columnConstraintForMaxWidth = new ColumnConstraints();
-        columnConstraintForMaxWidth.setHgrow(Priority.SOMETIMES);
-        columnConstraintForMaxWidth.setFillWidth(true);
-        grid_pane_form_edit_cue.getColumnConstraints().addAll(columnConstraintForMaxWidth, columnConstraintForMaxWidth);
-
-        //make grid pane tall as parent (on a row by row basis)
-        /*RowConstraints rowConstraintNoGrow = new RowConstraints();
-        RowConstraints rowConstraintMaybeGrow = new RowConstraints();
-        RowConstraints rowConstraintGrow = new RowConstraints();
-        rowConstraintNoGrow.setVgrow(Priority.NEVER);
-        grid_pane_form_edit_cue.getRowConstraints().add(rowConstraintNoGrow);
-        grid_pane_form_edit_cue.getRowConstraints().add(rowConstraintNoGrow);
-        grid_pane_form_edit_cue.getRowConstraints().add(rowConstraintGrow);
-        grid_pane_form_edit_cue.getRowConstraints().add(rowConstraintMaybeGrow);
-*/
+        ColumnConstraints columnConstraintForHalfWidth = new ColumnConstraints();
+        columnConstraintForHalfWidth.setPercentWidth(50);
+        grid_pane_form_edit_cue.getColumnConstraints().addAll(columnConstraintForHalfWidth, columnConstraintForHalfWidth);
 
         //update layouts
         anchor_pane_form_edit_cue.layout();
@@ -105,13 +101,13 @@ public class FormEditCueController {
         updateFieldEntries(true);
     }
 
-    private void updateFieldEntries(boolean updateComboBox) {
-        // todo set form labels and option boxes etc to match 'editingCue's properties here, not just one master label (which should be removed eventually)
+    private void updateFieldEntries(boolean changeCueTypeComboBox) {
         lblCueInfo.setText(editingCue.toString());
-        if (!updateComboBox) {
-            cmbCueType.getSelectionModel().select(editingCue.cueTypeNonProperty);
-        }
         txtCueName.setText(editingCue.getCueName());
+        if (changeCueTypeComboBox) {
+            cmbCueType.getSelectionModel().select(editingCue.cueTypeEnum);
+        }
+        cmbCueBehaviour.getSelectionModel().select(editingCue.cueBehaviourEnum);
     }
 
     private void changeCueType() {

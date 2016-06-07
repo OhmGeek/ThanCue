@@ -12,17 +12,20 @@
                 <Insets top="25" right="25" bottom="10" left="25"/>
             </padding>
 
-            <Label fx:id="lblCueInfo" text="null" GridPane.columnIndex="0" GridPane.columnSpan="2"
+            <Label fx:id="lblCueInfo" text="null" alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2"
                    GridPane.rowIndex="0"/>
 
-            <Label fx:id="lblCueType" text="Cue type" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Label fx:id="lblCueType" text="Cue type" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <ComboBox fx:id="cmbCueType" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label fx:id="lblCueName" text="Cue name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label fx:id="lblCueName" text="Cue name" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
             <TextField fx:id="txtCueName" text="No name" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label fx:id="lblCueBehaviour" text="Cue behaviour" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <ComboBox fx:id="cmbCueBehaviour" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
         </GridPane>
     </children>
 </AnchorPane>
