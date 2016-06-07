@@ -16,7 +16,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class FormMainController {
                             System.out.println("File to add: " + f.getName());
                             String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
                             System.out.println("Found extension: " + ext);
-                            //todo BETTER checking to the type. Only allow for sound cues or videos.
+                            //todo BETTER checking to the type. Only allow for sound cues or videos (or cue stacks?).
                             if (soundExtensions.contains(ext)) {
                                 SoundCue cToAdd = new SoundCue();
                                 cToAdd.setCueName(f.getName());
@@ -127,7 +126,6 @@ public class FormMainController {
                 });
             }
         }
-
     }
 
     private void refreshTable() {
@@ -135,15 +133,13 @@ public class FormMainController {
         for (int i = 0; i < cueCollection.size(); i++) {
             Cue c = cueCollection.get(i);
             c.setIndex(i);
-            cueCollection.set(i, c);
-            System.out.println("Setting id of cue " + i); // todo remove entire loop (only for testing (I think)) todo set ids upon creation of cue, and upon moving of cue
+            //cueCollection.set(i, c); // not needed because pointers :D
         }
 
         tblView.refresh();
     }
+
     private void setTableData() {
-
-
         //create columns
         TableColumn<Cue, Integer> clmIndex = new TableColumn<>("Index");
         clmIndex.setSortable(false);
@@ -159,12 +155,12 @@ public class FormMainController {
         //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
 
         clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
-        clmType.setCellFactory((Callback<TableColumn<Cue, String>, TableCell<Cue, String>>) param -> {
+        clmType.setCellFactory(param -> {
             TableCell<Cue, String> cell = new TableCell<Cue, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     if (item != null) {
-                        super.updateItem(item,empty);
+                        super.updateItem(item, empty);
                         HBox box = new HBox();
                         box.setSpacing(10);
 
@@ -178,7 +174,6 @@ public class FormMainController {
 
                 }
             };
-            System.out.println("Cell index: " + cell.getIndex()); //todo find why cellIndex is -1. It shouldn't be.
             return cell;
         });
 
@@ -211,7 +206,7 @@ public class FormMainController {
         AnchorPane.setLeftAnchor(grid_pane, .0);
         AnchorPane.setRightAnchor(grid_pane, .0);
 
-        //make grid pane wide as parent
+        //make grid column wide as parent
         ColumnConstraints columnConstraintForMaxWidth = new ColumnConstraints();
         columnConstraintForMaxWidth.setHgrow(Priority.ALWAYS);
         columnConstraintForMaxWidth.setFillWidth(true);
@@ -260,12 +255,12 @@ public class FormMainController {
 
         //Form Buttons
         btnGo.setOnAction(event -> {
-                    List<Cue> selectedCuesToPlay = tblView.getSelectionModel().getSelectedItems();
-                    selectedCuesToPlay.forEach(cue -> {
-                        if(cue instanceof SoundCue)
-                            cue.playCue();
-                    });
-                });
+            List<Cue> selectedCuesToPlay = tblView.getSelectionModel().getSelectedItems();
+            selectedCuesToPlay.forEach(cue -> {
+                if (cue instanceof SoundCue)
+                    cue.playCue();
+            });
+        });
         btnAddCue.setOnAction(event -> addNewCue());
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());

@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ThanCue.FormEditCueController"
             fx:id="anchor_pane_form_edit_cue">
     <children>
-        <GridPane fx:id="grid_pane_form_edit_cue">
-            <children>
-                <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"> <!-- todo make this form actually useful -->
-                    <Button fx:id="btn1" text="TODO"/>
-                    <Button fx:id="btn2" text="TODO"/>
-                    <Button fx:id="btn3" text="TODO"/>
-                    <Button fx:id="btn4" text="TODO"/>
-                </HBox>
-                <HBox GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <VBox>
-                        <Label fx:id="lblCueInfo" text="null"/>
-                        <ComboBox fx:id="cmbCueType"/>
-                    </VBox>
+        <GridPane fx:id="grid_pane_form_edit_cue" alignment="TOP_CENTER" hgap="10" vgap="10">
+            <padding>
+                <Insets top="25" right="25" bottom="10" left="25"/>
+            </padding>
 
-                </HBox>
-                <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
-                    <Button fx:id="btnSaveChanges" text="Save"/>
-                    <Button fx:id="btnCancelChanges" text="Cancel"/>
-                </HBox>
-            </children>
+            <Label fx:id="lblCueInfo" text="null" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                   GridPane.rowIndex="0"/>
+
+            <Label fx:id="lblCueType" text="Cue type" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <ComboBox fx:id="cmbCueType" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label fx:id="lblCueName" text="Cue name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="txtCueName" text="No name" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         </GridPane>
     </children>
 </AnchorPane>
