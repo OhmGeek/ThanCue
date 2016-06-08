@@ -7,6 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import static ThanCue.CueType.UNSET;
 
@@ -16,6 +17,7 @@ import static ThanCue.CueType.UNSET;
 public class FormEditCueController {
     // todo the rest of this class and stuff
 
+    private FormMainController parentController;
     private Cue editingCue;
 
     //Container panes
@@ -68,8 +70,37 @@ public class FormEditCueController {
     }
 
     private void setActions() {
+        //buttons
+        btnCancelChanges.setOnAction(event -> closeWithoutReturningCue());
+        btnSaveChanges.setOnAction(event -> closeAfterReturningCue());
+        btnChooseFile.setOnAction(event -> {});
+
+        //fields
         cmbCueType.setOnAction(event -> changeCueType());
-        //todo this method
+        txtCueName.textProperty().addListener((observableValue, s, t1) -> changeCueName()); //text changed
+        txtCueName.setOnAction(event -> changeCueName()); //enter key      todo which one is better? or both?
+        cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
+        // todo file path updating (including browse button functionality)
+    }
+
+    private void changeCueBehaviour() {
+        editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
+    }
+
+    //todo reorder methods to be more organised
+
+    private void changeCueName() {
+        editingCue.setCueName(txtCueName.getText());
+    }
+
+    private void closeWithoutReturningCue() {
+        Stage thisStage = (Stage)btnCancelChanges.getScene().getWindow();
+        thisStage.close();
+    }
+
+    private void closeAfterReturningCue() {
+        parentController.setEditedCue(editingCue);
+        closeWithoutReturningCue();
     }
 
     private void setSizes() {
@@ -100,6 +131,10 @@ public class FormEditCueController {
         //update layouts
         anchor_pane_form_edit_cue.layout();
         grid_pane_form_edit_cue.layout();
+    }
+
+    public void setParentController(FormMainController c){
+        this.parentController = c;
     }
 
     public void setEditObject(Cue c) {
@@ -153,7 +188,11 @@ public class FormEditCueController {
                 break;
         }
         c.setCueName(txtCueName.getText());
-        // todo c.setCueBehaviour();
+        c.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
+        if(cueTypeUsesFilePath(c.cueTypeEnum)){
+            //todo here, as elsewhere, support VideoCue too (when it exists)
+            ((SoundCue)c).setFilePath(lblFilePath.getText());
+        }
         editingCue = c;
         updateFieldEntries(false);
     }

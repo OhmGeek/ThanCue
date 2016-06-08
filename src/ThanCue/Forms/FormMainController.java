@@ -187,10 +187,8 @@ public class FormMainController {
 
         clmBehaviour.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueBehaviour"));
 
-
         //add columns
         tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour);
-
 
         //link data to table
         tblView.setItems(cueCollection);
@@ -275,52 +273,48 @@ public class FormMainController {
 
     private void playSelectedCue() {
         // NOTE: I changed this a fair bit, as we only want to have ONE cue selected at once, and use behaviour to play many cues
-        // as such, todo use behaviour to play more than the one selected
+        // as such, todo use behaviour to play more than the one selected (while next one is play on/after this?)
         Cue cue = tblView.getSelectionModel().getSelectedItem();
         if (cue instanceof SoundCue) { // todo is this check for testing? probably not needed...
             cue.playCue();
         }
+        int ind = (tblView.getSelectionModel().getSelectedIndex() + 1) % cueCollection.size();
+        tblView.getSelectionModel().select(ind);
     }
 
     private void addNewCue() {
-        // todo how do we get the edited (was blank) cue back from the controller? is the cue passing purely a reference?
+        showEditForm(null);
+    }
+
+    private void editSelectedCue() {
+        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
+            Cue c = tblView.getSelectionModel().getSelectedItem();
+            showEditForm(c);
+        } else {
+            showDialogNothingSelected();
+        }
+    }
+
+    private void showEditForm(Cue cueToEdit){
         FXMLLoader root;
         try {
             root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("New Cue");
+            stage.setTitle("Edit Cue");
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
             stage.setScene(new Scene(root.load(), 400, 350));
-            root.<FormEditCueController>getController().setEditObject(null);
+            root.<FormEditCueController>getController().setEditObject(cueToEdit);
+            root.<FormEditCueController>getController().setParentController(this);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void editSelectedCue() {
-        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
-            // todo how do we get the edits back from the controller? is the cue passing purely a reference?
-            //get cue and pass to dialog
-            int selectedIndex = tblView.getSelectionModel().getSelectedIndex();
-            Cue c = tblView.getSelectionModel().getSelectedItem();
-            FXMLLoader root;
-            try {
-                root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
-                Stage stage = new Stage();
-                stage.setTitle("Edit Cue");
-                stage.initModality(Modality.WINDOW_MODAL);
-                stage.initOwner(anchor_pane.getScene().getWindow());
-                stage.setScene(new Scene(root.load(), 400, 350));
-                root.<FormEditCueController>getController().setEditObject(c);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showDialogNothingSelected();
-        }
+    public void setEditedCue(Cue editedCue){
+        cueCollection.set(editedCue.getIndex(), editedCue);
+        refreshTable();
     }
 
     private void printAllCues() {
