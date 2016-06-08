@@ -3,6 +3,7 @@ package ThanCue.Forms;
 import ThanCue.Cue;
 import ThanCue.SoundCue;
 import ThanCue.UnknownCue;
+import ThanCue.VideoCue;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -84,7 +85,7 @@ public class FormMainController {
             new SoundCue(),
             new SoundCue(),
             new UnknownCue(),
-            new UnknownCue(),
+            new VideoCue(),
             new UnknownCue(),
             new SoundCue() //todo start empty (or loaded from file)
     );
@@ -280,7 +281,7 @@ public class FormMainController {
             cue.playCue();
         }
         int ind = (tblView.getSelectionModel().getSelectedIndex() + 1) % cueCollection.size();
-        tblView.getSelectionModel().select(ind);
+        tblView.getSelectionModel().select(ind); //todo have showMode which doesn't loop around and disables changes to order and cues
     }
 
     private void addNewCue() {

@@ -89,8 +89,7 @@ public class FormEditCueController {
     private void chooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose file for cue");
-        // todo again, VideoCue, not just sound
-        fileChooser.setInitialDirectory(((SoundCue)editingCue).getFilePath().getParent().toFile());
+        fileChooser.setInitialDirectory(((FileCue)editingCue).getFilePath().getParent().toFile());
         File file = fileChooser.showOpenDialog(btnChooseFile.getScene().getWindow());
         if(file != null){
             changeFilePath(file);
@@ -98,8 +97,7 @@ public class FormEditCueController {
     }
 
     private void changeFilePath(File file) {
-        //todo AGAIN AGAIN AGAIN VideoCue support
-        ((SoundCue)editingCue).setFilePath(file.getAbsolutePath());
+        ((FileCue)editingCue).setFilePath(file.getAbsolutePath());
         updateFieldEntries(true);
     }
 
@@ -174,18 +172,13 @@ public class FormEditCueController {
             cmbCueType.getSelectionModel().select(editingCue.cueTypeEnum);
         }
         cmbCueBehaviour.getSelectionModel().select(editingCue.cueBehaviourEnum);
-        boolean cueTypeUsesFile = cueTypeUsesFilePath(editingCue.cueTypeEnum);
+        boolean cueTypeUsesFile = editingCue instanceof FileCue;
         if(cueTypeUsesFile){
-            //todo also support VideoCue, once VideoCue actually exists (cueTypeUsesFilePath(cueTypeEnum) already does)
-            lblFilePath.setText(((SoundCue)editingCue).getFilePath().toAbsolutePath().toString());
+            lblFilePath.setText(((FileCue)editingCue).getFilePath().toAbsolutePath().toString());
         }else{
             lblFilePath.setText("No file");
         }
         container_file_chooser.setDisable(!cueTypeUsesFile);
-    }
-
-    private boolean cueTypeUsesFilePath(CueType cueTypeEnum) {
-        return cueTypeEnum == CueType.SOUND || cueTypeEnum == CueType.VIDEO;
     }
 
     private void changeCueType() {
@@ -204,14 +197,17 @@ public class FormEditCueController {
                 //todo make light cue a thing
                 break;
             case VIDEO:
-                //todo make video cue a thing
+                c = new VideoCue();
                 break;
         }
         c.setCueName(txtCueName.getText());
         c.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
-        if(cueTypeUsesFilePath(c.cueTypeEnum)){
-            //todo here, as elsewhere, support VideoCue too (when it exists)
-            ((SoundCue)c).setFilePath(lblFilePath.getText());
+        if(c instanceof FileCue){
+            if(editingCue instanceof FileCue){ // this could cause errors so ALWAYS TRY CATCH PLAYING A FILE CUE
+                ((FileCue) c).setFilePath(((FileCue) editingCue).getFilePath().toAbsolutePath().toString());
+            }else {
+                ((FileCue) c).setFilePath(lblFilePath.getText());
+            }
         }
         editingCue = c;
         updateFieldEntries(false);
