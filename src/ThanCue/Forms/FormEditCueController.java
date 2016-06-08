@@ -7,7 +7,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 import static ThanCue.CueType.UNSET;
 
@@ -73,14 +76,31 @@ public class FormEditCueController {
         //buttons
         btnCancelChanges.setOnAction(event -> closeWithoutReturningCue());
         btnSaveChanges.setOnAction(event -> closeAfterReturningCue());
-        btnChooseFile.setOnAction(event -> {});
+        btnChooseFile.setOnAction(event -> chooseFile());
 
         //fields
         cmbCueType.setOnAction(event -> changeCueType());
         txtCueName.textProperty().addListener((observableValue, s, t1) -> changeCueName()); //text changed
-        txtCueName.setOnAction(event -> changeCueName()); //enter key      todo which one is better? or both?
+        txtCueName.setOnAction(event -> changeCueName()); //enter key      todo which one is better? or both? (text changed or enter key, maybe not just enter key as they may click off, and I don't know if that triggers it...
         cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
         // todo file path updating (including browse button functionality)
+    }
+
+    private void chooseFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose file for cue");
+        // todo again, VideoCue, not just sound
+        fileChooser.setInitialDirectory(((SoundCue)editingCue).getFilePath().getParent().toFile());
+        File file = fileChooser.showOpenDialog(btnChooseFile.getScene().getWindow());
+        if(file != null){
+            changeFilePath(file);
+        }
+    }
+
+    private void changeFilePath(File file) {
+        //todo AGAIN AGAIN AGAIN VideoCue support
+        ((SoundCue)editingCue).setFilePath(file.getAbsolutePath());
+        updateFieldEntries(true);
     }
 
     private void changeCueBehaviour() {
