@@ -1,9 +1,6 @@
 package ThanCue.Forms;
 
-import ThanCue.Cue;
-import ThanCue.SoundCue;
-import ThanCue.UnknownCue;
-import ThanCue.VideoCue;
+import ThanCue.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -57,6 +54,8 @@ public class FormMainController {
     @FXML
     private MenuItem btnSaveAs;
     @FXML
+    private CheckMenuItem chkShowMode;
+    @FXML
     private MenuItem btnExit;
 
     //Edit menu
@@ -81,7 +80,7 @@ public class FormMainController {
     @FXML
     private Button btnEditCue;
 
-    ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
+    private ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
             new SoundCue(),
             new SoundCue(),
             new UnknownCue(),
@@ -259,6 +258,7 @@ public class FormMainController {
         btnOpen.setOnAction(event -> System.out.println("Open Cue Stack"));
         btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
+        chkShowMode.setOnAction(event -> toggleShowMode());
         btnExit.setOnAction(event -> Platform.exit());
 
         //Edit Menu
@@ -271,6 +271,17 @@ public class FormMainController {
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+
+        //Table
+        tblView.getSelectionModel().selectedItemProperty().addListener((observableValue, cue, t1) -> selectionChanged());
+    }
+
+    private void selectionChanged() {
+        btnGo.setDisable(tblView.getSelectionModel().getSelectedItem() == null);
+    }
+
+    private void toggleShowMode() {
+        top_row_button_container.setDisable(chkShowMode.isSelected());
     }
 
     private void playSelectedCue() {
@@ -280,8 +291,29 @@ public class FormMainController {
         if (cue instanceof SoundCue) { // todo is this check for testing? probably not needed...
             cue.playCue();
         }
-        int ind = (tblView.getSelectionModel().getSelectedIndex() + 1) % cueCollection.size();
-        tblView.getSelectionModel().select(ind); //todo have showMode which doesn't loop around and disables changes to order and cues
+        int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
+
+        //todo below is untested
+        while (currentCueIndex + 1 < cueCollection.size() && cueCollection.get(currentCueIndex + 1).cueBehaviourEnum == CueBehaviour.PLAY_WITH_PREVIOUS) {
+            currentCueIndex++;
+            cue = cueCollection.get(currentCueIndex);
+            cue.playCue();
+        }
+        //todo also somehow account for play after previous?
+
+        currentCueIndex++;
+        if (currentCueIndex == cueCollection.size()) {
+            if (chkShowMode.isSelected()) {
+                //DO NOT LOOP AROUND in show mode
+                tblView.getSelectionModel().clearSelection();
+            } else {
+                //do loop around out of show mode
+                tblView.getSelectionModel().select(0);
+            }
+        } else {
+            //not at the end, ie. not ready to try and loop yet
+            tblView.getSelectionModel().select(currentCueIndex);
+        }
     }
 
     private void addNewCue() {
@@ -297,7 +329,7 @@ public class FormMainController {
         }
     }
 
-    private void showEditForm(Cue cueToEdit){
+    private void showEditForm(Cue cueToEdit) {
         FXMLLoader root;
         try {
             root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
@@ -314,7 +346,7 @@ public class FormMainController {
         }
     }
 
-    public void setEditedCue(Cue editedCue){
+    public void setEditedCue(Cue editedCue) {
         cueCollection.set(editedCue.getIndex(), editedCue);
         refreshTable();
     }
