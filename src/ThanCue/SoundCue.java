@@ -14,6 +14,7 @@ public class SoundCue extends Cue {
     private Path soundPath;
 
     public SoundCue() {
+        this.setFilePath("/path/to/file");
         this.setCueType(CueType.SOUND);
         this.setCueName("Mad sounds");
     }
@@ -21,7 +22,7 @@ public class SoundCue extends Cue {
     public void setFilePath(String soundPath) {
         Path p = Paths.get(soundPath);
         this.soundPath = p;
-        this.setCueName(soundPath);
+        //this.setCueName(soundPath); // user may want custom name other than file path
     }
 
     public Path getFilePath() {

@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FormMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")");
         primaryStage.setScene(new Scene(root, 600, 550));

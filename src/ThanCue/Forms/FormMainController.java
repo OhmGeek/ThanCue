@@ -1,5 +1,8 @@
-package ThanCue;
+package ThanCue.Forms;
 
+import ThanCue.Cue;
+import ThanCue.SoundCue;
+import ThanCue.UnknownCue;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -14,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -35,6 +39,8 @@ public class FormMainController {
     private AnchorPane anchor_pane;
     @FXML
     private GridPane grid_pane;
+    @FXML
+    private GridPane top_row_button_container;
 
     //Dev menu
     @FXML
@@ -80,7 +86,7 @@ public class FormMainController {
             new UnknownCue(),
             new UnknownCue(),
             new UnknownCue(),
-            new SoundCue()
+            new SoundCue() //todo start empty (or loaded from file)
     );
 
 
@@ -188,6 +194,8 @@ public class FormMainController {
 
         //link data to table
         tblView.setItems(cueCollection);
+
+        //show data
         refreshTable();
     }
 
@@ -199,6 +207,7 @@ public class FormMainController {
         btnMoveDown.setMaxWidth(Double.MAX_VALUE);
         btnGo.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         btnGo.setPrefHeight(140);
+        btnGo.setFont(new Font(btnGo.getFont().getFamily(), 30));
 
         //ensure grid pane always fill width of parent
         AnchorPane.setTopAnchor(grid_pane, .0);
@@ -211,6 +220,9 @@ public class FormMainController {
         columnConstraintForMaxWidth.setHgrow(Priority.ALWAYS);
         columnConstraintForMaxWidth.setFillWidth(true);
         grid_pane.getColumnConstraints().add(columnConstraintForMaxWidth);
+        ColumnConstraints percent25Width = new ColumnConstraints();
+        percent25Width.setPercentWidth(25);
+        top_row_button_container.getColumnConstraints().addAll(percent25Width, percent25Width, percent25Width, percent25Width);
 
         //make grid pane tall as parent (on a row by row basis)
         RowConstraints rowConstraintNoGrow = new RowConstraints();
@@ -227,10 +239,10 @@ public class FormMainController {
         //make btnGo grow
         GridPane.setFillWidth(btnGo, true);
         GridPane.setFillHeight(btnGo, true);
-        HBox.setHgrow(btnAddCue, Priority.ALWAYS);
-        HBox.setHgrow(btnEditCue, Priority.ALWAYS);
-        HBox.setHgrow(btnMoveUp, Priority.ALWAYS);
-        HBox.setHgrow(btnMoveDown, Priority.ALWAYS);
+        GridPane.setHgrow(btnAddCue, Priority.ALWAYS);
+        GridPane.setHgrow(btnEditCue, Priority.ALWAYS);
+        GridPane.setHgrow(btnMoveUp, Priority.ALWAYS);
+        GridPane.setHgrow(btnMoveDown, Priority.ALWAYS);
 
         //update layouts
         anchor_pane.layout();
@@ -254,17 +266,20 @@ public class FormMainController {
         btnRedo.setOnAction(event -> System.out.println("Redo"));
 
         //Form Buttons
-        btnGo.setOnAction(event -> {
-            List<Cue> selectedCuesToPlay = tblView.getSelectionModel().getSelectedItems();
-            selectedCuesToPlay.forEach(cue -> {
-                if (cue instanceof SoundCue)
-                    cue.playCue();
-            });
-        });
+        btnGo.setOnAction(event -> playSelectedCue());
         btnAddCue.setOnAction(event -> addNewCue());
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+    }
+
+    private void playSelectedCue() {
+        // NOTE: I changed this a fair bit, as we only want to have ONE cue selected at once, and use behaviour to play many cues
+        // as such, todo use behaviour to play more than the one selected
+        Cue cue = tblView.getSelectionModel().getSelectedItem();
+        if (cue instanceof SoundCue) { // todo is this check for testing? probably not needed...
+            cue.playCue();
+        }
     }
 
     private void addNewCue() {
