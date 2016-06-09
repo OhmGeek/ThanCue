@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ThanCue.Forms.FormEditCueController"
-            fx:id="anchor_pane_form_edit_cue">
+            fx:id="anchor_pane">
     <children>
-        <GridPane fx:id="grid_pane_form_edit_cue" alignment="TOP_CENTER" hgap="10" vgap="10">
+        <GridPane fx:id="grid_pane" alignment="TOP_CENTER" hgap="10" vgap="10">
             <padding>
                 <Insets top="25" right="25" bottom="10" left="25"/>
             </padding>

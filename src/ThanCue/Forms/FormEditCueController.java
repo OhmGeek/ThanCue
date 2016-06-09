@@ -25,9 +25,9 @@ public class FormEditCueController {
 
     //Container panes
     @FXML
-    private AnchorPane anchor_pane_form_edit_cue;
+    private AnchorPane anchor_pane;
     @FXML
-    private GridPane grid_pane_form_edit_cue;
+    private GridPane grid_pane;
     @FXML
     private HBox container_file_chooser;
 
@@ -74,16 +74,14 @@ public class FormEditCueController {
 
     private void setActions() {
         //buttons
-        btnCancelChanges.setOnAction(event -> closeWithoutReturningCue());
+        btnCancelChanges.setOnAction(event -> closeEditCueWindow());
         btnSaveChanges.setOnAction(event -> closeAfterReturningCue());
         btnChooseFile.setOnAction(event -> chooseFile());
 
         //fields
         cmbCueType.setOnAction(event -> changeCueType());
         txtCueName.textProperty().addListener((observableValue, s, t1) -> changeCueName()); //text changed
-        txtCueName.setOnAction(event -> changeCueName()); //enter key      todo which one is better? or both? (text changed or enter key, maybe not just enter key as they may click off, and I don't know if that triggers it...
         cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
-        // todo file path updating (including browse button functionality)
     }
 
     private void chooseFile() {
@@ -97,7 +95,7 @@ public class FormEditCueController {
     }
 
     private void changeFilePath(File file) {
-        ((FileCue)editingCue).setFilePath(file.getAbsolutePath());
+        ((FileCue)editingCue).setCueFilePath(file.getAbsolutePath());
         updateFieldEntries(true);
     }
 
@@ -111,14 +109,14 @@ public class FormEditCueController {
         editingCue.setCueName(txtCueName.getText());
     }
 
-    private void closeWithoutReturningCue() {
+    private void closeEditCueWindow() {
         Stage thisStage = (Stage)btnCancelChanges.getScene().getWindow();
         thisStage.close();
     }
 
     private void closeAfterReturningCue() {
         parentController.setEditedCue(editingCue);
-        closeWithoutReturningCue();
+        closeEditCueWindow();
     }
 
     private void setSizes() {
@@ -133,22 +131,22 @@ public class FormEditCueController {
         lblFilePath.setMaxWidth(Double.MAX_VALUE);
 
         //ensure grid pane always fill width of parent
-        AnchorPane.setTopAnchor(grid_pane_form_edit_cue, .0);
-        AnchorPane.setBottomAnchor(grid_pane_form_edit_cue, .0);
-        AnchorPane.setLeftAnchor(grid_pane_form_edit_cue, .0);
-        AnchorPane.setRightAnchor(grid_pane_form_edit_cue, .0);
+        AnchorPane.setTopAnchor(grid_pane, .0);
+        AnchorPane.setBottomAnchor(grid_pane, .0);
+        AnchorPane.setLeftAnchor(grid_pane, .0);
+        AnchorPane.setRightAnchor(grid_pane, .0);
 
         //make grid columns wide as parent
         ColumnConstraints columnConstraintForHalfWidth = new ColumnConstraints();
         columnConstraintForHalfWidth.setPercentWidth(50);
-        grid_pane_form_edit_cue.getColumnConstraints().addAll(columnConstraintForHalfWidth, columnConstraintForHalfWidth);
+        grid_pane.getColumnConstraints().addAll(columnConstraintForHalfWidth, columnConstraintForHalfWidth);
 
         //set HGrow
         HBox.setHgrow(lblFilePath, Priority.ALWAYS);
 
         //update layouts
-        anchor_pane_form_edit_cue.layout();
-        grid_pane_form_edit_cue.layout();
+        anchor_pane.layout();
+        grid_pane.layout();
     }
 
     public void setParentController(FormMainController c){
@@ -204,9 +202,9 @@ public class FormEditCueController {
         c.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
         if(c instanceof FileCue){
             if(editingCue instanceof FileCue){ // this could cause errors so ALWAYS TRY CATCH PLAYING A FILE CUE
-                ((FileCue) c).setFilePath(((FileCue) editingCue).getFilePath().toAbsolutePath().toString());
+                ((FileCue) c).setCueFilePath(((FileCue) editingCue).getFilePath().toAbsolutePath().toString());
             }else {
-                ((FileCue) c).setFilePath(lblFilePath.getText());
+                ((FileCue) c).setCueFilePath(lblFilePath.getText());
             }
         }
         editingCue = c;

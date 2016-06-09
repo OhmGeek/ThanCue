@@ -121,7 +121,7 @@ public class FormMainController {
                             if (soundExtensions.contains(ext)) {
                                 SoundCue cToAdd = new SoundCue();
                                 cToAdd.setCueName(f.getName());
-                                cToAdd.setFilePath(f.getAbsolutePath());
+                                cToAdd.setCueFilePath(f.getAbsolutePath());
                                 cueCollection.add(cToAdd);
                             }
                         }
@@ -155,6 +155,8 @@ public class FormMainController {
         clmName.setSortable(false);
         TableColumn clmBehaviour = new TableColumn("Behaviour");
         clmBehaviour.setSortable(false);
+        TableColumn clmFilePath = new TableColumn("File path");
+        clmFilePath.setSortable(false);
         // todo maybe show filePath in the table, and have it blank for Unknown, Unset, Light, etc.. cues
 
         //set cell 'renderers'
@@ -188,8 +190,10 @@ public class FormMainController {
 
         clmBehaviour.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueBehaviour"));
 
+        clmFilePath.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueFilePath"));
+
         //add columns
-        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour);
+        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath);
 
         //link data to table
         tblView.setItems(cueCollection);

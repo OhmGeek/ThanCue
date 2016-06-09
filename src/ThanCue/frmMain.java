@@ -133,7 +133,7 @@ public class frmMain extends Application{
                     if (soundExtensions.contains(ext)) {
                         SoundCue cToAdd = new SoundCue();
                         cToAdd.setCueName(f.getName());
-                        cToAdd.setFilePath(f.getAbsolutePath());
+                        cToAdd.setCueFilePath(f.getAbsolutePath());
                         cueCollection.add(cToAdd);
                     } else {
 

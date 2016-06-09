@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
+import java.nio.file.Path;
+
 
 /**
  * Created by ryan on 15/05/16.
@@ -18,6 +20,7 @@ public abstract class Cue {
     private SimpleStringProperty cueType;
     private SimpleStringProperty cueName;
     private SimpleStringProperty cueBehaviour;
+    protected SimpleStringProperty cueFilePath;
 
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
@@ -28,19 +31,22 @@ public abstract class Cue {
         cueType = new SimpleStringProperty("Unset Type");
         cueName = new SimpleStringProperty("Unset Name");
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
-        cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_',' ').toLowerCase());
+        cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_', ' ').toLowerCase());
         cueTypeEnum = CueType.UNSET;
         cueType = new SimpleStringProperty(cueTypeEnum.name().toLowerCase());
+        cueFilePath = new SimpleStringProperty("n/a");
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
     // so DO NOT UNDER ANY CIRCUMSTANCE make these packageLocal. It has caused many a headache already. :)
 
-    public  int getIndex() {
+    public int getIndex() {
         return ind.get();
     }
 
-    public void setIndex(Integer index) { ind.set(index); }
+    public void setIndex(Integer index) {
+        ind.set(index);
+    }
 
     public String getCueName() {
         return cueName.get();
@@ -65,7 +71,15 @@ public abstract class Cue {
 
     public void setCueBehaviour(CueBehaviour behaviour) {
         this.cueBehaviourEnum = behaviour;
-        this.cueBehaviour.set(behaviour.name().replace('_',' ').toLowerCase());
+        this.cueBehaviour.set(behaviour.name().replace('_', ' ').toLowerCase());
+    }
+
+    public String getCueFilePath() {
+        return "n/a";
+    }
+
+    public void setCueFilePath(Path path){
+        System.out.println("Attempt to set filePath on non-file cue!");
     }
 
     @Override
@@ -97,7 +111,7 @@ public abstract class Cue {
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
 
-    public static ImageView getImageView(String type){
+    public static ImageView getImageView(String type) {
         switch (type.toLowerCase()) {
             case "sound":
                 return new ImageView(IMG_SOUND_ICON);

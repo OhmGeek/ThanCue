@@ -55,7 +55,7 @@ public class CueFileManager {
                             c.setCueName(arrayOfFields[1]);
                             //c.setCueType(arrayOfFields[2]); //todo fix cue type
                             c.setCueName(arrayOfFields[3]);
-                            c.setFilePath("zip:///" + zipFile.getParent().toString() + arrayOfFields[4]);
+                            c.setCueFilePath("zip:///" + zipFile.getParent().toString() + arrayOfFields[4]);
                             cuesLoaded.add(c);
                         }
                     }
