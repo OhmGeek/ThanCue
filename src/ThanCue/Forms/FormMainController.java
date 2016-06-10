@@ -158,7 +158,6 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
-        // todo maybe show filePath in the table, and have it blank for Unknown, Unset, Light, etc.. cues
 
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());

@@ -2,10 +2,7 @@ package ThanCue.Forms;
 
 import ThanCue.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -117,6 +114,11 @@ public class FormEditCueController {
     }
 
     private void closeAfterReturningCue() {
+        if(cmbCueType.getSelectionModel().getSelectedItem() == CueType.UNSET){
+            showDialogInvalidSelection();
+            return;
+        }
+
         if(cueIsToAdd){
             parentController.addNewCue(editingCue);
         }else {
@@ -192,9 +194,9 @@ public class FormEditCueController {
     private void changeCueType() {
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
             case UNSET:
-                //todo we don't want to allow creation of unset cues, this is only there to be a default value
-                throw new NotImplementedException();
-                //break;
+                showDialogInvalidSelection(); // todo maybe remove UNSET entirely and use unknown as the default starting cue?
+                                                // it would make things a LOT easier in my opinion (I know it was my idea initially) - mike
+                return;
             case UNKNOWN:
                 editingCue = new UnknownCue();
                 break;
@@ -212,5 +214,11 @@ public class FormEditCueController {
         editingCue.setCueName(txtCueName.getText());
         editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
         updateFieldEntries(false);
+    }
+
+    private void showDialogInvalidSelection() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You cannot create an unset cue! Use unknown instead!", ButtonType.OK);
+        alert.setHeaderText("Selection issue");
+        alert.showAndWait();
     }
 }
