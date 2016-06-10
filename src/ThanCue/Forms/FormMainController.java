@@ -321,19 +321,19 @@ public class FormMainController {
     }
 
     private void addNewCue() {
-        showEditForm(null);
+        showEditForm(null, true);
     }
 
     private void editSelectedCue() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
             Cue c = tblView.getSelectionModel().getSelectedItem();
-            showEditForm(c);
+            showEditForm(c, false);
         } else {
             showDialogNothingSelected();
         }
     }
 
-    private void showEditForm(Cue cueToEdit) {
+    private void showEditForm(Cue cueToEdit, boolean cueIsToAdd) {
         FXMLLoader root;
         try {
             root = new FXMLLoader(getClass().getResource("FormEditCue.fxml"));
@@ -343,11 +343,17 @@ public class FormMainController {
             stage.initOwner(anchor_pane.getScene().getWindow());
             stage.setScene(new Scene(root.load(), 400, 350));
             root.<FormEditCueController>getController().setEditObject(cueToEdit);
+            root.<FormEditCueController>getController().setCueIsToAdd(cueIsToAdd);
             root.<FormEditCueController>getController().setParentController(this);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addNewCue(Cue cueToAdd){
+        cueCollection.add(cueToAdd);
+        refreshTable();
     }
 
     public void setEditedCue(Cue editedCue) {

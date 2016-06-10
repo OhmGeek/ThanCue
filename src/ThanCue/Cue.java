@@ -34,7 +34,7 @@ public abstract class Cue {
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_', ' ').toLowerCase());
         cueTypeEnum = CueType.UNSET;
         cueType = new SimpleStringProperty(cueTypeEnum.name().toLowerCase());
-        cueFilePath = new SimpleStringProperty("n/a");
+        cueFilePath = new SimpleStringProperty("no file"); // todo better text than "no file"? "n/a"? "-"? ""?
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -75,7 +75,7 @@ public abstract class Cue {
     }
 
     public String getCueFilePath() {
-        return "n/a";
+        return cueFilePath.get();
     }
 
     public void setCueFilePath(Path path){

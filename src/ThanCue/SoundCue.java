@@ -13,6 +13,7 @@ public class SoundCue extends FileCue {
         super();
         this.setCueType(CueType.SOUND);
         this.setCueName("Mad sounds");
+        this.setCueFilePath(System.getProperty("user.home") + "/testSound.wav");
     }
 
     @Override

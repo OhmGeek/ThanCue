@@ -15,14 +15,7 @@ public abstract class FileCue extends Cue {
 
     public FileCue(){
         super();
-        this.setCueFilePath(System.getProperty("user.home") + "/my_cue.cue");
-    }
-
-    public void setCueFilePath(String soundPath) {
-        Path p = Paths.get(soundPath);
-        this.soundPath = p;
-        cueFilePath.set(soundPath);
-        //this.setCueName(soundPath); // user may want custom name other than file path
+        this.setCueFilePath(System.getProperty("user.home") + "/myCue.cue");
     }
 
     public Path getFilePath(){
@@ -31,7 +24,12 @@ public abstract class FileCue extends Cue {
 
     @Override
     public String getCueFilePath() { //for table
-        return this.soundPath.toAbsolutePath().toString();
+        return getFilePath().toAbsolutePath().toString();
+    }
+
+    public void setCueFilePath(String soundPath) {
+        Path p = Paths.get(soundPath);
+        setCueFilePath(p);
     }
 
     @Override

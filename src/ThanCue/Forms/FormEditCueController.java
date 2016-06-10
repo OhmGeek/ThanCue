@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 
@@ -22,6 +23,7 @@ public class FormEditCueController {
 
     private FormMainController parentController;
     private Cue editingCue;
+    private boolean cueIsToAddNotEdit;
 
     //Container panes
     @FXML
@@ -115,7 +117,11 @@ public class FormEditCueController {
     }
 
     private void closeAfterReturningCue() {
-        parentController.setEditedCue(editingCue);
+        if(cueIsToAddNotEdit){
+            parentController.addNewCue(editingCue);
+        }else {
+            parentController.setEditedCue(editingCue);
+        }
         closeEditCueWindow();
     }
 
@@ -162,6 +168,10 @@ public class FormEditCueController {
         updateFieldEntries(true);
     }
 
+    public void setCueIsToAdd(boolean b){
+        cueIsToAddNotEdit = b;
+    }
+
     private void updateFieldEntries(boolean changeCueTypeComboBox) {
         lblCueInfo.setText(editingCue.toString());
         txtCueName.setText(editingCue.getCueName());
@@ -180,34 +190,27 @@ public class FormEditCueController {
     }
 
     private void changeCueType() {
-        Cue c = new UnknownCue();
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
             case UNSET:
                 //todo we don't want to allow creation of unset cues, this is only there to be a default value
-                break;
+                throw new NotImplementedException();
+                //break;
             case UNKNOWN:
-                c = new UnknownCue();
+                editingCue = new UnknownCue();
                 break;
             case SOUND:
-                c = new SoundCue();
+                editingCue = new SoundCue();
                 break;
             case LIGHT:
                 //todo make light cue a thing
-                break;
+                throw new NotImplementedException();
+                //break;
             case VIDEO:
-                c = new VideoCue();
+                editingCue = new VideoCue();
                 break;
         }
-        c.setCueName(txtCueName.getText());
-        c.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
-        if(c instanceof FileCue){
-            if(editingCue instanceof FileCue){ // this could cause errors so ALWAYS TRY CATCH PLAYING A FILE CUE
-                ((FileCue) c).setCueFilePath(((FileCue) editingCue).getFilePath().toAbsolutePath().toString());
-            }else {
-                ((FileCue) c).setCueFilePath(lblFilePath.getText());
-            }
-        }
-        editingCue = c;
+        editingCue.setCueName(txtCueName.getText());
+        editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
         updateFieldEntries(false);
     }
 }
