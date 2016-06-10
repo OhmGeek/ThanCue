@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -162,6 +163,18 @@ public class FormMainController {
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
         //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmIndex.setCellFactory(param ->{ //purely for alignment
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        setText(item.toString());
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
 
         clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
         clmType.setCellFactory(param -> {

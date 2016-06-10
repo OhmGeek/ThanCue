@@ -33,7 +33,7 @@ public abstract class Cue {
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_', ' ').toLowerCase());
         cueTypeEnum = CueType.UNSET;
-        cueType = new SimpleStringProperty(cueTypeEnum.name().toLowerCase());
+        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         cueFilePath = new SimpleStringProperty("no file"); // todo better text than "no file"? "n/a"? "-"? ""?
     }
 
@@ -62,7 +62,7 @@ public abstract class Cue {
 
     public void setCueType(CueType cueType) {
         this.cueTypeEnum = cueType;
-        this.cueType.set(cueType.name().toLowerCase());
+        this.cueType.set(cueType.toString());
     }
 
     public String getCueBehaviour() {

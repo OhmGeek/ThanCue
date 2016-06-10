@@ -23,7 +23,7 @@ public class FormEditCueController {
 
     private FormMainController parentController;
     private Cue editingCue;
-    private boolean cueIsToAddNotEdit;
+    private boolean cueIsToAdd;
 
     //Container panes
     @FXML
@@ -117,7 +117,7 @@ public class FormEditCueController {
     }
 
     private void closeAfterReturningCue() {
-        if(cueIsToAddNotEdit){
+        if(cueIsToAdd){
             parentController.addNewCue(editingCue);
         }else {
             parentController.setEditedCue(editingCue);
@@ -169,7 +169,7 @@ public class FormEditCueController {
     }
 
     public void setCueIsToAdd(boolean b){
-        cueIsToAddNotEdit = b;
+        cueIsToAdd = b;
     }
 
     private void updateFieldEntries(boolean changeCueTypeComboBox) {
