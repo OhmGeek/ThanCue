@@ -28,12 +28,11 @@ public abstract class Cue {
 
     public Cue() {
         ind = new SimpleIntegerProperty(0);
-        cueType = new SimpleStringProperty("Unset Type");
+        cueTypeEnum = CueType.UNKNOWN;
+        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         cueName = new SimpleStringProperty("Unset Name");
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.name().replace('_', ' ').toLowerCase());
-        cueTypeEnum = CueType.UNSET;
-        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         cueFilePath = new SimpleStringProperty("no file"); // todo better text than "no file"? "n/a"? "-"? ""?
     }
 

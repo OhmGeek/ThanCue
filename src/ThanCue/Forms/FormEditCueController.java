@@ -10,8 +10,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 
-import static ThanCue.CueType.UNSET;
-
 /**
  * Created by mike on 04/06/16.
  */
@@ -66,7 +64,7 @@ public class FormEditCueController {
         setSizes();
 
         cmbCueType.getItems().setAll(CueType.values());
-        cmbCueType.getSelectionModel().select(UNSET);
+        cmbCueType.getSelectionModel().select(CueType.UNKNOWN);
         cmbCueBehaviour.getItems().setAll(CueBehaviour.values());
         cmbCueBehaviour.getSelectionModel().select(CueBehaviour.PLAY_ON_GO);
     }
@@ -114,11 +112,6 @@ public class FormEditCueController {
     }
 
     private void closeAfterReturningCue() {
-        if(cmbCueType.getSelectionModel().getSelectedItem() == CueType.UNSET){
-            showDialogInvalidSelection();
-            return;
-        }
-
         if(cueIsToAdd){
             parentController.addNewCue(editingCue);
         }else {
@@ -193,10 +186,6 @@ public class FormEditCueController {
 
     private void changeCueType() {
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
-            case UNSET:
-                showDialogInvalidSelection(); // todo maybe remove UNSET entirely and use unknown as the default starting cue?
-                                                // it would make things a LOT easier in my opinion (I know it was my idea initially) - mike
-                return;
             case UNKNOWN:
                 editingCue = new UnknownCue();
                 break;
@@ -214,11 +203,5 @@ public class FormEditCueController {
         editingCue.setCueName(txtCueName.getText());
         editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
         updateFieldEntries(false);
-    }
-
-    private void showDialogInvalidSelection() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "You cannot create an unset cue! Use unknown instead!", ButtonType.OK);
-        alert.setHeaderText("Selection issue");
-        alert.showAndWait();
     }
 }
