@@ -97,8 +97,19 @@ public class FormMainController {
         setSizes();
         setTableData();
         registerDragAndDrop();
+
+
+
     }
 
+
+    public void onCloseRequest() {
+        for(Cue c : cueCollection)
+            c.stopCue();
+    }
+    public void close() throws Exception{
+        Runtime.getRuntime().exec("vlc vlc:///quit");
+    }
     private void registerDragAndDrop() {
         for (Node c : anchor_pane.getChildren()) {
             if (c instanceof Region) {

@@ -16,4 +16,7 @@ public class VideoCue extends FileCue {
     public void playCue() {
         // todo vlc
     }
+    public void stopCue() {
+        // todo stop
+    }
 }

@@ -69,6 +69,7 @@ public abstract class Cue {
         return cueBehaviour.get();
     }
 
+    public abstract void stopCue();
     public void setCueBehaviour(CueBehaviour behaviour) {
         this.cueBehaviourEnum = behaviour;
         this.cueBehaviour.set(behaviour.name().replace('_', ' ').toLowerCase());

@@ -2,8 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.FormMainController"
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ThanCue.Forms.FormMainController"
             fx:id="anchor_pane">
     <children>
         <GridPane fx:id="grid_pane">
@@ -21,6 +20,9 @@
                             <MenuItem fx:id="btnOpen" text="Open"/>
                             <MenuItem fx:id="btnSave" text="Save"/>
                             <MenuItem fx:id="btnSaveAs" text="Save As"/>
+                            <SeparatorMenuItem/> <!-- todo not sure if I like this or not -->
+                            <CheckMenuItem fx:id="chkShowMode" text="Show Mode"/>
+                            <SeparatorMenuItem/>
                             <MenuItem fx:id="btnExit" text="Exit"/>
                         </items>
                     </Menu>
@@ -33,16 +35,16 @@
                     </Menu>
                 </MenuBar>
 
-                <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"> <!-- todo either here or in the controller class, make buttons size EQUALLY (currently is relational to the text contained in the button -->
-                    <Button fx:id="btnAddCue" text="Add cue"/>
-                    <Button fx:id="btnEditCue" text="Edit cue"/>
-                    <Button fx:id="btnMoveUp" text="Move up"/>
-                    <Button fx:id="btnMoveDown" text="Move down"/>
-                </HBox>
+                <GridPane fx:id="top_row_button_container" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Button fx:id="btnAddCue" text="Add cue" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Button fx:id="btnEditCue" text="Edit cue" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Button fx:id="btnMoveUp" text="Move up" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <Button fx:id="btnMoveDown" text="Move down" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                </GridPane>
 
                 <TableView fx:id="tblView" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-                <Button fx:id="btnGo" text="Go" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Button fx:id="btnGo" text="Go" disable="true" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
             </children>
         </GridPane>

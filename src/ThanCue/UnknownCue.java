@@ -14,4 +14,7 @@ public class UnknownCue extends Cue {
     public void playCue() {
         System.out.println("Unknown cue has been played.");
     }
+    public void stopCue() {
+        System.out.println("Unknown cue has been stopped");
+    }
 }
