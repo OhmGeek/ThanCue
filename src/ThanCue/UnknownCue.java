@@ -7,7 +7,6 @@ public class UnknownCue extends Cue {
 
     public UnknownCue() {
         this.setCueType(CueType.UNKNOWN);
-        this.setCueName("Who knows?");
     }
 
     @Override

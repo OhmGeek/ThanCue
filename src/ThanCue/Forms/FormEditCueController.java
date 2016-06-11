@@ -2,18 +2,13 @@ package ThanCue.Forms;
 
 import ThanCue.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
-
-import static ThanCue.CueType.UNSET;
 
 /**
  * Created by mike on 04/06/16.
@@ -23,7 +18,7 @@ public class FormEditCueController {
 
     private FormMainController parentController;
     private Cue editingCue;
-    private boolean cueIsToAddNotEdit;
+    private boolean cueIsToAdd;
 
     //Container panes
     @FXML
@@ -69,7 +64,7 @@ public class FormEditCueController {
         setSizes();
 
         cmbCueType.getItems().setAll(CueType.values());
-        cmbCueType.getSelectionModel().select(UNSET);
+        cmbCueType.getSelectionModel().select(CueType.UNKNOWN);
         cmbCueBehaviour.getItems().setAll(CueBehaviour.values());
         cmbCueBehaviour.getSelectionModel().select(CueBehaviour.PLAY_ON_GO);
     }
@@ -117,7 +112,7 @@ public class FormEditCueController {
     }
 
     private void closeAfterReturningCue() {
-        if(cueIsToAddNotEdit){
+        if(cueIsToAdd){
             parentController.addNewCue(editingCue);
         }else {
             parentController.setEditedCue(editingCue);
@@ -164,12 +159,13 @@ public class FormEditCueController {
             editingCue = c;
         } else {
             editingCue = new UnknownCue();
+            editingCue.setIndex(parentController.getCueCollectionSize());
         }
         updateFieldEntries(true);
     }
 
     public void setCueIsToAdd(boolean b){
-        cueIsToAddNotEdit = b;
+        cueIsToAdd = b;
     }
 
     private void updateFieldEntries(boolean changeCueTypeComboBox) {
@@ -191,10 +187,6 @@ public class FormEditCueController {
 
     private void changeCueType() {
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
-            case UNSET:
-                //todo we don't want to allow creation of unset cues, this is only there to be a default value
-                throw new NotImplementedException();
-                //break;
             case UNKNOWN:
                 editingCue = new UnknownCue();
                 break;

@@ -9,8 +9,7 @@ public enum CueType {
     SOUND,
     VIDEO,
     LIGHT,
-    UNKNOWN,
-    UNSET;
+    UNKNOWN;
 
     @Override
     public String toString() {

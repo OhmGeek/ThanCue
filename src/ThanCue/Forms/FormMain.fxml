@@ -11,6 +11,7 @@
                     <Menu text="Dev">
                         <items>
                             <MenuItem fx:id="btnPrintCues" text="Print All Cues"/>
+                            <!-- todo add option to show both version, and release value, as release will be removed from title eventually -->
                         </items>
                     </Menu>
 
@@ -31,6 +32,12 @@
                         <items>
                             <MenuItem fx:id="btnUndo" text="Undo"/>
                             <MenuItem fx:id="btnRedo" text="Redo"/>
+                        </items>
+                    </Menu>
+
+                    <Menu text="Help">
+                        <items>
+                            <MenuItem fx:id="btnAbout" text="About"/>
                         </items>
                     </Menu>
                 </MenuBar>

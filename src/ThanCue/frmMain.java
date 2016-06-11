@@ -13,12 +13,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by mike on 15/05/16.
  */
-public class frmMain extends Application{
+public class frmMain extends Application {
 
     private JFrame frame;
     private JPanel pnlMain;
@@ -33,15 +32,15 @@ public class frmMain extends Application{
     private JCheckBoxMenuItem menuItemShowMode;
 
     private List<Cue> cueCollection;
-    private Random r; // purely for adding test cues todo remove
-    public Pane load() {
 
+    public Pane load() {
         SwingNode swingNode = new SwingNode();
         swingNode.setContent(this.getPanel());
         Pane p = new Pane();
         p.getChildren().add(swingNode);
         return p;
     }
+
     public frmMain() {
         //set the UI to match the OS default feel
         try {
@@ -49,10 +48,6 @@ public class frmMain extends Application{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //set the jframe
-
-        r = new Random();
 
         //create the cue collection and set the list data
         cueCollection = new ArrayList<>();
@@ -67,7 +62,6 @@ public class frmMain extends Application{
     }
 
     private static final String[] columnNames = {"#", "Icon", "Type", "Name", "Behaviour"}; //outside to avoid destroying and remaking EVERY UPDATE
-
 
 
     private void updateTable() {
@@ -284,7 +278,7 @@ public class frmMain extends Application{
     private void buttonSetupOneTimeRun() {
         btnAdd.addActionListener(actionEvent -> {
             Cue c = new UnknownCue();
-            c.setCueName("Test cue " + r.nextInt(1000));
+            c.setCueName("Test cue ");
             cueCollection.add(c);
             if (tblCueView.getSelectedRows().length != 0) {
                 int sel = tblCueView.getSelectedRow();

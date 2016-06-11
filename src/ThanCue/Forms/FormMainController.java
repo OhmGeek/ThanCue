@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -64,6 +65,10 @@ public class FormMainController {
     @FXML
     private MenuItem btnRedo;
 
+    //Help menu
+    @FXML
+    private MenuItem btnAbout;
+
     //Cue info view
     @FXML
     private TableView<Cue> tblView;
@@ -88,7 +93,6 @@ public class FormMainController {
             new UnknownCue(),
             new SoundCue() //todo start empty (or loaded from file)
     );
-
 
     @FXML
     public void initialize() {
@@ -168,11 +172,22 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
-        // todo maybe show filePath in the table, and have it blank for Unknown, Unset, Light, etc.. cues
 
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
         //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmIndex.setCellFactory(param -> { //purely for alignment
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        setText(item.toString());
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
 
         clmType.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueType"));
         clmType.setCellFactory(param -> {
@@ -274,6 +289,7 @@ public class FormMainController {
         btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         chkShowMode.setOnAction(event -> toggleShowMode());
+        btnAbout.setOnAction(event -> showAbout());
         btnExit.setOnAction(event -> Platform.exit());
 
         //Edit Menu
@@ -289,6 +305,21 @@ public class FormMainController {
 
         //Table
         tblView.getSelectionModel().selectedItemProperty().addListener((observableValue, cue, t1) -> selectionChanged());
+    }
+
+    private void showAbout() {
+        FXMLLoader root;
+        try {
+            root = new FXMLLoader(getClass().getResource("FormAbout.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("About");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(anchor_pane.getScene().getWindow());
+            stage.setScene(new Scene(root.load(), 400, 350));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void selectionChanged() {
@@ -353,16 +384,16 @@ public class FormMainController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
             stage.setScene(new Scene(root.load(), 400, 350));
-            root.<FormEditCueController>getController().setEditObject(cueToEdit);
             root.<FormEditCueController>getController().setCueIsToAdd(cueIsToAdd);
             root.<FormEditCueController>getController().setParentController(this);
+            root.<FormEditCueController>getController().setEditObject(cueToEdit);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void addNewCue(Cue cueToAdd){
+    public void addNewCue(Cue cueToAdd) {
         cueCollection.add(cueToAdd);
         refreshTable();
     }
@@ -382,7 +413,7 @@ public class FormMainController {
 
     private void moveSelectedCueUp() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
-            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex();
             if (firstSelection > 0) { //if not already at the top
                 Cue swapDown = cueCollection.get(firstSelection - 1);
                 Cue swapUp = cueCollection.get(firstSelection);
@@ -399,7 +430,7 @@ public class FormMainController {
 
     private void moveSelectedCueDown() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
-            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex();
             if (firstSelection < cueCollection.size() - 1) { //if not already at the bottom
                 Cue swapDown = cueCollection.get(firstSelection);
                 Cue swapUp = cueCollection.get(firstSelection + 1);
@@ -418,6 +449,10 @@ public class FormMainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "You must have a cue selected to do that!", ButtonType.OK);
         alert.setHeaderText("Selection issue");
         alert.showAndWait();
+    }
+
+    public int getCueCollectionSize() {
+        return cueCollection.size();
     }
 }
 

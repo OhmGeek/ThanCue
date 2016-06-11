@@ -3,8 +3,8 @@ package ThanCue;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static ThanCue.Constants.endField;
-import static ThanCue.Constants.endRecord;
+import static ThanCue.Constants.endFieldCharacter;
+import static ThanCue.Constants.endRecordCharacter;
 
 /**
  * Created by mike on 08/06/16.
@@ -42,10 +42,10 @@ public abstract class FileCue extends Cue {
     public String getFileString() {
         String current = super.getFileString();
 
-        current = "sc" + endField + current; //marks file as a sound cue.
+        current = "sc" + endFieldCharacter + current; //marks file as a sound cue.
         current += getFilePath().getFileName().toString(); //gets the name and extension.
-        current += endField;
-        current += endRecord;
+        current += endFieldCharacter;
+        current += endRecordCharacter;
         return current;
     }
 }

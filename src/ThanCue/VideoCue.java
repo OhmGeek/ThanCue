@@ -8,7 +8,6 @@ public class VideoCue extends FileCue {
     public VideoCue() {
         super();
         this.setCueType(CueType.VIDEO);
-        this.setCueName("Video time");
         this.setCueFilePath(System.getProperty("user.home") + "/testVideo.mp4");
     }
 
