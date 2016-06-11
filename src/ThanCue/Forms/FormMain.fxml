@@ -33,6 +33,12 @@
                             <MenuItem fx:id="btnRedo" text="Redo"/>
                         </items>
                     </Menu>
+
+                    <Menu text="Help">
+                        <items>
+                            <MenuItem fx:id="btnAbout" text="About"/>
+                        </items>
+                    </Menu>
                 </MenuBar>
 
                 <GridPane fx:id="top_row_button_container" GridPane.columnIndex="0" GridPane.rowIndex="1">

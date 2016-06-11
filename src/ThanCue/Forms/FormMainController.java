@@ -65,6 +65,10 @@ public class FormMainController {
     @FXML
     private MenuItem btnRedo;
 
+    //Help menu
+    @FXML
+    private MenuItem btnAbout;
+
     //Cue info view
     @FXML
     private TableView<Cue> tblView;
@@ -275,6 +279,7 @@ public class FormMainController {
         btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         chkShowMode.setOnAction(event -> toggleShowMode());
+        btnAbout.setOnAction(event -> showAbout());
         btnExit.setOnAction(event -> Platform.exit());
 
         //Edit Menu
@@ -290,6 +295,21 @@ public class FormMainController {
 
         //Table
         tblView.getSelectionModel().selectedItemProperty().addListener((observableValue, cue, t1) -> selectionChanged());
+    }
+
+    private void showAbout() {
+        FXMLLoader root;
+        try {
+            root = new FXMLLoader(getClass().getResource("FormAbout.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("About");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(anchor_pane.getScene().getWindow());
+            stage.setScene(new Scene(root.load(), 400, 350));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void selectionChanged() {
@@ -383,7 +403,7 @@ public class FormMainController {
 
     private void moveSelectedCueUp() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
-            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex();
             if (firstSelection > 0) { //if not already at the top
                 Cue swapDown = cueCollection.get(firstSelection - 1);
                 Cue swapUp = cueCollection.get(firstSelection);
@@ -400,7 +420,7 @@ public class FormMainController {
 
     private void moveSelectedCueDown() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
-            int firstSelection = tblView.getSelectionModel().getSelectedIndex(); //todo support multiple cues to move at once
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex();
             if (firstSelection < cueCollection.size() - 1) { //if not already at the bottom
                 Cue swapDown = cueCollection.get(firstSelection);
                 Cue swapUp = cueCollection.get(firstSelection + 1);

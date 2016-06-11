@@ -15,4 +15,11 @@ public class Constants {
     //generic
     public static String filePathNotPresent = "n/a";
     public static String defaultCueName = "Unnamed cue";
+
+    //about thancue
+    public static String aboutText = "ThanCue " + VERSION_NAME + " - for the music\n" +
+            "cue software designed by an Abba fan and someone who isn't as keen on Abba\n\n" +
+            "Free, open source, simple to use, multi-platform!\n\n" +
+            "By Mike Croall and Ryan Collins\n" +
+            "https://github.com/OhmGeek/ThanCue"; //todo improve this about text
 }
