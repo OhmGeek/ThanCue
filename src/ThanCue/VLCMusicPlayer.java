@@ -1,5 +1,7 @@
 package ThanCue;
 
+import java.nio.file.Path;
+
 /**
  * Created by ryan on 11/06/16.
  */
@@ -25,14 +27,22 @@ public class VLCMusicPlayer {
 
     }
 
+    private void windowsPlay() {
+        linuxPlay();
+    }
+
+    private void macPlay() {
+        linuxPlay();
+    }
     public void play() {
 
         //todo use an ENUM here with switch. it'll be nicer!
+        //todo exceptions here to be thrown if errors occur
         if(operatingSysName.startsWith("Windows")) {
-
+            windowsPlay();
         }
         else if(operatingSysName.contains("mac os") || operatingSysName.contains("macos") || operatingSysName.contains("darwin")) {
-
+            macPlay();
         }
         else if(operatingSysName.contains("nix") || operatingSysName.contains("nux")) {
             linuxPlay();

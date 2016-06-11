@@ -6,7 +6,7 @@ package ThanCue;
 public class Constants {
     //updates
     public static final String VERSION_NAME = "0.7.2";
-    public static final int RELEASE_ID = 21;
+    public static final int RELEASE_ID = 23;
 
     //file saving/loading
     public static final String endRecordCharacter = String.valueOf((char) 30);
