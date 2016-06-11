@@ -18,7 +18,7 @@ public class Constants {
 
     //about thancue
     public static String aboutText = "ThanCue " + VERSION_NAME + " - for the music\n" +
-            "cue software designed by an Abba fan and someone who isn't as keen on Abba\n\n" +
+            "Cue software designed by an Abba fan and someone who isn't as keen on Abba\n\n" +
             "Free, open source, simple to use, multi-platform!\n\n" +
             "By Mike Croall and Ryan Collins\n\n" +
             "Thancue: https://github.com/OhmGeek/ThanCue\n" +

@@ -1,6 +1,7 @@
 package ThanCue.Forms;
 
 import ThanCue.*;
+import com.sun.media.jfxmedia.control.VideoFormat;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +21,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,9 +114,6 @@ public class FormMainController {
         for(Cue c : cueCollection)
             c.stopCue();
     }
-    public void close() throws Exception{
-        Runtime.getRuntime().exec("vlc vlc:///quit");
-    }
     private void registerDragAndDrop() {
         for (Node c : anchor_pane.getChildren()) {
             if (c instanceof Region) {
@@ -132,13 +132,29 @@ public class FormMainController {
                             System.out.println("File to add: " + f.getName());
                             String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
                             System.out.println("Found extension: " + ext);
-                            //todo BETTER checking to the type. Only allow for sound cues or videos (or cue stacks?).
-                            if (soundExtensions.contains(ext)) {
+
+
+
+                            //todo put in a nice method to make more readable
+                            try {
+                                AudioFileFormat foramt = AudioSystem.getAudioFileFormat(f);
                                 SoundCue cToAdd = new SoundCue();
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setCueFilePath(f.getAbsolutePath());
                                 cueCollection.add(cToAdd);
                             }
+                            catch(Exception ex) {
+                                System.out.println("Not a sound cue");
+                            }
+
+                            if(ext.contains("mp4") || ext.contains("m4v")) {
+                                VideoCue cToAdd = new VideoCue();
+                                cToAdd.setCueName(f.getName());
+                                cToAdd.setCueFilePath(f.getAbsolutePath());
+                                cueCollection.add(cToAdd);
+                            }
+
+
                         }
                         event.setDropCompleted(true);
                     }

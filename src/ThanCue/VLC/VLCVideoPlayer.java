@@ -1,15 +1,15 @@
-package ThanCue;
+package ThanCue.VLC;
 
 import java.nio.file.Path;
 
 /**
  * Created by ryan on 11/06/16.
  */
-public class VLCMusicPlayer {
+public class VLCVideoPlayer {
     private Process vlcInstance;
     private String operatingSysName;
     private String fileToPlayURL;
-    public VLCMusicPlayer(String fileToPlayURL) {
+    public VLCVideoPlayer(String fileToPlayURL) {
 
         vlcInstance = null; //stores the vlc process. Ignore for now
         operatingSysName = System.getProperty("os.name"); //gets the operating system name
@@ -19,7 +19,7 @@ public class VLCMusicPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", fileToPlayURL});
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", "--Idummy", "--fullscreen",fileToPlayURL});
         }
         catch(Exception ex) {
 

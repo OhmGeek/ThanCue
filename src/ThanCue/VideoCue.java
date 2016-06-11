@@ -1,10 +1,12 @@
 package ThanCue;
 
+import ThanCue.VLC.VLCVideoPlayer;
+
 /**
  * Created by mike on 08/06/16.
  */
 public class VideoCue extends FileCue {
-
+    private VLCVideoPlayer player = null;
     public VideoCue() {
         super();
         this.setCueType(CueType.VIDEO);
@@ -13,9 +15,10 @@ public class VideoCue extends FileCue {
 
     @Override
     public void playCue() {
-        // todo vlc
+        player = new VLCVideoPlayer(soundPath.toAbsolutePath().toString());
+        player.play();
     }
     public void stopCue() {
-        // todo stop
+        player.stop();
     }
 }
