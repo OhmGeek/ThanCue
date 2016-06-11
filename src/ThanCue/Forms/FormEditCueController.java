@@ -159,6 +159,7 @@ public class FormEditCueController {
             editingCue = c;
         } else {
             editingCue = new UnknownCue();
+            editingCue.setIndex(parentController.getCueCollectionSize());
         }
         updateFieldEntries(true);
     }

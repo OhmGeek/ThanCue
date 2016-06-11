@@ -354,9 +354,9 @@ public class FormMainController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
             stage.setScene(new Scene(root.load(), 400, 350));
-            root.<FormEditCueController>getController().setEditObject(cueToEdit);
             root.<FormEditCueController>getController().setCueIsToAdd(cueIsToAdd);
             root.<FormEditCueController>getController().setParentController(this);
+            root.<FormEditCueController>getController().setEditObject(cueToEdit);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -419,6 +419,10 @@ public class FormMainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "You must have a cue selected to do that!", ButtonType.OK);
         alert.setHeaderText("Selection issue");
         alert.showAndWait();
+    }
+
+    public int getCueCollectionSize(){
+        return cueCollection.size();
     }
 }
 
