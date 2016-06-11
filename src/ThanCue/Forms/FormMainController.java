@@ -94,7 +94,6 @@ public class FormMainController {
             new SoundCue() //todo start empty (or loaded from file)
     );
 
-
     @FXML
     public void initialize() {
         System.out.println("Let's get this party started!");
@@ -166,7 +165,7 @@ public class FormMainController {
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
         //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
-        clmIndex.setCellFactory(param ->{ //purely for alignment
+        clmIndex.setCellFactory(param -> { //purely for alignment
             TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
                 @Override
                 public void updateItem(Integer item, boolean empty) {
@@ -383,7 +382,7 @@ public class FormMainController {
         }
     }
 
-    public void addNewCue(Cue cueToAdd){
+    public void addNewCue(Cue cueToAdd) {
         cueCollection.add(cueToAdd);
         refreshTable();
     }
@@ -441,7 +440,7 @@ public class FormMainController {
         alert.showAndWait();
     }
 
-    public int getCueCollectionSize(){
+    public int getCueCollectionSize() {
         return cueCollection.size();
     }
 }

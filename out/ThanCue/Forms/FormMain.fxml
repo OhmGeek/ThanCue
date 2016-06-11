@@ -11,6 +11,7 @@
                     <Menu text="Dev">
                         <items>
                             <MenuItem fx:id="btnPrintCues" text="Print All Cues"/>
+                            <!-- todo add option to show both version, and release value, as release will be removed from title eventually -->
                         </items>
                     </Menu>
 
