@@ -345,7 +345,7 @@ public class FormMainController {
             stage.setTitle("About");
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
-            stage.setScene(new Scene(root.load(), 400, 350));
+            stage.setScene(new Scene(root.load(), 480, 350));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

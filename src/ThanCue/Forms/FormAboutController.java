@@ -1,14 +1,22 @@
 package ThanCue.Forms;
 
 import ThanCue.Constants;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.runtime.URIUtils;
+
+import java.awt.*;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Created by mike on 11/06/16.
@@ -23,12 +31,25 @@ public class FormAboutController {
     private Label lblAboutInfo;
     @FXML
     private Button btnClose;
+    @FXML
+    private Hyperlink btnThanCue;
+    @FXML
+    private Hyperlink btnMike;
+    @FXML
+    private Hyperlink btnRyan;
 
     @FXML
     public void initialize() {
         setText();
         setActions();
         setSizes();
+    }
+
+    private void setText() {
+        lblAboutInfo.setText(Constants.aboutText);
+        btnThanCue.setText(btnThanCue.getText() + Constants.URL_GITHUB_THANCUE);
+        btnMike.setText(btnMike.getText() + Constants.URL_GITHUB_MIKE);
+        btnRyan.setText(btnRyan.getText() + Constants.URL_GITHUB_RYAN);
     }
 
     private void setSizes() {
@@ -48,15 +69,28 @@ public class FormAboutController {
     }
 
     private void setActions() {
+        btnThanCue.setOnAction(event -> openWebsite(Constants.URL_GITHUB_THANCUE));
+        btnMike.setOnAction(event -> openWebsite(Constants.URL_GITHUB_MIKE));
+        btnRyan.setOnAction(event -> openWebsite(Constants.URL_GITHUB_RYAN));
+
         btnClose.setOnAction(event -> close());
     }
 
-    private void close() {
-        Stage thisStage = (Stage)btnClose.getScene().getWindow();
-        thisStage.close();
+    private void openWebsite(String site) {
+        //windows or mac:
+        //java.awt.Desktop.getDesktop().browse(url.toURI());
+
+        try {
+            if (Runtime.getRuntime().exec(new String[]{"which", "xdg-open"}).getInputStream().read() != -1) {
+                Runtime.getRuntime().exec(new String[]{"xdg-open", site});
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    private void setText() {
-        lblAboutInfo.setText(Constants.aboutText);
+    private void close() {
+        Stage thisStage = (Stage) btnClose.getScene().getWindow();
+        thisStage.close();
     }
 }
