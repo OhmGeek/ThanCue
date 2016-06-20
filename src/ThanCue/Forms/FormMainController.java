@@ -364,16 +364,14 @@ public class FormMainController {
         // NOTE: I changed this a fair bit, as we only want to have ONE cue selected at once, and use behaviour to play many cues
         // as such, todo use behaviour to play more than the one selected (while next one is play on/after this?)
         Cue cue = tblView.getSelectionModel().getSelectedItem();
-        if (cue instanceof SoundCue) { // todo is this check for testing? probably not needed...
-            cue.playCue();
-        }
-        int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
+        delayPlay(cue);
 
+        int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
         //todo below is untested
         while (currentCueIndex + 1 < cueCollection.size() && cueCollection.get(currentCueIndex + 1).cueBehaviourEnum == CueBehaviour.PLAY_WITH_PREVIOUS) {
             currentCueIndex++;
             cue = cueCollection.get(currentCueIndex);
-            cue.playCue();
+            delayPlay(cue);
         }
         //todo also somehow account for play after previous?
 
@@ -389,6 +387,21 @@ public class FormMainController {
         } else {
             //not at the end, ie. not ready to try and loop yet
             tblView.getSelectionModel().select(currentCueIndex);
+        }
+    }
+
+    private void delayPlay(Cue c){
+        if (c.getCuePlayDelay() > 0) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(c.getCuePlayDelay());
+                    c.playCue();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        }else {
+            c.playCue();
         }
     }
 
