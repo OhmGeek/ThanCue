@@ -1,6 +1,7 @@
 package ThanCue.Forms;
 
 import ThanCue.Constants;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -65,7 +66,8 @@ public class FormAboutController {
         lblAboutInfo.wrapTextProperty().setValue(true);
         lblAboutInfo.textAlignmentProperty().setValue(TextAlignment.CENTER);
 
-        // todo remove the extra space at the bottom of the form
+        // todo fix this error:
+        //btnClose.getScene().getWindow().sizeToScene();
     }
 
     private void setActions() {

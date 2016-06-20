@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,10 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -101,13 +103,36 @@ public class FormMainController {
     public void initialize() {
         System.out.println("Let's get this party started!");
         setActions();
+        setKeyCombos();
         setSizes();
         setTableData();
         registerDragAndDrop();
+        //setEffects(); // todo decide if this is awesome or shit
+    }
+
+    private void setKeyCombos() {
+        btnNew.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        btnOpen.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+        btnSave.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+
+        btnUndo.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+        // todo I don't remember what redo normally is
+
+        //btnGo is not a menuItem, and as such cannot use accelerators... // todo scene key event handling for btnGo
+    }
+
+    private void setEffects() {
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setColor(Color.LIMEGREEN);
+        borderGlow.setWidth(40);
+        borderGlow.setHeight(40);
+        btnGo.setEffect(borderGlow);
     }
 
     public void onCloseRequest() {
-        for(Cue c : cueCollection)
+        for (Cue c : cueCollection)
             c.stopCue();
     }
 
@@ -131,7 +156,6 @@ public class FormMainController {
                             System.out.println("Found extension: " + ext);
 
 
-
                             //todo put in a nice method to make more readable
                             try {
                                 AudioFileFormat foramt = AudioSystem.getAudioFileFormat(f);
@@ -139,12 +163,11 @@ public class FormMainController {
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setCueFilePath(f.getAbsolutePath());
                                 cueCollection.add(cToAdd);
-                            }
-                            catch(Exception ex) {
+                            } catch (Exception ex) {
                                 System.out.println("Not a sound cue");
                             }
 
-                            if(ext.contains("mp4") || ext.contains("m4v")) {
+                            if (ext.contains("mp4") || ext.contains("m4v")) {
                                 VideoCue cToAdd = new VideoCue();
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setCueFilePath(f.getAbsolutePath());
@@ -390,7 +413,7 @@ public class FormMainController {
         }
     }
 
-    private void delayPlay(Cue c){
+    private void delayPlay(Cue c) {
         if (c.getCuePlayDelay() > 0) {
             new Thread(() -> {
                 try {
@@ -400,7 +423,7 @@ public class FormMainController {
                     ex.printStackTrace();
                 }
             });
-        }else {
+        } else {
             c.playCue();
         }
     }
