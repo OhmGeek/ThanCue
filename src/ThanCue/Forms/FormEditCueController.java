@@ -39,6 +39,8 @@ public class FormEditCueController {
     private Label lblCueBehaviour;
     @FXML
     private Label lblFilePath;
+    @FXML
+    private Label lblMS;
 
     //Selectors
     @FXML
@@ -49,6 +51,8 @@ public class FormEditCueController {
     //Text areas
     @FXML
     private TextField txtCueName;
+    @FXML
+    private Spinner nmrCuePlayDelay;
 
     //Form buttons
     @FXML
@@ -77,27 +81,39 @@ public class FormEditCueController {
 
         //fields
         cmbCueType.setOnAction(event -> changeCueType());
-        txtCueName.textProperty().addListener((observableValue, s, t1) -> changeCueName()); //text changed
+        txtCueName.textProperty().addListener((observableValue, oldValue, newValue) -> changeCueName()); //text changed
         cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
+        nmrCuePlayDelay.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 1) {
+        });
+        nmrCuePlayDelay.valueProperty().addListener((observableValue, old, newValue) -> changeCuePlayDelay());
+    }
+
+    private void changeCuePlayDelay() {
+        int delay = (int) nmrCuePlayDelay.getValue();
+        if (delay >= 0) {
+            if (editingCue != null) {
+                editingCue.setCuePlayDelay(delay);
+            }
+        }
     }
 
     private void chooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose file for cue");
-        fileChooser.setInitialDirectory(((FileCue)editingCue).getFilePath().getParent().toFile());
+        fileChooser.setInitialDirectory(((FileCue) editingCue).getFilePath().getParent().toFile());
         File file = fileChooser.showOpenDialog(btnChooseFile.getScene().getWindow());
-        if(file != null){
+        if (file != null) {
             changeFilePath(file);
         }
     }
 
     private void changeFilePath(File file) {
-        ((FileCue)editingCue).setCueFilePath(file.getAbsolutePath());
+        ((FileCue) editingCue).setCueFilePath(file.getAbsolutePath());
         updateFieldEntries(true);
     }
 
     private void changeCueBehaviour() {
-        editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
+        editingCue.setCueBehaviour((CueBehaviour) cmbCueBehaviour.getSelectionModel().getSelectedItem());
     }
 
     //todo reorder methods to be more organised
@@ -107,14 +123,14 @@ public class FormEditCueController {
     }
 
     private void closeEditCueWindow() {
-        Stage thisStage = (Stage)btnCancelChanges.getScene().getWindow();
+        Stage thisStage = (Stage) btnCancelChanges.getScene().getWindow();
         thisStage.close();
     }
 
     private void closeAfterReturningCue() {
-        if(cueIsToAdd){
+        if (cueIsToAdd) {
             parentController.addNewCue(editingCue);
-        }else {
+        } else {
             parentController.setEditedCue(editingCue);
         }
         closeEditCueWindow();
@@ -130,6 +146,7 @@ public class FormEditCueController {
         lblCueBehaviour.setMaxWidth(Double.MAX_VALUE);
         container_file_chooser.setMaxWidth(Double.MAX_VALUE);
         lblFilePath.setMaxWidth(Double.MAX_VALUE);
+        lblMS.setMaxWidth(Double.MAX_VALUE);
 
         //ensure grid pane always fill width of parent
         AnchorPane.setTopAnchor(grid_pane, .0);
@@ -144,19 +161,27 @@ public class FormEditCueController {
 
         //set HGrow
         HBox.setHgrow(lblFilePath, Priority.ALWAYS);
+        HBox.setHgrow(lblMS, Priority.SOMETIMES);
 
         //update layouts
         anchor_pane.layout();
         grid_pane.layout();
     }
 
-    public void setParentController(FormMainController c){
+    public void setParentController(FormMainController c) {
         this.parentController = c;
     }
 
     public void setEditObject(Cue c) {
         if (c != null) {
-            editingCue = c;
+            try {
+                editingCue = c.getClass().newInstance();
+                editingCue.setIndex(c.getIndex());
+            }catch(Exception ex) {
+                ex.printStackTrace();
+                editingCue = new UnknownCue();
+                editingCue.setIndex(parentController.getCueCollectionSize());
+            }
         } else {
             editingCue = new UnknownCue();
             editingCue.setIndex(parentController.getCueCollectionSize());
@@ -164,7 +189,7 @@ public class FormEditCueController {
         updateFieldEntries(true);
     }
 
-    public void setCueIsToAdd(boolean b){
+    public void setCueIsToAdd(boolean b) {
         cueIsToAdd = b;
     }
 
@@ -177,15 +202,18 @@ public class FormEditCueController {
         }
         cmbCueBehaviour.getSelectionModel().select(editingCue.cueBehaviourEnum);
         boolean cueTypeUsesFile = editingCue instanceof FileCue;
-        if(cueTypeUsesFile){
-            lblFilePath.setText(((FileCue)editingCue).getFilePath().toAbsolutePath().toString());
-        }else{
+        if (cueTypeUsesFile) {
+            lblFilePath.setText(((FileCue) editingCue).getFilePath().toAbsolutePath().toString());
+        } else {
             lblFilePath.setText("No file");
         }
         container_file_chooser.setDisable(!cueTypeUsesFile);
+        nmrCuePlayDelay.getValueFactory().setValue(editingCue.getCuePlayDelay());
     }
 
     private void changeCueType() {
+        int ind = editingCue.getIndex();
+        boolean wasFile = editingCue instanceof FileCue;
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
             case UNKNOWN:
                 editingCue = new UnknownCue();
@@ -201,8 +229,14 @@ public class FormEditCueController {
                 editingCue = new VideoCue();
                 break;
         }
+        editingCue.setIndex(ind);
         editingCue.setCueName(txtCueName.getText());
-        editingCue.setCueBehaviour((CueBehaviour)cmbCueBehaviour.getSelectionModel().getSelectedItem());
+        editingCue.setCueBehaviour((CueBehaviour) cmbCueBehaviour.getSelectionModel().getSelectedItem());
+        if (wasFile && editingCue instanceof FileCue) {
+            ((FileCue) editingCue).setCueFilePath(lblFilePath.getText());
+        }
+        editingCue.setCuePlayDelay((int) nmrCuePlayDelay.getValue());
+
         updateFieldEntries(false);
     }
 }

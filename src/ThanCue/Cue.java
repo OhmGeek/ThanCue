@@ -21,6 +21,7 @@ public abstract class Cue {
     private SimpleStringProperty cueName;
     private SimpleStringProperty cueBehaviour;
     protected SimpleStringProperty cueFilePath;
+    private SimpleIntegerProperty cuePlayDelay;
 
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
@@ -34,6 +35,7 @@ public abstract class Cue {
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.toString());
         cueFilePath = new SimpleStringProperty(Constants.filePathNotPresent);
+        cuePlayDelay = new SimpleIntegerProperty(0);
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -82,9 +84,13 @@ public abstract class Cue {
         System.out.println("Attempt to set filePath on non-file cue!");
     }
 
+    public int getCuePlayDelay(){ return cuePlayDelay.get(); }
+
+    public void setCuePlayDelay(int delay) { cuePlayDelay.set(delay); }
+
     @Override
     public String toString() {
-        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour();
+        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour() + " - "  + getCuePlayDelay() + "ms";
     }
 
     public String getFileString() {

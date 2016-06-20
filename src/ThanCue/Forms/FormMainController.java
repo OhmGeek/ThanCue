@@ -104,16 +104,13 @@ public class FormMainController {
         setSizes();
         setTableData();
         registerDragAndDrop();
-
-
-
     }
-
 
     public void onCloseRequest() {
         for(Cue c : cueCollection)
             c.stopCue();
     }
+
     private void registerDragAndDrop() {
         for (Node c : anchor_pane.getChildren()) {
             if (c instanceof Region) {
@@ -170,7 +167,7 @@ public class FormMainController {
         for (int i = 0; i < cueCollection.size(); i++) {
             Cue c = cueCollection.get(i);
             c.setIndex(i);
-            //cueCollection.set(i, c); // not needed because pointers :D
+            cueCollection.set(i, c); // not needed because pointers :D
         }
 
         tblView.refresh();
@@ -188,6 +185,8 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
+        TableColumn<Cue, Integer> clmDelay = new TableColumn<>("Start delay (ms)");
+        clmDelay.setSortable(false);
 
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
@@ -234,8 +233,23 @@ public class FormMainController {
 
         clmFilePath.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueFilePath"));
 
+        clmDelay.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCuePlayDelay()).asObject());
+        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmDelay.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        setText(item.toString());
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
+
         //add columns
-        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath);
+        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath, clmDelay);
 
         //link data to table
         tblView.setItems(cueCollection);

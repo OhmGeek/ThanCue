@@ -29,8 +29,14 @@
                 <Button fx:id="btnChooseFile" text="Browse" alignment="CENTER_RIGHT"/>
             </HBox>
 
-            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label fx:id="lblCuePlayDelay" text="Play Delay" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Spinner fx:id="nmrCuePlayDelay"/>
+                <Label fx:id="lblMS" text="ms"/>
+            </HBox>
+
+            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
         </GridPane>
     </children>
 </AnchorPane>

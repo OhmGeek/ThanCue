@@ -17,11 +17,11 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo stop showing release ID (only for dev)
-        primaryStage.setScene(new Scene(root, 600, 550));
+        primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
 
     Platform.runLater(() -> {
-        // todo check if this works
+        // todo fix this, as currently updating runs a temp copy of the new version, does not replace the old version
         //check for updates
         System.out.println("Checking for updates...");
         try {
