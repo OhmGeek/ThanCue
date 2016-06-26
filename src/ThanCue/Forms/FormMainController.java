@@ -1,6 +1,7 @@
 package ThanCue.Forms;
 
 import ThanCue.*;
+import com.sun.glass.ui.Application;
 import com.sun.media.jfxmedia.control.VideoFormat;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -20,8 +21,10 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
@@ -339,7 +342,27 @@ public class FormMainController {
         //File Menu
         btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
         btnOpen.setOnAction(event -> System.out.println("Open Cue Stack"));
-        btnSave.setOnAction(event -> System.out.println("Save Cue Stack"));
+        btnSave.setOnAction(event -> {
+
+            CueFileManager man = new CueFileManager();
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Specify Destination");
+                File file = fileChooser.showSaveDialog(anchor_pane.getScene().getWindow());
+                if(file != null) {
+                    try {
+                        man.writeCue(file,cueCollection);
+                    } catch(Exception ex) {
+                        System.out.println("Error occurred in writing");
+                        ex.printStackTrace();
+                    }
+                }
+                else {
+                    System.out.println("User didn't want to save after all :(");
+                }
+
+
+
+        });
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         chkShowMode.setOnAction(event -> toggleShowMode());
         btnAbout.setOnAction(event -> showAbout());
