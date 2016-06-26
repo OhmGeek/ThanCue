@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,10 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -101,19 +103,39 @@ public class FormMainController {
     public void initialize() {
         System.out.println("Let's get this party started!");
         setActions();
+        setKeyCombos();
         setSizes();
         setTableData();
         registerDragAndDrop();
-
-
-
+        //setEffects(); // todo decide if this is awesome or shit
     }
 
+    private void setKeyCombos() {
+        btnNew.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        btnOpen.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+        btnSave.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+
+        btnUndo.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+        // todo I don't remember what redo normally is
+
+        //btnGo is not a menuItem, and as such cannot use accelerators... // todo scene key event handling for btnGo
+    }
+
+    private void setEffects() {
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setColor(Color.LIMEGREEN);
+        borderGlow.setWidth(40);
+        borderGlow.setHeight(40);
+        btnGo.setEffect(borderGlow);
+    }
 
     public void onCloseRequest() {
-        for(Cue c : cueCollection)
+        for (Cue c : cueCollection)
             c.stopCue();
     }
+
     private void registerDragAndDrop() {
         for (Node c : anchor_pane.getChildren()) {
             if (c instanceof Region) {
@@ -134,7 +156,6 @@ public class FormMainController {
                             System.out.println("Found extension: " + ext);
 
 
-
                             //todo put in a nice method to make more readable
                             try {
                                 AudioFileFormat foramt = AudioSystem.getAudioFileFormat(f);
@@ -142,12 +163,11 @@ public class FormMainController {
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setCueFilePath(f.getAbsolutePath());
                                 cueCollection.add(cToAdd);
-                            }
-                            catch(Exception ex) {
+                            } catch (Exception ex) {
                                 System.out.println("Not a sound cue");
                             }
 
-                            if(ext.contains("mp4") || ext.contains("m4v")) {
+                            if (ext.contains("mp4") || ext.contains("m4v")) {
                                 VideoCue cToAdd = new VideoCue();
                                 cToAdd.setCueName(f.getName());
                                 cToAdd.setCueFilePath(f.getAbsolutePath());
@@ -170,7 +190,7 @@ public class FormMainController {
         for (int i = 0; i < cueCollection.size(); i++) {
             Cue c = cueCollection.get(i);
             c.setIndex(i);
-            //cueCollection.set(i, c); // not needed because pointers :D
+            cueCollection.set(i, c); // not needed because pointers :D
         }
 
         tblView.refresh();
@@ -188,6 +208,8 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
+        TableColumn<Cue, Integer> clmDelay = new TableColumn<>("Start delay (ms)");
+        clmDelay.setSortable(false);
 
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
@@ -234,8 +256,23 @@ public class FormMainController {
 
         clmFilePath.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueFilePath"));
 
+        clmDelay.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCuePlayDelay()).asObject());
+        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmDelay.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        setText(item.toString());
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
+
         //add columns
-        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath);
+        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath, clmDelay);
 
         //link data to table
         tblView.setItems(cueCollection);
@@ -331,7 +368,7 @@ public class FormMainController {
             stage.setTitle("About");
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
-            stage.setScene(new Scene(root.load(), 400, 350));
+            stage.setScene(new Scene(root.load(), 480, 350));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -350,16 +387,14 @@ public class FormMainController {
         // NOTE: I changed this a fair bit, as we only want to have ONE cue selected at once, and use behaviour to play many cues
         // as such, todo use behaviour to play more than the one selected (while next one is play on/after this?)
         Cue cue = tblView.getSelectionModel().getSelectedItem();
-        if (cue instanceof SoundCue) { // todo is this check for testing? probably not needed...
-            cue.playCue();
-        }
-        int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
+        delayPlay(cue);
 
+        int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
         //todo below is untested
         while (currentCueIndex + 1 < cueCollection.size() && cueCollection.get(currentCueIndex + 1).cueBehaviourEnum == CueBehaviour.PLAY_WITH_PREVIOUS) {
             currentCueIndex++;
             cue = cueCollection.get(currentCueIndex);
-            cue.playCue();
+            delayPlay(cue);
         }
         //todo also somehow account for play after previous?
 
@@ -375,6 +410,21 @@ public class FormMainController {
         } else {
             //not at the end, ie. not ready to try and loop yet
             tblView.getSelectionModel().select(currentCueIndex);
+        }
+    }
+
+    private void delayPlay(Cue c) {
+        if (c.getCuePlayDelay() > 0) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(c.getCuePlayDelay());
+                    c.playCue();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        } else {
+            c.playCue();
         }
     }
 

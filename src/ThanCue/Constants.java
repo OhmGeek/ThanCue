@@ -16,12 +16,17 @@ public class Constants {
     public static String filePathNotPresent = "n/a";
     public static String defaultCueName = "Unnamed cue";
 
+    //URLs
+    public static String URL_GITHUB_THANCUE = "https://www.github.com/OhmGeek/ThanCue/";
+    public static String URL_GITHUB_MIKE = "https://www.github.com/MikeCroall/";
+    public static String URL_GITHUB_RYAN = "https://www.github.com/OhmGeek/";
+
     //about thancue
     public static String aboutText = "ThanCue " + VERSION_NAME + " - for the music\n" +
             "Cue software designed by an Abba fan and someone who isn't as keen on Abba\n\n" +
-            "Free, open source, simple to use, multi-platform!\n\n" +
+            "Free, open source, simple to use, linux (and maybe mac) supported!\n\n" +
             "By Mike Croall and Ryan Collins\n\n" +
-            "Thancue: https://github.com/OhmGeek/ThanCue\n" +
+            "Thancue: https://github.com/OhmGeek/ThanCue/\n" +
             "Mike Croall: https://github.com/MikeCroall/\n" + // todo make hyperlinks work
             "Ryan Collins: https://github.com/OhmGeek/"; // todo improve this about text
 }
