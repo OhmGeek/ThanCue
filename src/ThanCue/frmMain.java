@@ -208,7 +208,7 @@ public class frmMain extends Application {
                 int userSelection = filePicker.showSaveDialog(this.frame);
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
                     File fileToSave = filePicker.getSelectedFile();
-                    man.writeCue(fileToSave.getParent() + "/", fileToSave.getName(), cueCollection);
+                    man.writeCue(new File(fileToSave.getParent() + "/" + fileToSave.getName()), cueCollection);
                     System.out.println(fileToSave.getParent() + fileToSave.getName());
                 }
 

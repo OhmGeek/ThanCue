@@ -32,20 +32,23 @@ public class CueFileManager {
         //  3. Repeat for each file in the index.dat :)
 
         if(!ZipUtil.containsEntry(zipFile,"index.dat")) {
-            System.out.println("INvalid File");
+            System.out.println("Invalid File");
             throw new InvalidFileTypeException();
         }
         File dest = new File("/tmp/ThanCue"); //todo change to offset of current file
+
         ZipUtil.unpack(zipFile,dest);
 
         Path index = Paths.get(dest.toString() + "/index.dat");
         //now read through the file
         Files.lines(index).forEach(s -> {
-            Cue c = new SoundCue();
+
             String[] fields = s.split(Constants.endFieldCharacter);
-            c.setCueName(fields[0]);
-            c.setCueType(CueType.valueOf(fields[1]));
-            c.setCueBehaviour(CueBehaviour.valueOf(fields[2]));
+
+
+
+
+
         });
         return null;
     }
@@ -104,41 +107,49 @@ public class CueFileManager {
 //    }
 
 
-    public void writeCue(String folder, String zipName, List<Cue> cueCollection) throws Exception {
-        File f = new File(folder + zipName + ".cues");
-        ZipOutputStream zipStream = new ZipOutputStream(new FileOutputStream(f));
+    public void writeCue(File destination, List<Cue> cueCollection) throws Exception {
+       //plan:
+        //create new temp folder. This stores the serialised list and also the dependency files (used to play cues)
+        //we then compress this using ZipUtil.pack
+        //for each of these, we simply serialise everything (namely the list
+        //this creates a new file :)
 
-        //first of all, create our cpf (cue page file)
-        FileWriter fr = new FileWriter(folder + "index.dat");
-        PrintWriter pw = new PrintWriter(fr);
+        //1. create tmp folder
+        File temp = File.createTempFile("ThanCue-Save-File","");
 
-        //go through all cues now
-        //and for each one, write to cpf and then write files.
 
-        for (Cue c : cueCollection) {
-            pw.println(c.getFileString()); //write the file string for the cue itself.
 
-            if (c instanceof SoundCue) {
-                SoundCue sound = (SoundCue) c;
-                //if the file is a sound cue, then also write the corresponding sound file.
-                Path path = sound.getFilePath();
 
-                ZipEntry e = new ZipEntry(path.getFileName().toString()); //this needs to use the end part of file path.
 
-                byte[] dataRead = Files.readAllBytes(path);
 
-                zipStream.putNextEntry(e);
-                zipStream.write(dataRead, 0, dataRead.length);
+
+        cueCollection.forEach(c -> {
+            try {
+                if (c instanceof FileCue) {
+
+                    Path filePath = Paths.get(temp.getPath() + "/" + ((FileCue) c).getFilePath().getFileName().toString());
+                    System.out.println(filePath);
+                    Files.copy(((FileCue) c).getFilePath(), filePath);
+                }
             }
-        }
-        pw.close();
-        fr.close();
-        Path indexPath = Paths.get(folder + "index.dat");
-        ZipEntry e = new ZipEntry("index.dat");
-        byte[] dataRead = Files.readAllBytes(indexPath);
-        zipStream.putNextEntry(e);
-        zipStream.write(dataRead, 0, dataRead.length);
-        zipStream.close();
+            catch(Exception ex) {
+                System.out.println("Error in copying files");
+                ex.printStackTrace();
+            }
+        });
+
+
+
+
+
+        //now delete the temporary folder
+        temp.delete();
+        temp.mkdir();
+
     }
+
+
+
+
 
 }

@@ -14,7 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getClassLoader().getResourceAsStream("Forms/FormMain.fxml"));
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo stop showing release ID (only for dev)
         primaryStage.setScene(new Scene(root, 1000, 800));

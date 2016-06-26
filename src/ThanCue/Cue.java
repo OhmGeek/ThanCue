@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 
 
@@ -28,9 +29,9 @@ public abstract class Cue {
     public CueBehaviour cueBehaviourEnum;
 
     public Cue() {
+        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         ind = new SimpleIntegerProperty(0);
         cueTypeEnum = CueType.UNKNOWN;
-        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         cueName = new SimpleStringProperty(Constants.defaultCueName);
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.toString());
@@ -96,6 +97,13 @@ public abstract class Cue {
     public String getFileString() {
         String fileString = "";
         String endField = String.valueOf((char) 31);
+
+        fileString += cueType;
+        fileString += endField;
+
+
+
+
 
         //for each
         fileString += getCueName();
