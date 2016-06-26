@@ -93,14 +93,7 @@ public class FormMainController {
     @FXML
     private Button btnEditCue;
 
-    private ObservableList<Cue> cueCollection = FXCollections.observableArrayList(
-            new SoundCue(),
-            new SoundCue(),
-            new UnknownCue(),
-            new VideoCue(),
-            new UnknownCue(),
-            new SoundCue() //todo start empty (or loaded from file)
-    );
+    private ObservableList<Cue> cueCollection = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -110,7 +103,7 @@ public class FormMainController {
         setSizes();
         setTableData();
         registerDragAndDrop();
-        //setEffects(); // todo decide if this is awesome or shit
+        //setEffects(); // todo decide if this is awesome or shit | UPDATE: this is not great looking
     }
 
     private void setKeyCombos() {

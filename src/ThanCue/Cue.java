@@ -4,25 +4,30 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by ryan on 15/05/16.
  */
-public abstract class Cue {
-    private static final String IMG_SOUND_ICON = "/img/music.png";
-    private static final String IMG_VIDEO_ICON = "/img/video.png";
-    private static final String IMG_LIGHT_ICON = "/img/light.png";
-    private static final String IMG_UNKNOWN_ICON = "/img/unknown.png";
+public abstract class Cue implements Serializable{
+    private transient static final String IMG_SOUND_ICON = "/img/music.png";
+    private transient static final String IMG_VIDEO_ICON = "/img/video.png";
+    private transient static final String IMG_LIGHT_ICON = "/img/light.png";
+    private transient static final String IMG_UNKNOWN_ICON = "/img/unknown.png";
 
-    private SimpleIntegerProperty ind;
-    private SimpleStringProperty cueType;
-    private SimpleStringProperty cueName;
-    private SimpleStringProperty cueBehaviour;
-    protected SimpleStringProperty cueFilePath;
-    private SimpleIntegerProperty cuePlayDelay;
+    private transient SimpleIntegerProperty ind;
+    private transient SimpleStringProperty cueType;
+    private transient SimpleStringProperty cueName;
+    private transient SimpleStringProperty cueBehaviour;
+    protected transient SimpleStringProperty cueFilePath;
+    private transient SimpleIntegerProperty cuePlayDelay;
 
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
@@ -95,6 +100,35 @@ public abstract class Cue {
         return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour() + " - "  + getCuePlayDelay() + "ms";
     }
 
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        //todo update this every time we have something else to store/automatically do this for us
+        oos.defaultWriteObject();
+        //DO NOT, under any circumstances, change the order of these! It will break everything!!!
+        List ser = new ArrayList();
+        ser.add(getIndex());
+        ser.add(getCueType());
+        ser.add(getCueName());
+        ser.add(getCueBehaviour());
+        ser.add(getCueFilePath());
+        ser.add(getCuePlayDelay());
+
+        oos.writeObject(ser);
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        //todo build in some backdated support for files
+        ois.defaultReadObject();
+        List ser = (List) ois.readObject();
+        //todo check that length of list is correct
+        //todo type validation (should be right, but worth checking
+        ind.set((int) ser.get(0));
+        cueType.set((String) ser.get(1));
+        cueName.set((String) ser.get(2));
+        cueBehaviour.set((String) ser.get(3));
+        cueFilePath.set((String) ser.get(4));
+        cuePlayDelay.set((Integer) ser.get(5));
+
+    }
     public String getFileString() {
         String fileString = "";
         String endField = String.valueOf((char) 31);

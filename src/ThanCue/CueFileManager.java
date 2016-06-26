@@ -20,114 +20,22 @@ import org.zeroturnaround.zip.*;
 public class CueFileManager {
 
     public List<Cue> readCue(File zipFile) throws Exception {
-        System.out.println(zipFile.getPath().toString());
 
-        List<Cue> cuesLoaded = new ArrayList<>();
+        //1. creat
 
-        //GAMEPLAN:
-        //  1. Create a new ZipFile, and get enumeration of entries in the zipfile
-        //  2. Find the index.dat file, and parse it.
-        //      i) Create a new Cue based upon each entry; and
-        //      ii) Copy the corresponding file (if a filecue) into tmp memory, and store a pointer to this
-        //  3. Repeat for each file in the index.dat :)
-
-        if(!ZipUtil.containsEntry(zipFile,"index.dat")) {
-            System.out.println("Invalid File");
-            throw new InvalidFileTypeException();
-        }
-        File dest = new File("/tmp/ThanCue"); //todo change to offset of current file
-
-        ZipUtil.unpack(zipFile,dest);
-
-        Path index = Paths.get(dest.toString() + "/index.dat");
-        //now read through the file
-        Files.lines(index).forEach(s -> {
-
-            String[] fields = s.split(Constants.endFieldCharacter);
-
-
-
-
-
-        });
-        return null;
     }
 
-
-
-
-//    public List<Cue> readCue(File zipFile) throws Exception {
-//        System.out.println(zipFile.getPath().toString());
-//        //todo refactor and make readCue nicer. It's currently awful. Also make sure it works :)
-//        String endField = String.valueOf((char) 30);
-//        List<Cue> cuesLoaded = new ArrayList<>();
-//
-//        ZipFile f = new ZipFile(zipFile.getPath());
-//        Enumeration<? extends ZipEntry> files = f.entries();
-//        if (f == null) {
-//            System.out.println("Files not in zip file");
-//            throw new FileNotFoundException();
-//        }
-//
-//        while (files.hasMoreElements()) {
-//            ZipEntry e = files.nextElement();
-//
-//            if (e.getName().contains("index.dat")) {
-//                //read the file and load it in.
-//                InputStream stream = f.getInputStream(e);
-//                BufferedReader r = new BufferedReader(new InputStreamReader(stream));
-//                String record = r.readLine();
-//                if (record == null) {
-//                    throw new NoSuchElementException();
-//                }
-//                do {
-//
-//                    if (record != null) {
-//                        String[] arrayOfFields = record.split(endField);
-//                        if (arrayOfFields.length <= 1)
-//                            throw new FileNotFoundException();
-//
-//                        //todo use switch instead
-//                        if (arrayOfFields[0].equals("sc")) {
-//                            //sound cue
-//                            SoundCue c = new SoundCue();
-//                            c.setCueName(arrayOfFields[1]);
-//                            //c.setCueType(arrayOfFields[2]); //todo fix cue type
-//                            c.setCueName(arrayOfFields[3]);
-//                            File associatedFile = zipFile.createTempFile();
-//                            c.setCueFilePath("zip:///" + zipFile.getParent().toString() + arrayOfFields[4]);
-//                            cuesLoaded.add(c);
-//                        }
-//                    }
-//                    record = r.readLine();
-//                } while (record != null);
-//            }
-//        }
-//        return cuesLoaded;
-//    }
-
-
     public void writeCue(File destination, List<Cue> cueCollection) throws Exception {
-       //plan:
-        //create new temp folder. This stores the serialised list and also the dependency files (used to play cues)
-        //we then compress this using ZipUtil.pack
-        //for each of these, we simply serialise everything (namely the list
-        //this creates a new file :)
 
         //1. create tmp folder
-        File temp = File.createTempFile("ThanCue-Save-File","");
+        Path tempDirectory = Files.createTempDirectory(destination.toPath().getParent(),"");
 
-
-
-
-
-
-
+        //2. copy dependencies of cues over (files mainly)
         cueCollection.forEach(c -> {
             try {
                 if (c instanceof FileCue) {
 
-                    Path filePath = Paths.get(temp.getPath() + "/" + ((FileCue) c).getFilePath().getFileName().toString());
+                    Path filePath = Paths.get(tempDirectory.toString() + "/" + ((FileCue) c).getFilePath().getFileName().toString());
                     System.out.println(filePath);
                     Files.copy(((FileCue) c).getFilePath(), filePath);
                 }
@@ -138,14 +46,31 @@ public class CueFileManager {
             }
         });
 
+        //3. serialise the list of cues itself (by serialising the cues)
+        OutputStream indexFile = null;
+        OutputStream buffer = null;
+        ObjectOutput output = null;
+        try {
+            indexFile = new FileOutputStream(tempDirectory.toString() + "/cueCollection.ser");
+            buffer = new BufferedOutputStream(indexFile);
+            output = new ObjectOutputStream(buffer);
+
+            output.writeObject(new ArrayList<>(cueCollection)); //make an arraylist that is actually serializable
+        } catch(IOException ex) {
+            System.out.println("IOException");
+            ex.printStackTrace();
+        }
+        finally {
+            output.close();
+        }
 
 
 
+        //4. compress the folder into a zip file (.cues)
+        ZipUtil.pack(tempDirectory.toFile(),destination);
 
-        //now delete the temporary folder
-        temp.delete();
-        temp.mkdir();
-
+        tempDirectory.toFile().deleteOnExit();
+    //todo actually delete the temp directory after saving entirely (something I'm not sure is done automatically or not)
     }
 
 

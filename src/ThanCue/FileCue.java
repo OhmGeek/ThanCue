@@ -1,7 +1,12 @@
 package ThanCue;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ThanCue.Constants.endFieldCharacter;
 import static ThanCue.Constants.endRecordCharacter;
@@ -11,7 +16,7 @@ import static ThanCue.Constants.endRecordCharacter;
  */
 public abstract class FileCue extends Cue {
 
-    protected Path soundPath;
+    protected transient Path soundPath;
 
     public FileCue(){
         super();
@@ -48,4 +53,19 @@ public abstract class FileCue extends Cue {
         current += endRecordCharacter;
         return current;
     }
+
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        //todo update this every time we have something else to store/automatically do this for us
+        oos.defaultWriteObject();
+        oos.writeObject(getFilePath().getFileName().toString());
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        //todo build in some backdated support for files
+        ois.defaultReadObject();
+        setCueFilePath(Paths.get((String) ois.readObject()));
+
+    }
+
 }

@@ -6,7 +6,7 @@ import ThanCue.VLC.VLCMusicPlayer;
  * Created by ryan on 15/05/16.
  */
 public class SoundCue extends FileCue {
-    private VLCMusicPlayer player = null;
+    private transient VLCMusicPlayer player = null;
     public SoundCue() {
         super();
         this.setCueType(CueType.SOUND);
@@ -20,6 +20,7 @@ public class SoundCue extends FileCue {
 
     }
     @Override
-    public void stopCue() { player.stop();
-    }
+    public void stopCue() { player.stop(); }
+
+
 }
