@@ -29,9 +29,10 @@ public abstract class Cue {
     public CueBehaviour cueBehaviourEnum;
 
     public Cue() {
-        cueType = new SimpleStringProperty(cueTypeEnum.toString());
+
         ind = new SimpleIntegerProperty(0);
         cueTypeEnum = CueType.UNKNOWN;
+        cueType = new SimpleStringProperty(cueTypeEnum.toString());
         cueName = new SimpleStringProperty(Constants.defaultCueName);
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.toString());
