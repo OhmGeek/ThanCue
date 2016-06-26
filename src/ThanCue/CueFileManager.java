@@ -20,9 +20,57 @@ import org.zeroturnaround.zip.*;
 public class CueFileManager {
 
     public List<Cue> readCue(File zipFile) throws Exception {
+        System.out.println(zipFile.getPath().toString());
 
-        //1. creat
+        List<Cue> cuesLoaded = new ArrayList<>();
 
+        //GAMEPLAN:
+        //  1. Create a new ZipFile, and get enumeration of entries in the zipfile
+        //  2. Find the index.dat file, and parse it.
+        //      i) Create a new Cue based upon each entry; and
+        //      ii) Copy the corresponding file (if a filecue) into tmp memory, and store a pointer to this
+        //  3. Repeat for each file in the index.dat :)
+
+        if(!ZipUtil.containsEntry(zipFile,"cueCollection.ser")) {
+            System.out.println("Invalid File");
+            throw new InvalidFileTypeException();
+        }
+        Path dest = Files.createTempDirectory(zipFile.toPath().getParent(),""); //TODO make hidden directory
+
+        ZipUtil.unpack(zipFile,dest.toFile());
+
+        Path index = Paths.get(dest.toString() + "/index.dat");
+
+        File[] filesToRead = dest.toFile().listFiles();
+        for (File file : filesToRead) {
+            if(file.getName().equals("cueCollection.ser")) {
+                try {
+                    FileInputStream input = new FileInputStream(file);
+                    ObjectInputStream in = new ObjectInputStream(input);
+                    cuesLoaded = (List<Cue>) in.readObject();
+                    in.close();
+                    input.close();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Error in reading");
+                }
+
+            }
+            else {
+                //copy files across
+                Files.copy(file.toPath(),Paths.get(dest.toString() + "/" + file.getName()));
+            }
+        }
+
+        //now we've copied files over, go through and adjust the paths appropriately. Add the temp folder in to the correct place.
+        cuesLoaded.forEach(c -> {
+            String oldFilePath = c.getCueFilePath();
+            c.setCueFilePath(Paths.get(dest.toString() + "/" + oldFilePath));
+        });
+
+
+        //todo delete this temp directory
+        return cuesLoaded;
     }
 
     public void writeCue(File destination, List<Cue> cueCollection) throws Exception {
@@ -69,8 +117,7 @@ public class CueFileManager {
         //4. compress the folder into a zip file (.cues)
         ZipUtil.pack(tempDirectory.toFile(),destination);
 
-        tempDirectory.toFile().deleteOnExit();
-    //todo actually delete the temp directory after saving entirely (something I'm not sure is done automatically or not)
+        tempDirectory.toFile().delete();
     }
 
 
