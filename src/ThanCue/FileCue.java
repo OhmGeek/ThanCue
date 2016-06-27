@@ -68,6 +68,8 @@ public abstract class FileCue extends Cue {
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         //todo build in some backdated support for files
+
+
         ois.defaultReadObject();
         setCueFilePath(Paths.get((String) ois.readObject()));
 

@@ -23,6 +23,6 @@ public class VoiceCue extends Cue {
     @Override
     public void stopCue() {
         voice.destroy();
-        // todo not sure stopping works like this, just guessing
+        // voice destruction works like this (@Mike)
     }
 }

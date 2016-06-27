@@ -128,7 +128,8 @@ public abstract class Cue implements Serializable{
         ser.add(getCueBehaviour());
         ser.add(getCueFilePath());
         ser.add(getCuePlayDelay());
-
+        ser.add(getCueStartPoint());
+        ser.add(getCueDuration());
         oos.writeObject(ser);
     }
 
@@ -138,14 +139,32 @@ public abstract class Cue implements Serializable{
         List ser = (List) ois.readObject();
         //todo check that length of list is correct
         //todo type validation (should be right, but worth checking
-        ind.set((int) ser.get(0));
+
+        //make sure these aren't null before calling a method on them (a source of pain otherwise)
+        ind = new SimpleIntegerProperty();
+        cueType = new SimpleStringProperty();
+        cueName = new SimpleStringProperty();
+        cueBehaviour = new SimpleStringProperty();
+        cueFilePath = new SimpleStringProperty();
+        cuePlayDelay = new SimpleIntegerProperty();
+        cueStartPoint = new SimpleIntegerProperty();
+        cueDuration = new SimpleIntegerProperty();
+        System.out.println(ser.size());
+
+
+
+
+
+        ind.set((Integer) ser.get(0));
         cueType.set((String) ser.get(1));
         cueName.set((String) ser.get(2));
         cueBehaviour.set((String) ser.get(3));
         cueFilePath.set((String) ser.get(4));
         cuePlayDelay.set((Integer) ser.get(5));
-
+        cueStartPoint.set((Integer) ser.get(6));
+        cueDuration.set((Integer) ser.get(7));
     }
+    @Deprecated
     public String getFileString() {
         String fileString = "";
         String endField = String.valueOf((char) 31);
@@ -170,7 +189,7 @@ public abstract class Cue implements Serializable{
 
         return fileString;
     }
-
+    
     public void print() {
         System.out.println(toString());
     }

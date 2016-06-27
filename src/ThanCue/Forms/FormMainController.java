@@ -372,7 +372,34 @@ public class FormMainController {
 
         //File Menu
         btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
-        btnOpen.setOnAction(event -> System.out.println("Open Cue Stack"));
+        btnOpen.setOnAction(event -> {
+            CueFileManager man = new CueFileManager();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Specify file to load");
+            File file = fileChooser.showOpenDialog(anchor_pane.getScene().getWindow());
+            if(file != null) {
+                try {
+                    List<Cue> cues = man.readCue(file);
+                    if(cues != null) {
+                        cueCollection.clear();
+                        cueCollection.addAll(cues);
+                    }
+                    else {
+                        throw new EmptyCueCollectionException();
+                    }
+                    //todo add in additional exceptions thrown
+                } catch(EmptyCueCollectionException ex1) {
+                    System.out.println("The Cue Collection was null");
+                    ex1.printStackTrace();
+                } catch(Exception ex) {
+                    System.out.println("An unknown exception occurred");
+                    ex.printStackTrace();
+                }
+            }
+
+
+
+        });
         btnSave.setOnAction(event -> {
             CueFileManager man = new CueFileManager();
             FileChooser fileChooser = new FileChooser();
