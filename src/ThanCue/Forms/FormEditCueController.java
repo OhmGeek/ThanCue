@@ -300,7 +300,7 @@ public class FormEditCueController {
         editingCue.setCuePlayDelay(Integer.parseInt(nmrCuePlayDelay.getText()));
         editingCue.setCueStartPoint(Integer.parseInt(nmrCueStartPoint.getText()));
         editingCue.setCueDuration(Integer.parseInt(nmrCueDuration.getText()));
-        // todo refactor the above setting of editingCue and the one from when editingCue is set into a method (reuse code)
+        
         updateFieldEntries(false);
     }
 }
