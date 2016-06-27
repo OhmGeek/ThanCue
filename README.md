@@ -24,28 +24,38 @@ Run the script:
     ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
 and check your files updated!
 
-Please note that the software can only play .wav files currently, but we will be adding VLC support - it's coming soon!
+Please note that VLC is now supported, providing the VLC command in terminal works correctly. Tested on Ubuntu, but Mac should work too (although currently untested on this OS).
 
 ### Planned Features
-#### Show Mode
-- Back/Pause button, in case someone accidentally presses go
+#### Audio Cues
+- Display duration, description, elapsed time, and remaining time
+- Set volume, pitch, fade in and fade out effects
+- Set start and end positions in a given track (avoids opening it in some sound editing software)
+- Built in stopwatch and clock for timing cues/show operation (more for Show Mode)
+- Hotkeys for each cue
+- EQ
+- MIDI control
+- Loops
+- Change sound card playback (for each cue)
 
-#### General
-- Ability to change the windows (allowing for different displays inside the main window)
-- Play using VLC
-- Multiple tracks play at a time
-- Drop down menu for changing cue behaviour (in table entry's behaviour cell)
-- Sound cue can start and end at different points (start start point and duration, loop if start + duration is after end of clip)
-- Sound cue can fade in/out within a certain time
-- Cue Numbering independent of the view (per cue)
-- Saving cues in a zip file structure (including the sound files themselves)
-- Undo/Redo engine for editing shows
-- Move cues by dragging and dropping cues into the correct place
-- Implement some type of window manager in order to control the environment (set title, create dialogs, etc)
+#### Video Cues
+- ASCII Output (yes, VLC does allow this!)
+- Video effects
+- Same type of things for audio, but for video as well
 
-Many more features could still be added, but they aren't currently in the list.
-
+#### Other
+- Updates (partially implemented, but this needs a partial rewrite)
+- Check for VLC on installation
+- Mac support
+- Add custom cue support (using Bash scripts).
+- Make the program itself be relatively lightweight when playing many cues!
 
 ### Features implemented
 - A larger Go Button
 - Cue Numbering (useful for sound cues on a script)
+- VLC support
+- JavaFX rewrite
+- File saving
+- Cue reordering
+- Basic show mode
+- Drag n drop cue creation
