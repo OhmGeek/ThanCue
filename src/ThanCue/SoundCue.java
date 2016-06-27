@@ -15,7 +15,7 @@ public class SoundCue extends FileCue {
 
     @Override
     public void playCue() {
-        player = new VLCMusicPlayer(soundPath.toAbsolutePath().toString());
+        player = new VLCMusicPlayer(soundPath.toAbsolutePath().toString(), getCueStartPoint(), getCueDuration());
         player.play();
 
     }

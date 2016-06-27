@@ -35,8 +35,20 @@
                 <Label fx:id="lblMS" text="ms"/>
             </HBox>
 
-            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <Label fx:id="lblCueStartPoint" text="Start Point" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <TextField fx:id="nmrCueStartPoint" text="0"/>
+                <Label fx:id="lblMS2" text="ms"/>
+            </HBox>
+
+            <Label fx:id="lblCueDuration" text="Duration" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+            <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <TextField fx:id="nmrCueDuration" text="0"/>
+                <Label fx:id="lblMS3" text="ms"/>
+            </HBox>
+
+            <Button fx:id="btnSaveChanges" text="Save" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+            <Button fx:id="btnCancelChanges" text="Cancel" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
         </GridPane>
     </children>
 </AnchorPane>

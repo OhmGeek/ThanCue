@@ -1,7 +1,5 @@
 package ThanCue.VLC;
 
-import java.nio.file.Path;
-
 /**
  * Created by ryan on 11/06/16.
  */
@@ -9,17 +7,20 @@ public class VLCMusicPlayer {
     private Process vlcInstance;
     private String operatingSysName;
     private String fileToPlayURL;
-    public VLCMusicPlayer(String fileToPlayURL) {
+    private int startPoint, duration;
+    public VLCMusicPlayer(String fileToPlayURL, int startPoint, int duration) {
 
         vlcInstance = null; //stores the vlc process. Ignore for now
         operatingSysName = System.getProperty("os.name"); //gets the operating system name
         this.fileToPlayURL = fileToPlayURL;
+        this.startPoint = -1 * startPoint; // negative means advance through track, as we are using the delay argument in the command line
+        this.duration = duration;
     }
 
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", fileToPlayURL});
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", fileToPlayURL, "--sout-delay-delay=" + startPoint}); // todo USE duration
         }
         catch(Exception ex) {
             ex.printStackTrace();

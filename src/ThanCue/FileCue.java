@@ -23,6 +23,11 @@ public abstract class FileCue extends Cue {
         this.setCueFilePath(System.getProperty("user.home") + "/myCue.cue");
     }
 
+    @Override
+    public void setCueStartPoint(int time) { cueStartPoint.set(time); }
+    @Override
+    public void setCueDuration(int time) { cueDuration.set(time); }
+
     public Path getFilePath(){
         return this.soundPath;
     }

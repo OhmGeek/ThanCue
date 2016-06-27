@@ -29,13 +29,14 @@ public abstract class Cue implements Serializable{
     private transient SimpleStringProperty cueBehaviour;
     protected transient SimpleStringProperty cueFilePath;
     private transient SimpleIntegerProperty cuePlayDelay;
+    protected transient SimpleIntegerProperty cueStartPoint;
+    protected transient SimpleIntegerProperty cueDuration;
 
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
 
     public Cue() {
-
         ind = new SimpleIntegerProperty(0);
         cueTypeEnum = CueType.UNKNOWN;
         cueType = new SimpleStringProperty(cueTypeEnum.toString());
@@ -44,6 +45,8 @@ public abstract class Cue implements Serializable{
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.toString());
         cueFilePath = new SimpleStringProperty(Constants.filePathNotPresent);
         cuePlayDelay = new SimpleIntegerProperty(0);
+        cueStartPoint = new SimpleIntegerProperty(0);
+        cueDuration = new SimpleIntegerProperty(0);
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -79,6 +82,7 @@ public abstract class Cue implements Serializable{
     }
 
     public abstract void stopCue();
+
     public void setCueBehaviour(CueBehaviour behaviour) {
         this.cueBehaviourEnum = behaviour;
         this.cueBehaviour.set(behaviour.toString());
@@ -96,9 +100,21 @@ public abstract class Cue implements Serializable{
 
     public void setCuePlayDelay(int delay) { cuePlayDelay.set(delay); }
 
+    public int getCueStartPoint() { return cueStartPoint.get(); }
+
+    public void setCueStartPoint(int time) {
+        System.out.println("Attempt to set startPoint on non-file cue!");
+    }
+
+    public int getCueDuration() { return cueDuration.get(); }
+
+    public void setCueDuration(int time) {
+        System.out.println("Attempt to set duration on non-file cue!");
+    }
+
     @Override
     public String toString() {
-        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour() + " - "  + getCuePlayDelay() + "ms";
+        return "" + getIndex() + ". " + getCueType() + " - " + getCueName() + " - " + getCueBehaviour() + " - delay "  + getCuePlayDelay() + "ms - start " + getCueStartPoint() + "ms - duration " + getCueDuration() + "ms";
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {

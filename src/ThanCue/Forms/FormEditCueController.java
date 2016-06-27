@@ -42,7 +42,7 @@ public class FormEditCueController {
     @FXML
     private Label lblFilePath;
     @FXML
-    private Label lblMS;
+    private Label lblMS, lblMS2, lblMS3;
 
     //Selectors
     @FXML
@@ -55,6 +55,10 @@ public class FormEditCueController {
     private TextField txtCueName;
     @FXML
     private TextField nmrCuePlayDelay;
+    @FXML
+    private TextField nmrCueStartPoint;
+    @FXML
+    private TextField nmrCueDuration;
 
     //Form buttons
     @FXML
@@ -86,6 +90,38 @@ public class FormEditCueController {
         txtCueName.textProperty().addListener((observableValue, oldValue, newValue) -> changeCueName()); //text changed
         cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
         nmrCuePlayDelay.textProperty().addListener((observableValue, old, newValue) -> changeCuePlayDelay(newValue));
+        nmrCueStartPoint.textProperty().addListener((observableValue, old, newValue) -> changeCueStartPoint(newValue));
+        nmrCueDuration.textProperty().addListener((observableValue, old, newValue) -> changeCueDuration(newValue));
+    }
+
+    private void changeCueDuration(String newValue) {
+        newValue = newValue.replaceAll("[^\\d]", "");
+        if (newValue.isEmpty()) { nmrCueDuration.setText(""); return; }
+        nmrCueDuration.setText(newValue);
+
+        long duration = Long.parseLong(newValue);
+        if (duration > 0 && duration <= Integer.MAX_VALUE) {
+            if (editingCue != null) {
+                editingCue.setCueDuration((int)duration);
+            }
+        }else{
+            nmrCueDuration.setText("0");
+        }
+    }
+
+    private void changeCueStartPoint(String newValue) {
+        newValue = newValue.replaceAll("[^\\d]", "");
+        if (newValue.isEmpty()) { nmrCueStartPoint.setText(""); return; }
+        nmrCueStartPoint.setText(newValue);
+
+        long startpoint = Long.parseLong(newValue);
+        if (startpoint > 0 && startpoint <= Integer.MAX_VALUE) {
+            if (editingCue != null) {
+                editingCue.setCueStartPoint((int)startpoint);
+            }
+        }else{
+            nmrCueStartPoint.setText("0");
+        }
     }
 
     private void changeCuePlayDelay(String newValue) {
@@ -153,8 +189,12 @@ public class FormEditCueController {
         lblCueBehaviour.setMaxWidth(Double.MAX_VALUE);
         container_file_chooser.setMaxWidth(Double.MAX_VALUE);
         nmrCuePlayDelay.setMaxWidth(130);
+        nmrCueStartPoint.setMaxWidth(130);
+        nmrCueDuration.setMaxWidth(130);
         lblFilePath.setMaxWidth(Double.MAX_VALUE);
         lblMS.setMaxWidth(Double.MAX_VALUE);
+        lblMS2.setMaxWidth(Double.MAX_VALUE);
+        lblMS3.setMaxWidth(Double.MAX_VALUE);
 
         //ensure grid pane always fill width of parent
         AnchorPane.setTopAnchor(grid_pane, .0);
@@ -170,7 +210,11 @@ public class FormEditCueController {
         //set HGrow
         HBox.setHgrow(lblFilePath, Priority.ALWAYS);
         HBox.setHgrow(nmrCuePlayDelay, Priority.NEVER);
+        HBox.setHgrow(nmrCueStartPoint, Priority.NEVER);
+        HBox.setHgrow(nmrCueDuration, Priority.NEVER);
         HBox.setHgrow(lblMS, Priority.ALWAYS);
+        HBox.setHgrow(lblMS2, Priority.ALWAYS);
+        HBox.setHgrow(lblMS3, Priority.ALWAYS);
 
         //update layouts
         anchor_pane.layout();
@@ -190,6 +234,8 @@ public class FormEditCueController {
                 editingCue.setCueBehaviour(c.cueBehaviourEnum);
                 editingCue.setCueFilePath(Paths.get(c.getCueFilePath()));
                 editingCue.setCuePlayDelay(c.getCuePlayDelay());
+                editingCue.setCueStartPoint(c.getCueStartPoint());
+                editingCue.setCueDuration(c.getCueDuration());
             }catch(Exception ex) {
                 ex.printStackTrace();
                 editingCue = new UnknownCue();
@@ -222,6 +268,8 @@ public class FormEditCueController {
         }
         container_file_chooser.setDisable(!cueTypeUsesFile);
         nmrCuePlayDelay.setText("" + editingCue.getCuePlayDelay());
+        nmrCueStartPoint.setText("" + editingCue.getCueStartPoint());
+        nmrCueDuration.setText("" + editingCue.getCueDuration());
     }
 
     private void changeCueType() {
@@ -250,6 +298,8 @@ public class FormEditCueController {
             ((FileCue) editingCue).setCueFilePath(lblFilePath.getText());
         }
         editingCue.setCuePlayDelay(Integer.parseInt(nmrCuePlayDelay.getText()));
+        editingCue.setCueStartPoint(Integer.parseInt(nmrCueStartPoint.getText()));
+        editingCue.setCueDuration(Integer.parseInt(nmrCueDuration.getText()));
         // todo refactor the above setting of editingCue and the one from when editingCue is set into a method (reuse code)
         updateFieldEntries(false);
     }

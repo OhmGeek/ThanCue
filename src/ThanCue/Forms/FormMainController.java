@@ -206,6 +206,10 @@ public class FormMainController {
         clmFilePath.setSortable(false);
         TableColumn<Cue, Integer> clmDelay = new TableColumn<>("Start delay (ms)");
         clmDelay.setSortable(false);
+        TableColumn<Cue, Integer> clmStartPoint = new TableColumn<>("Start point (ms)");
+        clmStartPoint.setSortable(false);
+        TableColumn<Cue, Integer> clmDuration = new TableColumn<>("Duration (ms)");
+        clmDuration.setSortable(false);
 
         //set cell 'renderers'
         clmIndex.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getIndex()).asObject());
@@ -267,8 +271,42 @@ public class FormMainController {
             return cell;
         });
 
+        clmStartPoint.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCueStartPoint()).asObject());
+        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmStartPoint.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        setText(item.toString());
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
+
+        clmDuration.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCueDuration()).asObject());
+        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
+        clmDuration.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    if (item != null) {
+                        if (item == 0) {
+                            setText("to end");
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        });
+
         //add columns
-        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath, clmDelay);
+        tblView.getColumns().addAll(clmIndex, clmType, clmName, clmBehaviour, clmFilePath, clmDelay, clmStartPoint, clmDuration);
 
         //link data to table
         tblView.setItems(cueCollection);
@@ -336,25 +374,20 @@ public class FormMainController {
         btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
         btnOpen.setOnAction(event -> System.out.println("Open Cue Stack"));
         btnSave.setOnAction(event -> {
-
             CueFileManager man = new CueFileManager();
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Specify Destination");
-                File file = fileChooser.showSaveDialog(anchor_pane.getScene().getWindow());
-                if(file != null) {
-                    try {
-                        man.writeCue(file,cueCollection);
-                    } catch(Exception ex) {
-                        System.out.println("Error occurred in writing");
-                        ex.printStackTrace();
-                    }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Specify Destination");
+            File file = fileChooser.showSaveDialog(anchor_pane.getScene().getWindow());
+            if (file != null) {
+                try {
+                    man.writeCue(file, cueCollection);
+                } catch (Exception ex) {
+                    System.out.println("Error occurred in writing");
+                    ex.printStackTrace();
                 }
-                else {
-                    System.out.println("User didn't want to save after all :(");
-                }
-
-
-
+            } else {
+                System.out.println("User didn't want to save after all :( i cri evrtym");
+            }
         });
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         chkShowMode.setOnAction(event -> toggleShowMode());
@@ -537,4 +570,3 @@ public class FormMainController {
         return cueCollection.size();
     }
 }
-
