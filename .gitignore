@@ -4,3 +4,4 @@ META-INF/
 .idea/
 dev.iml
 out/*.wav
+*.cues
