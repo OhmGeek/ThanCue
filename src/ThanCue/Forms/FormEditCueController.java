@@ -300,7 +300,7 @@ public class FormEditCueController {
         editingCue.setCuePlayDelay(Integer.parseInt(nmrCuePlayDelay.getText()));
         editingCue.setCueStartPoint(Integer.parseInt(nmrCueStartPoint.getText()));
         editingCue.setCueDuration(Integer.parseInt(nmrCueDuration.getText()));
-
+        
         updateFieldEntries(false);
     }
 }
