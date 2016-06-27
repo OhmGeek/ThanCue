@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by mike on 04/06/16.
@@ -52,7 +54,7 @@ public class FormEditCueController {
     @FXML
     private TextField txtCueName;
     @FXML
-    private Spinner nmrCuePlayDelay;
+    private TextField nmrCuePlayDelay;
 
     //Form buttons
     @FXML
@@ -83,17 +85,22 @@ public class FormEditCueController {
         cmbCueType.setOnAction(event -> changeCueType());
         txtCueName.textProperty().addListener((observableValue, oldValue, newValue) -> changeCueName()); //text changed
         cmbCueBehaviour.setOnAction(event -> changeCueBehaviour());
-        nmrCuePlayDelay.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 1) {
-        });
-        nmrCuePlayDelay.valueProperty().addListener((observableValue, old, newValue) -> changeCuePlayDelay());
+        nmrCuePlayDelay.textProperty().addListener((observableValue, old, newValue) -> changeCuePlayDelay(newValue));
     }
 
-    private void changeCuePlayDelay() {
-        int delay = (int) nmrCuePlayDelay.getValue();
-        if (delay >= 0) {
+    private void changeCuePlayDelay(String newValue) {
+        newValue = newValue.replaceAll("[^\\d]", "");
+        if (newValue.isEmpty()) { nmrCuePlayDelay.setText(""); return; }
+        nmrCuePlayDelay.setText(newValue);
+
+        long delay = Long.parseLong(newValue);
+        if (delay >= 0 && delay <= Integer.MAX_VALUE) {
             if (editingCue != null) {
-                editingCue.setCuePlayDelay(delay);
+                editingCue.setCuePlayDelay((int)delay);
             }
+        }else{
+            if (delay < 0) { nmrCuePlayDelay.setText("0"); }
+            else { nmrCuePlayDelay.setText("" + Integer.MAX_VALUE);}
         }
     }
 
@@ -145,6 +152,7 @@ public class FormEditCueController {
         lblCueName.setMaxWidth(Double.MAX_VALUE);
         lblCueBehaviour.setMaxWidth(Double.MAX_VALUE);
         container_file_chooser.setMaxWidth(Double.MAX_VALUE);
+        nmrCuePlayDelay.setMaxWidth(130);
         lblFilePath.setMaxWidth(Double.MAX_VALUE);
         lblMS.setMaxWidth(Double.MAX_VALUE);
 
@@ -161,7 +169,8 @@ public class FormEditCueController {
 
         //set HGrow
         HBox.setHgrow(lblFilePath, Priority.ALWAYS);
-        HBox.setHgrow(lblMS, Priority.SOMETIMES);
+        HBox.setHgrow(nmrCuePlayDelay, Priority.NEVER);
+        HBox.setHgrow(lblMS, Priority.ALWAYS);
 
         //update layouts
         anchor_pane.layout();
@@ -177,6 +186,10 @@ public class FormEditCueController {
             try {
                 editingCue = c.getClass().newInstance();
                 editingCue.setIndex(c.getIndex());
+                editingCue.setCueName(c.getCueName());
+                editingCue.setCueBehaviour(c.cueBehaviourEnum);
+                editingCue.setCueFilePath(Paths.get(c.getCueFilePath()));
+                editingCue.setCuePlayDelay(c.getCuePlayDelay());
             }catch(Exception ex) {
                 ex.printStackTrace();
                 editingCue = new UnknownCue();
@@ -208,7 +221,7 @@ public class FormEditCueController {
             lblFilePath.setText("No file");
         }
         container_file_chooser.setDisable(!cueTypeUsesFile);
-        nmrCuePlayDelay.getValueFactory().setValue(editingCue.getCuePlayDelay());
+        nmrCuePlayDelay.setText("" + editingCue.getCuePlayDelay());
     }
 
     private void changeCueType() {
@@ -216,18 +229,19 @@ public class FormEditCueController {
         boolean wasFile = editingCue instanceof FileCue;
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
             case UNKNOWN:
-                editingCue = new UnknownCue();
-                break;
+                editingCue = new UnknownCue(); break;
             case SOUND:
-                editingCue = new SoundCue();
-                break;
+                editingCue = new SoundCue(); break;
             case LIGHT:
                 //todo make light cue a thing
-                throw new NotImplementedException();
-                //break;
+                throw new NotImplementedException(); //break;
             case VIDEO:
-                editingCue = new VideoCue();
-                break;
+                editingCue = new VideoCue(); break;
+            case VOICE:
+                editingCue = new VoiceCue(); break;
+            default:
+                System.out.println("Tried to create cue that isn't accounted for!");
+                throw new NotImplementedException();
         }
         editingCue.setIndex(ind);
         editingCue.setCueName(txtCueName.getText());
@@ -235,8 +249,8 @@ public class FormEditCueController {
         if (wasFile && editingCue instanceof FileCue) {
             ((FileCue) editingCue).setCueFilePath(lblFilePath.getText());
         }
-        editingCue.setCuePlayDelay((int) nmrCuePlayDelay.getValue());
-
+        editingCue.setCuePlayDelay(Integer.parseInt(nmrCuePlayDelay.getText()));
+        // todo refactor the above setting of editingCue and the one from when editingCue is set into a method (reuse code)
         updateFieldEntries(false);
     }
 }

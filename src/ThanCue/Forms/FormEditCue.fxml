@@ -31,7 +31,7 @@
 
             <Label fx:id="lblCuePlayDelay" text="Play Delay" alignment="CENTER_RIGHT" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
             <HBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                <Spinner fx:id="nmrCuePlayDelay"/>
+                <TextField fx:id="nmrCuePlayDelay" text="0"/>
                 <Label fx:id="lblMS" text="ms"/>
             </HBox>
 

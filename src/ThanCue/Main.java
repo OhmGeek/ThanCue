@@ -21,7 +21,7 @@ public class Main extends Application {
         primaryStage.show();
 
     Platform.runLater(() -> {
-        // todo fix this, as currently updating runs a temp copy of the new version, does not replace the old version
+        // todo fix updateFX files, as currently updating runs a temp copy of the new version, does not replace the old version
         //check for updates
         System.out.println("Checking for updates...");
         try {

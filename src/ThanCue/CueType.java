@@ -9,6 +9,7 @@ public enum CueType {
     SOUND,
     VIDEO,
     LIGHT,
+    VOICE,
     UNKNOWN;
 
     @Override

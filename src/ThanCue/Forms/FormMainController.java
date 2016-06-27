@@ -34,12 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FormMainController {
-    private static final List<String> soundExtensions = new ArrayList<String>() {{
+    /*private static final List<String> soundExtensions = new ArrayList<String>() {{
         add("mp3");
         add("wav");
         add("ogg");
 
-    }};
+    }};*/ // todo remove, vlc can handle everything yo
 
     //Container panes
     @FXML
@@ -112,7 +112,7 @@ public class FormMainController {
         btnSave.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
 
         btnUndo.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
-        // todo I don't remember what redo normally is
+        // todo I don't remember what the redo shortcut normally is
 
         //btnGo is not a menuItem, and as such cannot use accelerators... // todo scene key event handling for btnGo
     }
@@ -438,7 +438,7 @@ public class FormMainController {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            });
+            }).start();
         } else {
             c.playCue();
         }

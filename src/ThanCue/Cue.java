@@ -20,6 +20,7 @@ public abstract class Cue implements Serializable{
     private transient static final String IMG_SOUND_ICON = "/img/music.png";
     private transient static final String IMG_VIDEO_ICON = "/img/video.png";
     private transient static final String IMG_LIGHT_ICON = "/img/light.png";
+    private transient static final String IMG_VOICE_ICON = "/img/speech.png";
     private transient static final String IMG_UNKNOWN_ICON = "/img/unknown.png";
 
     private transient SimpleIntegerProperty ind;
@@ -168,6 +169,8 @@ public abstract class Cue implements Serializable{
                 return new ImageView(IMG_VIDEO_ICON);
             case "light":
                 return new ImageView(IMG_LIGHT_ICON);
+            case "voice":
+                return new ImageView(IMG_VOICE_ICON);
             default:
                 return new ImageView(IMG_UNKNOWN_ICON);
         }

@@ -22,7 +22,7 @@ public class VLCMusicPlayer {
             vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", fileToPlayURL});
         }
         catch(Exception ex) {
-
+            ex.printStackTrace();
         }
 
     }
