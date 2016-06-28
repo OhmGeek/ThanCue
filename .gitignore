@@ -5,3 +5,4 @@ META-INF/
 dev.iml
 out/*.wav
 *.cues
+*.wav
