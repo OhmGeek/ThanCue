@@ -28,7 +28,7 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 
 ### Planned Features
 #### Audio Cues
-- Display duration, description, elapsed time, and remaining time
+- Display duration, description, elapsed time, and remaining time **(Mike)
 - Set volume, pitch, fade in and fade out effects
 - Set start and end positions in a given track (avoids opening it in some sound editing software)
 - Built in stopwatch and clock for timing cues/show operation (more for Show Mode)
@@ -37,6 +37,7 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - MIDI control
 - Loops
 - Change sound card playback (for each cue)
+- Mac Voice Cue
 
 #### Video Cues
 - ASCII Output (yes, VLC does allow this!)
@@ -45,6 +46,7 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 
 #### Other
 - Updates (partially implemented, but this needs a partial rewrite)
+- Ability to Undo and Redo thing **(Ryan)
 - Check for VLC on installation
 - Mac support
 - Add custom cue support (using Bash scripts).
@@ -55,7 +57,11 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - Cue Numbering (useful for sound cues on a script)
 - VLC support
 - JavaFX rewrite
-- File saving
+- File saving (loading sort of works as well, but sound cue paths don't yet...)
 - Cue reordering
 - Basic show mode
 - Drag n drop cue creation
+- Voice Cues using Espeak
+
+
+** denotes a task actively being worked on. The name in brackets is the person working on it.
