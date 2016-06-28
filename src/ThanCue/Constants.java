@@ -21,6 +21,11 @@ public class Constants {
     public static String URL_GITHUB_MIKE = "https://www.github.com/MikeCroall/";
     public static String URL_GITHUB_RYAN = "https://www.github.com/OhmGeek/";
 
+    //Undo/Redo
+    public static final int NUMBER_OF_UNDOS = 100;
+    public static final int NUMBER_OF_REDOS = 100;
+
+
     //about thancue
     public static String aboutText = "ThanCue " + VERSION_NAME + " - for the music\n" +
             "Cue software designed by an Abba fan and someone who isn't as keen on Abba\n\n" +
