@@ -6,3 +6,4 @@ dev.iml
 out/*.wav
 *.cues
 *.wav
+*.ser
