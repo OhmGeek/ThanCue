@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo stop showing release ID (only for dev)
         primaryStage.setScene(new Scene(root, 1000, 800));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/appicon.png"))); // todo get this to work more than 5% of the time
         primaryStage.show();
 
     Platform.runLater(() -> {
