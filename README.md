@@ -51,6 +51,8 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - Mac support
 - Add custom cue support (using Bash scripts).
 - Make the program itself be relatively lightweight when playing many cues!
+- Cue numbers on the go button
+- Pausing of cues, and ability to go back to a previous cue (both previous, as well as any cue through a goto cue button)
 
 ### Features implemented
 - A larger Go Button
