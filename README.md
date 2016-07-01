@@ -30,7 +30,6 @@ Run the script:
     ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
 and check your files updated!
 
-Please note that VLC is now supported, providing the VLC command in terminal works correctly. Tested on Ubuntu, but Mac should work too (although currently untested on this OS).
 
 ### Planned Features
 #### Audio Cues
@@ -50,7 +49,6 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - ASCII Output (yes, VLC does allow this!)
 - Video effects
 - Same type of things for audio, but for video as well
-- Actually displaying a screen, rather than playing in the background (simple command fix) **(Ryan)
 
 #### Other
 - Updates (partially implemented, but this needs a partial rewrite)
