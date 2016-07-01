@@ -9,6 +9,8 @@ public class VLCVideoPlayer {
     private Process vlcInstance;
     private String operatingSysName;
     private String fileToPlayURL;
+
+
     public VLCVideoPlayer(String fileToPlayURL) {
 
         vlcInstance = null; //stores the vlc process. Ignore for now
@@ -19,7 +21,10 @@ public class VLCVideoPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"cvlc", "--Idummy", "--fullscreen",fileToPlayURL});
+            //todo get VLC working. Frame buffer device cannot be read, so we might have to
+            //do something. Currently uses mplayer which works, but VLC should work once we
+            //fix it.
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"mplayer",fileToPlayURL});
         }
         catch(Exception ex) {
 
