@@ -6,10 +6,16 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 This software is being developed jointly by [Mike Croall](https://www.github.com/MikeCroall "Mike Croall") and [Ryan Collins](https://www.github.com/OhmGeek "Ryan Collins").
 
 # Usage
-In terminal:
+First, install the required dependencies:
+    
+    sudo apt-get install vlc
+
+Now, download the jar file. In terminal:
 
     java -jar /path/to/dev.jar
+    
 OR 
+
 Make the jar executable...
 
     chmod +x /path/to/dev.jar
@@ -24,7 +30,6 @@ Run the script:
     ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
 and check your files updated!
 
-Please note that VLC is now supported, providing the VLC command in terminal works correctly. Tested on Ubuntu, but Mac should work too (although currently untested on this OS).
 
 ### Planned Features
 #### Audio Cues
@@ -44,7 +49,6 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - ASCII Output (yes, VLC does allow this!)
 - Video effects
 - Same type of things for audio, but for video as well
-- Actually displaying a screen, rather than playing in the background (simple command fix) **(Ryan)
 
 #### Other
 - Updates (partially implemented, but this needs a partial rewrite)
