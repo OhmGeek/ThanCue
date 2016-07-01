@@ -19,7 +19,7 @@ public class VLCVideoPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", "--Idummy", "--fullscreen",fileToPlayURL});
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"cvlc", "--Idummy", "--fullscreen",fileToPlayURL});
         }
         catch(Exception ex) {
 
