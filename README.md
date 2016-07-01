@@ -6,10 +6,16 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 This software is being developed jointly by [Mike Croall](https://www.github.com/MikeCroall "Mike Croall") and [Ryan Collins](https://www.github.com/OhmGeek "Ryan Collins").
 
 # Usage
-In terminal:
+First, install the required dependencies:
+    
+    sudo apt-get install vlc
+
+Now, download the jar file. In terminal:
 
     java -jar /path/to/dev.jar
+    
 OR 
+
 Make the jar executable...
 
     chmod +x /path/to/dev.jar
