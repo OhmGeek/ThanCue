@@ -21,10 +21,11 @@ public class VLCVideoPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            //todo get VLC working. Frame buffer device cannot be read, so we might have to
+            //todo quit after playing: vlc://quit or somethign like that
+            //todo allow more properties to be created
             //do something. Currently uses mplayer which works, but VLC should work once we
             //fix it.
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"mplayer",fileToPlayURL});
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc","-f",fileToPlayURL});
         }
         catch(Exception ex) {
 
