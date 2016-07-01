@@ -39,7 +39,9 @@ public class FormMainController {
         add("wav");
         add("ogg");
 
-    }};*/ // todo remove, vlc can handle everything yo
+    }};*/ //
+
+    //todo create a CueManager to deal with managing cues. Also makes undoing nicer (once it's written) :P
 
     //Container panes
     @FXML

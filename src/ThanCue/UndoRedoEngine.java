@@ -6,9 +6,8 @@ import java.awt.*;
  * Created by ryan on 28/06/16.
  */
 public class UndoRedoEngine {
-    //todo replace Object with an Event (once I've actually decided how to structure that)
-    private CircularStack<Object> undoStack;
-    private CircularStack<Object> redoStack;
+    private CircularStack<UndoRedoEvent> undoStack;
+    private CircularStack<UndoRedoEvent> redoStack;
 
     public UndoRedoEngine() {
         undoStack = new CircularStack<>(Constants.NUMBER_OF_UNDOS);
@@ -16,12 +15,16 @@ public class UndoRedoEngine {
     }
     public void undo() {
         if(!undoStack.empty()) {
-            Object eToUndo = undoStack.pop();
+            UndoRedoEvent eToUndo = undoStack.pop();
+            //here we might want to just do eToUndo.undo()
+            //we can let the lower levels do all the hard work :P
         }
     }
     public void redo() {
         if(!undoStack.empty()) {
-            Object eToRedo = redoStack.pop();
+            UndoRedoEvent eToRedo = redoStack.pop();
         }
+        //much the same as undo with eToRedo.redo()
+        //nicer this way :P
     }
 }

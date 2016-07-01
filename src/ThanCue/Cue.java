@@ -17,6 +17,16 @@ import java.util.List;
  * Created by ryan on 15/05/16.
  */
 public abstract class Cue implements Serializable{
+
+    public enum CueEvents implements EventTypeInterface {
+        INDEX_CHANGE, CUE_TYPE_CHANGE, CUE_NAME_CHANGE, CUE_BEHAVIOUR_CHANGE,
+        CUE_PLAYDELAY_CHANGE, CUE_STARTPOINT_CHANGE, CUE_DURATION_CHANGE
+    }
+
+
+
+
+
     private transient static final String IMG_SOUND_ICON = "/img/music.png";
     private transient static final String IMG_VIDEO_ICON = "/img/video.png";
     private transient static final String IMG_LIGHT_ICON = "/img/light.png";
