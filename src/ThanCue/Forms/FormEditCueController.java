@@ -1,6 +1,5 @@
 package ThanCue.Forms;
 
-import ThanCue.*;
 import ThanCue.Cues.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

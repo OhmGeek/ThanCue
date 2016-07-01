@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import ThanCue.FileCue;
+import ThanCue.Cues.FileCue;
 import org.zeroturnaround.zip.*;
 /**
  * Created by ryan on 18/05/16.

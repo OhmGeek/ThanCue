@@ -42,7 +42,7 @@ public class ByteSource implements ZipEntrySource {
 
   public ByteSource(String path, byte[] bytes, long time, int compressionLevel) {
     this.path = path;
-    this.bytes = (byte[])bytes.clone();
+    this.bytes = bytes.clone();
     this.time = time;
     this.compressionLevel = compressionLevel;
     if(compressionLevel != -1) {

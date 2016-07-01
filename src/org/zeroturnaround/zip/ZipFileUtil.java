@@ -35,8 +35,8 @@ class ZipFileUtil {
       return new ZipInputStream(inStream);
 
     try {
-      Constructor<ZipInputStream> constructor = ZipInputStream.class.getConstructor(new Class[] { InputStream.class, Charset.class });
-      return (ZipInputStream) constructor.newInstance(new Object[] { inStream, charset });
+      Constructor<ZipInputStream> constructor = ZipInputStream.class.getConstructor(InputStream.class, Charset.class);
+      return constructor.newInstance(inStream, charset);
     }
     catch (NoSuchMethodException e) {
       throw new IllegalStateException(MISSING_METHOD_PLEASE_UPGRADE, e);
@@ -64,8 +64,8 @@ class ZipFileUtil {
       return new ZipOutputStream(outStream);
 
     try {
-      Constructor<ZipOutputStream> constructor = ZipOutputStream.class.getConstructor(new Class[] { OutputStream.class, Charset.class });
-      return (ZipOutputStream) constructor.newInstance(new Object[] { outStream, charset });
+      Constructor<ZipOutputStream> constructor = ZipOutputStream.class.getConstructor(OutputStream.class, Charset.class);
+      return constructor.newInstance(outStream, charset);
     }
     catch (NoSuchMethodException e) {
       throw new IllegalStateException(MISSING_METHOD_PLEASE_UPGRADE, e);
@@ -93,8 +93,8 @@ class ZipFileUtil {
     }
 
     try {
-      Constructor<ZipFile> constructor = ZipFile.class.getConstructor(new Class[] { File.class, Charset.class });
-      return (ZipFile) constructor.newInstance(new Object[] { src, charset });
+      Constructor<ZipFile> constructor = ZipFile.class.getConstructor(File.class, Charset.class);
+      return constructor.newInstance(src, charset);
     }
     catch (NoSuchMethodException e) {
       throw new IllegalStateException(MISSING_METHOD_PLEASE_UPGRADE, e);
@@ -118,7 +118,7 @@ class ZipFileUtil {
    */
   static boolean isCharsetSupported() throws IOException {
     try {
-      ZipFile.class.getConstructor(new Class[] { File.class, Charset.class });
+      ZipFile.class.getConstructor(File.class, Charset.class);
       return true;
     }
     catch (NoSuchMethodException e) {

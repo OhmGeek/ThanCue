@@ -650,7 +650,7 @@ public class Zips {
       }
       visitedNames.add(entryName);
 
-      ZipEntryTransformer transformer = (ZipEntryTransformer) entryByPath.remove(entryName);
+      ZipEntryTransformer transformer = entryByPath.remove(entryName);
       if (transformer == null) { // no transformer
         ZipEntryUtil.copyEntry(zipEntry, in, out, preserveTimestapms);
       }
@@ -690,7 +690,7 @@ public class Zips {
         file.createNewFile();
       }
 
-      ZipEntryTransformer transformer = (ZipEntryTransformer) entryByPath.remove(entryName);
+      ZipEntryTransformer transformer = entryByPath.remove(entryName);
       if (transformer == null) { // no transformer
         FileUtils.copy(in, file);
       }

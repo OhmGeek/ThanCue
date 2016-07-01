@@ -55,7 +55,7 @@ class Java7Nio2ApiPermissionsStrategy implements ZTFilePermissionsStrategy {
     linkOptionClass = 
         (Class<? extends Enum<?>>) ZTZipReflectionUtil.getClassForName("java.nio.file.LinkOption", Enum.class);
     linkOptionsArray = (Enum<?>[]) Array.newInstance(linkOptionClass, 1);
-    linkOptionsArray[0] = (Enum<?>) linkOptionClass.getEnumConstants()[0]; // LinkOption.NOFOLLOW_LINKS;
+    linkOptionsArray[0] = linkOptionClass.getEnumConstants()[0]; // LinkOption.NOFOLLOW_LINKS;
     
     filesClass = ZTZipReflectionUtil.getClassForName("java.nio.file.Files", Object.class);
     pathClass = ZTZipReflectionUtil.getClassForName("java.nio.file.Path", Object.class);

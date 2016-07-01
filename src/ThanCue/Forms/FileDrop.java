@@ -618,7 +618,7 @@ public class FileDrop
      *
      * @since 1.1
      */
-    public static interface Listener {
+    public interface Listener {
 
         /**
          * This method is called when files have been successfully dropped.
@@ -626,7 +626,7 @@ public class FileDrop
          * @param files An array of <tt>File</tt>s that were dropped.
          * @since 1.0
          */
-        public abstract void filesDropped( java.io.File[] files );
+        void filesDropped(java.io.File[] files);
 
 
     }   // end inner-interface Listener
@@ -917,7 +917,7 @@ public class FileDrop
          * @version 1.1
          * @since 1.1
          */
-        public static interface Fetcher
+        public interface Fetcher
         {
             /**
              * Return the object being encapsulated in the
@@ -926,7 +926,7 @@ public class FileDrop
              * @return The dropped object
              * @since 1.1
              */
-            public abstract Object getObject();
+            Object getObject();
         }   // end inner interface Fetcher
 
 

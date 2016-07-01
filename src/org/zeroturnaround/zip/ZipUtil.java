@@ -395,7 +395,7 @@ public final class ZipUtil {
 
       Enumeration<? extends ZipEntry> en = zf.entries();
       while (en.hasMoreElements()) {
-        ZipEntry e = (ZipEntry) en.nextElement();
+        ZipEntry e = en.nextElement();
 
         InputStream is = zf.getInputStream(e);
         try {
@@ -489,7 +489,7 @@ public final class ZipUtil {
 
       Enumeration<? extends ZipEntry> en = zf.entries();
       while (en.hasMoreElements()) {
-        ZipEntry e = (ZipEntry) en.nextElement();
+        ZipEntry e = en.nextElement();
         try {
           action.process(e);
         }
@@ -2284,7 +2284,7 @@ public final class ZipUtil {
         iterate(zip, new ZipEntryCallback() {
           public void process(InputStream in, ZipEntry zipEntry) throws IOException {
             if (names.add(zipEntry.getName())) {
-              ZipEntrySource entry = (ZipEntrySource) entryByPath.remove(zipEntry.getName());
+              ZipEntrySource entry = entryByPath.remove(zipEntry.getName());
               if (entry != null) {
                 addEntry(entry, out);
               }
@@ -2345,7 +2345,7 @@ public final class ZipUtil {
         iterate(zip, new ZipEntryCallback() {
           public void process(InputStream in, ZipEntry zipEntry) throws IOException {
             if (names.add(zipEntry.getName())) {
-              ZipEntrySource entry = (ZipEntrySource) entryByPath.remove(zipEntry.getName());
+              ZipEntrySource entry = entryByPath.remove(zipEntry.getName());
               if (entry != null) {
                 addEntry(entry, out);
               }
@@ -2588,7 +2588,7 @@ public final class ZipUtil {
 
     public void process(InputStream in, ZipEntry zipEntry) throws IOException {
       if (names.add(zipEntry.getName())) {
-        ZipEntryTransformer entry = (ZipEntryTransformer) entryByPath.remove(zipEntry.getName());
+        ZipEntryTransformer entry = entryByPath.remove(zipEntry.getName());
         if (entry != null) {
           entry.transform(in, zipEntry, out);
         }
@@ -2725,7 +2725,7 @@ public final class ZipUtil {
        */
       Enumeration<? extends ZipEntry> en = zf1.entries();
       while (en.hasMoreElements()) {
-        ZipEntry e1 = (ZipEntry) en.nextElement();
+        ZipEntry e1 = en.nextElement();
         String path = e1.getName();
         ZipEntry e2 = zf2.getEntry(path);
 
@@ -2789,12 +2789,8 @@ public final class ZipUtil {
 
     // Check the directory flag
     if (e1.isDirectory()) {
-      if (e2.isDirectory()) {
-        return true; // Let's skip the directory as there is nothing to compare
-      }
-      else {
-        return false;
-      }
+      // Let's skip the directory as there is nothing to compare
+      return e2.isDirectory();
     }
     else if (e2.isDirectory()) {
 
@@ -2811,14 +2807,9 @@ public final class ZipUtil {
     // Check the CRC
     long crc1 = e1.getCrc();
     long crc2 = e2.getCrc();
-    if (crc1 != -1 && crc2 != -1 && crc1 != crc2) {
-
-      return false;
-    }
+    return !(crc1 != -1 && crc2 != -1 && crc1 != crc2);
 
 
-
-    return true;
   }
 
   /**

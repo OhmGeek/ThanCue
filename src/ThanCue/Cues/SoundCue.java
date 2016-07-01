@@ -1,6 +1,5 @@
 package ThanCue.Cues;
 
-import ThanCue.FileCue;
 import ThanCue.VLC.VLCMusicPlayer;
 
 /**
@@ -11,7 +10,7 @@ public class SoundCue extends FileCue {
     public SoundCue() {
         super();
         this.setCueType(CueType.SOUND);
-        this.setCueFilePath(System.getProperty("user.home") + "/testSound.wav");
+        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
     }
 
     @Override

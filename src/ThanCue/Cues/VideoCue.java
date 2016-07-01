@@ -1,6 +1,5 @@
 package ThanCue.Cues;
 
-import ThanCue.FileCue;
 import ThanCue.VLC.VLCVideoPlayer;
 
 /**
@@ -11,7 +10,7 @@ public class VideoCue extends FileCue {
     public VideoCue() {
         super();
         this.setCueType(CueType.VIDEO);
-        this.setCueFilePath(System.getProperty("user.home") + "/testVideo.mp4");
+        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
     }
 
     @Override

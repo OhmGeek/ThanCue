@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Cues;
 
 import ThanCue.Cues.Cue;
 
@@ -20,7 +20,7 @@ public abstract class FileCue extends Cue {
 
     public FileCue(){
         super();
-        this.setCueFilePath(System.getProperty("user.home") + "/myCue.cue");
+        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
     }
 
     @Override
@@ -48,16 +48,6 @@ public abstract class FileCue extends Cue {
         cueFilePath.set(path.toAbsolutePath().toString());
     }
 
-    @Override
-    public String getFileString() {
-        String current = super.getFileString();
-
-        current = "sc" + endFieldCharacter + current; //marks file as a sound cue.
-        current += getFilePath().getFileName().toString(); //gets the name and extension.
-        current += endFieldCharacter;
-        current += endRecordCharacter;
-        return current;
-    }
 
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
