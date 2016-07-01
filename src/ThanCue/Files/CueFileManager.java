@@ -1,18 +1,15 @@
-package ThanCue;
+package ThanCue.Files;
 
-import javafx.application.Platform;
+import ThanCue.Cues.Cue;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
+
+import ThanCue.FileCue;
 import org.zeroturnaround.zip.*;
 /**
  * Created by ryan on 18/05/16.

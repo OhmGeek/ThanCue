@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Files;
 
 /**
  * Created by ryan on 20/06/16.

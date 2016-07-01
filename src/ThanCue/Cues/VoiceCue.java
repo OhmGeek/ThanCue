@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Cues;
 
 /**
  * Created by mike on 27/06/16.

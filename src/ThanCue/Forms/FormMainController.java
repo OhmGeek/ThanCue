@@ -1,13 +1,15 @@
 package ThanCue.Forms;
 
 import ThanCue.*;
-import com.sun.glass.ui.Application;
-import com.sun.media.jfxmedia.control.VideoFormat;
+import ThanCue.Cues.Cue;
+import ThanCue.Cues.CueBehaviour;
+import ThanCue.Cues.SoundCue;
+import ThanCue.Cues.VideoCue;
+import ThanCue.Files.CueFileManager;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -24,13 +26,11 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FormMainController {

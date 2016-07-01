@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Cues;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 

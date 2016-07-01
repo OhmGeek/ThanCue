@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.UndoRedo;
 
 /**
  * This is an object that stores information about some undo event (the old value, the new value,

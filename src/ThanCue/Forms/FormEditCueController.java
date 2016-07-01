@@ -1,6 +1,7 @@
 package ThanCue.Forms;
 
 import ThanCue.*;
+import ThanCue.Cues.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -9,7 +10,6 @@ import javafx.stage.Stage;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**

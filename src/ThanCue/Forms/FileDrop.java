@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Forms;
 
 
 import java.awt.datatransfer.DataFlavor;

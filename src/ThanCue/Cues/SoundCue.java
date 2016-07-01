@@ -1,5 +1,6 @@
-package ThanCue;
+package ThanCue.Cues;
 
+import ThanCue.FileCue;
 import ThanCue.VLC.VLCMusicPlayer;
 
 /**
