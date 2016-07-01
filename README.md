@@ -37,12 +37,14 @@ Please note that VLC is now supported, providing the VLC command in terminal wor
 - MIDI control
 - Loops
 - Change sound card playback (for each cue)
-- Mac Voice Cue
-
+- Mac Voice Cue (using the say command)
+- More powerful VLC interface (allowing all the things above, and more!)
+- 
 #### Video Cues
 - ASCII Output (yes, VLC does allow this!)
 - Video effects
 - Same type of things for audio, but for video as well
+- Actually displaying a screen, rather than playing in the background (simple command fix) **(Ryan)
 
 #### Other
 - Updates (partially implemented, but this needs a partial rewrite)
