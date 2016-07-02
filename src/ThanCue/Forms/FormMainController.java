@@ -1,5 +1,6 @@
 package ThanCue.Forms;
 
+import ThanCue.Constants;
 import ThanCue.Cues.Cue;
 import ThanCue.Cues.CueBehaviour;
 import ThanCue.Cues.SoundCue;
@@ -517,8 +518,9 @@ public class FormMainController {
                         if (c.getPrgDelay() != null) {
                             c.setPrgDelayProgress((timeToStart - System.currentTimeMillis()) / c.getCuePlayDelay());
                         }
-                        Thread.sleep(10);
+                        Thread.sleep(Constants.UPDATE_DELAY_prgDelay);
                     }
+                    c.setPrgDelayProgress(.0);
                     c.playCue();
                 } catch (Exception ex) {
                     ex.printStackTrace();
