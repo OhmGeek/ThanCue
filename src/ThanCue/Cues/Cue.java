@@ -168,7 +168,7 @@ public abstract class Cue implements Serializable{
         cueStartPoint.set((Integer) ser.get(6));
         cueDuration.set((Integer) ser.get(7));
     }
-    
+
     public void print() {
         System.out.println(toString());
     }

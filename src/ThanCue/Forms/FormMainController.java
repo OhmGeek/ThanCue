@@ -7,6 +7,7 @@ import ThanCue.Cues.VideoCue;
 import ThanCue.Exceptions.EmptyCueCollectionException;
 import ThanCue.Files.CueFileManager;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
@@ -244,9 +246,7 @@ public class FormMainController {
 
                         box.getChildren().addAll(imageview, typeName);
                         setGraphic(box);
-
                     }
-
                 }
             };
             return cell;
@@ -265,7 +265,19 @@ public class FormMainController {
                 @Override
                 public void updateItem(Integer item, boolean empty) {
                     if (item != null) {
-                        setText(item.toString());
+                        super.updateItem(item, empty);
+
+                        ProgressBar prgCountdown = new ProgressBar();
+                        prgCountdown.setMaxWidth(Double.MAX_VALUE);
+                        prgCountdown.setProgress(0.5);
+
+                        Label lblNum = new Label();
+                        lblNum.setText("" + item);
+
+                        StackPane stackPane = new StackPane();
+                        stackPane.getChildren().addAll(prgCountdown, lblNum);
+
+                        setGraphic(stackPane);
                     }
                 }
             };
@@ -312,6 +324,8 @@ public class FormMainController {
 
         //link data to table
         tblView.setItems(cueCollection);
+
+        tblView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //show data
         refreshTable();
