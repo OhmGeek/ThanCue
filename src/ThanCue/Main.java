@@ -1,20 +1,16 @@
 package ThanCue;
 
+import ThanCue.Variables.Constants;
+import ThanCue.Variables.Environment;
 import com.briksoftware.updatefx.core.UpdateFX;
-import com.sun.applet2.preloader.event.ApplicationExitEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -23,8 +19,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //I'm not so keen on this, so todo make this nicer (in terms of structure)
+        //Load up details about the Environment :)
         Environment.tempDirectories = new ArrayList<>();
+        Environment.operatingSystem = System.getProperty("os.name");
 
         Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 

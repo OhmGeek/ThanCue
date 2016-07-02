@@ -1,6 +1,6 @@
 package ThanCue.Cues;
 
-import ThanCue.Constants;
+import ThanCue.Variables.Constants;
 import ThanCue.UndoRedo.EventTypeInterface;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -50,10 +50,10 @@ public abstract class Cue implements Serializable{
         ind = new SimpleIntegerProperty(0);
         cueTypeEnum = CueType.UNKNOWN;
         cueType = new SimpleStringProperty(cueTypeEnum.toString());
-        cueName = new SimpleStringProperty(Constants.defaultCueName);
+        cueName = new SimpleStringProperty(Constants.DEFAULT_CUE_NAME);
         cueBehaviourEnum = CueBehaviour.PLAY_ON_GO;
         cueBehaviour = new SimpleStringProperty(cueBehaviourEnum.toString());
-        cueFilePath = new SimpleStringProperty(Constants.filePathNotPresent);
+        cueFilePath = new SimpleStringProperty(Constants.FILE_PATH_NOT_PRESENT);
         cuePlayDelay = new SimpleIntegerProperty(0);
         cueStartPoint = new SimpleIntegerProperty(0);
         cueDuration = new SimpleIntegerProperty(0);

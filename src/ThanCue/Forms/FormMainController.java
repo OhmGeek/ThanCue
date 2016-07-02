@@ -1,6 +1,6 @@
 package ThanCue.Forms;
 
-import ThanCue.Constants;
+import ThanCue.Variables.Constants;
 import ThanCue.Cues.Cue;
 import ThanCue.Cues.CueBehaviour;
 import ThanCue.Cues.SoundCue;
