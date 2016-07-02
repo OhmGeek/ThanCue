@@ -9,6 +9,7 @@ import ThanCue.Files.CueFileManager;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -208,7 +209,7 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
-        TableColumn<Cue, Integer> clmDelay = new TableColumn<>("Start delay (ms)");
+        TableColumn<Cue, Cue> clmDelay = new TableColumn<>("Start delay (ms)");
         clmDelay.setSortable(false);
         TableColumn<Cue, Integer> clmStartPoint = new TableColumn<>("Start point (ms)");
         clmStartPoint.setSortable(false);
@@ -258,16 +259,14 @@ public class FormMainController {
 
         clmFilePath.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueFilePath"));
 
-        clmDelay.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCuePlayDelay()).asObject());
-        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
-        clmDelay.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+        /*clmDelay.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCuePlayDelay()).asObject());
+        clmDelay.setCellFactory(param -> {
+            final ProgressBar prgCountdown = new ProgressBar();
             TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
                 @Override
                 public void updateItem(Integer item, boolean empty) {
                     if (item != null) {
                         super.updateItem(item, empty);
-
-                        ProgressBar prgCountdown = new ProgressBar();
                         prgCountdown.setMaxWidth(Double.MAX_VALUE);
                         prgCountdown.setProgress(0.5);
 
@@ -276,6 +275,42 @@ public class FormMainController {
 
                         StackPane stackPane = new StackPane();
                         stackPane.getChildren().addAll(prgCountdown, lblNum);
+
+                        setGraphic(stackPane);
+                    }
+                }
+            };
+            cell.setAlignment(Pos.CENTER);
+
+            Cue c = null; // todo somehow GET the underlying cue object here.
+            c.prg = prgCountdown;
+
+            return cell;
+        });*/
+
+        clmDelay.setCellValueFactory(cellData -> new ObservableValueBase<Cue>() {
+            @Override
+            public Cue getValue() {
+                return cellData.getValue();
+            }
+        });
+        clmDelay.setCellFactory(param -> {
+            TableCell<Cue, Cue> cell = new TableCell<Cue, Cue>() {
+                @Override
+                public void updateItem(Cue item, boolean empty) {
+                    if (item != null) {
+                        //super.updateItem(item, empty);
+                        ProgressBar prgCountdown = new ProgressBar();
+                        prgCountdown.setMaxWidth(Double.MAX_VALUE);
+                        prgCountdown.setProgress(0.0);
+
+                        Label lblNum = new Label();
+                        lblNum.setText("" + item.getCuePlayDelay());
+
+                        StackPane stackPane = new StackPane();
+                        stackPane.getChildren().addAll(prgCountdown, lblNum);
+
+                        item.prg = prgCountdown;
 
                         setGraphic(stackPane);
                     }
@@ -393,26 +428,24 @@ public class FormMainController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Specify file to load");
             File file = fileChooser.showOpenDialog(anchor_pane.getScene().getWindow());
-            if(file != null) {
+            if (file != null) {
                 try {
                     List<Cue> cues = man.readCue(file);
-                    if(cues != null) {
+                    if (cues != null) {
                         cueCollection.clear();
                         cueCollection.addAll(cues);
-                    }
-                    else {
+                    } else {
                         throw new EmptyCueCollectionException();
                     }
                     //todo add in additional exceptions thrown
-                } catch(EmptyCueCollectionException ex1) {
+                } catch (EmptyCueCollectionException ex1) {
                     System.out.println("The Cue Collection was null");
                     ex1.printStackTrace();
-                } catch(Exception ex) {
+                } catch (Exception ex) {
                     System.out.println("An unknown exception occurred");
                     ex.printStackTrace();
                 }
             }
-
 
 
         });
@@ -509,7 +542,17 @@ public class FormMainController {
         if (c.getCuePlayDelay() > 0) {
             new Thread(() -> {
                 try {
-                    Thread.sleep(c.getCuePlayDelay());
+                    double a = System.currentTimeMillis();
+                    double startTime = a + c.getCuePlayDelay();
+                    double diff = startTime - a;
+
+                    while (System.currentTimeMillis() < startTime) {
+                        //update progress bar in delay column
+                        if (c.prg != null) {
+                            c.prg.setProgress((startTime - System.currentTimeMillis()) / diff);
+                        }
+                        Thread.sleep(10);
+                    }
                     c.playCue();
                 } catch (Exception ex) {
                     ex.printStackTrace();

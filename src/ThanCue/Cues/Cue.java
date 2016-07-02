@@ -4,6 +4,7 @@ import ThanCue.Constants;
 import ThanCue.UndoRedo.EventTypeInterface;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public abstract class Cue implements Serializable{
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
+    public ProgressBar prg = null;
 
     public Cue() {
         ind = new SimpleIntegerProperty(0);
