@@ -24,7 +24,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //I'm not so keen on this, so todo make this nicer (in terms of structure)
-        Environment.tempDirectories = new ArrayList<File>();
+        Environment.tempDirectories = new ArrayList<>();
 
         Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 
