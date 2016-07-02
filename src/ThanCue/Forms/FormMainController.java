@@ -259,35 +259,6 @@ public class FormMainController {
 
         clmFilePath.setCellValueFactory(new PropertyValueFactory<Cue, String>("cueFilePath"));
 
-        /*clmDelay.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCuePlayDelay()).asObject());
-        clmDelay.setCellFactory(param -> {
-            final ProgressBar prgCountdown = new ProgressBar();
-            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
-                @Override
-                public void updateItem(Integer item, boolean empty) {
-                    if (item != null) {
-                        super.updateItem(item, empty);
-                        prgCountdown.setMaxWidth(Double.MAX_VALUE);
-                        prgCountdown.setProgress(0.5);
-
-                        Label lblNum = new Label();
-                        lblNum.setText("" + item);
-
-                        StackPane stackPane = new StackPane();
-                        stackPane.getChildren().addAll(prgCountdown, lblNum);
-
-                        setGraphic(stackPane);
-                    }
-                }
-            };
-            cell.setAlignment(Pos.CENTER);
-
-            Cue c = null; // todo somehow GET the underlying cue object here.
-            c.prg = prgCountdown;
-
-            return cell;
-        });*/
-
         clmDelay.setCellValueFactory(cellData -> new ObservableValueBase<Cue>() {
             @Override
             public Cue getValue() {
