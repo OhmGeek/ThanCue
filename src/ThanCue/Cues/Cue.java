@@ -44,7 +44,7 @@ public abstract class Cue implements Serializable{
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
-    public ProgressBar prg = null;
+    private ProgressBar prgDelay = null;
 
     public Cue() {
         ind = new SimpleIntegerProperty(0);
@@ -91,8 +91,6 @@ public abstract class Cue implements Serializable{
         return cueBehaviour.get();
     }
 
-    public abstract void stopCue();
-
     public void setCueBehaviour(CueBehaviour behaviour) {
         this.cueBehaviourEnum = behaviour;
         this.cueBehaviour.set(behaviour.toString());
@@ -121,6 +119,20 @@ public abstract class Cue implements Serializable{
     public void setCueDuration(int time) {
         System.out.println("Attempt to set duration on non-file cue!");
     }
+
+    //Progress
+    public ProgressBar getPrgDelay() {
+        return prgDelay;
+    }
+
+    public void setPrgDelay(ProgressBar prgDelay) {
+        this.prgDelay = prgDelay;
+    }
+
+    public void setPrgDelayProgress(double d){
+        prgDelay.setProgress(d);
+    }
+
 
     @Override
     public String toString() {
@@ -176,6 +188,8 @@ public abstract class Cue implements Serializable{
     }
 
     public abstract void playCue(); //this plays the cue, be it lighting, sound, video or table flipping
+
+    public abstract void stopCue();
 
     public static ImageView getImageView(String type) {
         switch (type.toLowerCase()) {

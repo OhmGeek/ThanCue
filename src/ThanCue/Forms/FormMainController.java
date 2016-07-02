@@ -7,7 +7,6 @@ import ThanCue.Cues.VideoCue;
 import ThanCue.Exceptions.EmptyCueCollectionException;
 import ThanCue.Files.CueFileManager;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
@@ -28,7 +27,6 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
@@ -281,9 +279,10 @@ public class FormMainController {
                         StackPane stackPane = new StackPane();
                         stackPane.getChildren().addAll(prgCountdown, lblNum);
 
-                        item.prg = prgCountdown;
+                        item.setPrgDelay(prgCountdown);
 
                         setGraphic(stackPane);
+                        // todo why does the label go invisible when the row is selected in the table?
                     }
                 }
             };
@@ -292,8 +291,7 @@ public class FormMainController {
         });
 
         clmStartPoint.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCueStartPoint()).asObject());
-        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
-        clmStartPoint.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+        clmStartPoint.setCellFactory(param -> {
             TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
                 @Override
                 public void updateItem(Integer item, boolean empty) {
@@ -307,8 +305,7 @@ public class FormMainController {
         });
 
         clmDuration.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCueDuration()).asObject());
-        //supposedly the normal way works, however, in practice it absolutely does not... Oh well, this will do.
-        clmDuration.setCellFactory(param -> { //purely for alignment, delete entire cell factory if you don't care about alignment (but I do :D)
+        clmDuration.setCellFactory(param -> {
             TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
                 @Override
                 public void updateItem(Integer item, boolean empty) {
@@ -331,7 +328,7 @@ public class FormMainController {
         //link data to table
         tblView.setItems(cueCollection);
 
-        tblView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tblView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // auto-size columns to fill width of table
 
         //show data
         refreshTable();
@@ -406,7 +403,7 @@ public class FormMainController {
                         cueCollection.clear();
                         cueCollection.addAll(cues);
                     } else {
-                        throw new EmptyCueCollectionException();
+                        throw new EmptyCueCollectionException(); // todo could this not just be null pointer exception anyway? if null, this throws...
                     }
                     //todo add in additional exceptions thrown
                 } catch (EmptyCueCollectionException ex1) {
@@ -513,14 +510,12 @@ public class FormMainController {
         if (c.getCuePlayDelay() > 0) {
             new Thread(() -> {
                 try {
-                    double a = System.currentTimeMillis();
-                    double startTime = a + c.getCuePlayDelay();
-                    double diff = startTime - a;
+                    double initiated = System.currentTimeMillis();
+                    double timeToStart = initiated + c.getCuePlayDelay();
 
-                    while (System.currentTimeMillis() < startTime) {
-                        //update progress bar in delay column
-                        if (c.prg != null) {
-                            c.prg.setProgress((startTime - System.currentTimeMillis()) / diff);
+                    while (System.currentTimeMillis() < timeToStart) {
+                        if (c.getPrgDelay() != null) {
+                            c.setPrgDelayProgress((timeToStart - System.currentTimeMillis()) / c.getCuePlayDelay());
                         }
                         Thread.sleep(10);
                     }
