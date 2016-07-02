@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -22,20 +23,20 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/appicon.png"))); // todo get this to work more than 5% of the time
         primaryStage.show();
 
-    Platform.runLater(() -> {
-        // todo fix updateFX files, as currently updating runs a temp copy of the new version, does not replace the old version
-        //check for updates
-        System.out.println("Checking for updates...");
-        try {
-            UpdateFX updater = new UpdateFX(Main.class);
-            updater.checkUpdates();
-        } catch (IOException ex) {
-            System.out.println("Updating failed");
-            ex.printStackTrace();
-        }
-    });
+        Platform.runLater(() -> {
+            // todo fix updateFX files, as currently updating runs a temp copy of the new version, does not replace the old version
+            //check for updates
+            System.out.println("Checking for updates...");
+            try {
+                UpdateFX updater = new UpdateFX(Main.class);
+                updater.checkUpdates();
+            } catch (IOException ex) {
+                System.out.println("Updating failed");
+                ex.printStackTrace();
+            }
+        });
 
-}
+    }
 
 
     public static void main(String[] args) {
