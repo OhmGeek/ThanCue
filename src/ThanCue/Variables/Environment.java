@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Variables;
 
 import java.io.File;
 import java.util.List;

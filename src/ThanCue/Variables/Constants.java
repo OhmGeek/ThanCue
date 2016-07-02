@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Variables;
 
 /**
  * Created by ryan on 28/05/16.
