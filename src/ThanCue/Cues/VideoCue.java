@@ -12,7 +12,7 @@ public class VideoCue extends FileCue {
     public VideoCue() {
         super();
         this.setCueType(CueType.VIDEO);
-        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
+        this.setCueFilePath("a");
     }
 
     @Override

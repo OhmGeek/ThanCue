@@ -25,7 +25,7 @@ public class VLCVideoPlayer {
             //todo allow more properties to be created
             //do something. Currently uses mplayer which works, but VLC should work once we
             //fix it.
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc","-f",fileToPlayURL});
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc","-f",fileToPlayURL, "--play-and-exit"});
         }
         catch(Exception ex) {
 
