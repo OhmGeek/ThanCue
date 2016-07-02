@@ -25,10 +25,6 @@ public abstract class Cue implements Serializable{
         CUE_PLAYDELAY_CHANGE, CUE_STARTPOINT_CHANGE, CUE_DURATION_CHANGE
     }
 
-
-
-
-
     private transient static final String IMG_SOUND_ICON = "/img/music.png";
     private transient static final String IMG_VIDEO_ICON = "/img/video.png";
     private transient static final String IMG_LIGHT_ICON = "/img/light.png";
@@ -163,10 +159,6 @@ public abstract class Cue implements Serializable{
         cueDuration = new SimpleIntegerProperty();
         System.out.println(ser.size());
 
-
-
-
-
         ind.set((Integer) ser.get(0));
         cueType.set((String) ser.get(1));
         cueName.set((String) ser.get(2));
@@ -175,31 +167,6 @@ public abstract class Cue implements Serializable{
         cuePlayDelay.set((Integer) ser.get(5));
         cueStartPoint.set((Integer) ser.get(6));
         cueDuration.set((Integer) ser.get(7));
-    }
-    @Deprecated
-    public String getFileString() {
-        String fileString = "";
-        String endField = String.valueOf((char) 31);
-
-        fileString += cueType;
-        fileString += endField;
-
-
-
-
-
-        //for each
-        fileString += getCueName();
-        fileString += endField;
-
-        fileString += getCueType();
-        fileString += endField;
-
-        fileString += getCueBehaviour();
-        fileString += endField;
-
-
-        return fileString;
     }
     
     public void print() {

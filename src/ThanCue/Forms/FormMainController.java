@@ -1,10 +1,10 @@
 package ThanCue.Forms;
 
-import ThanCue.*;
 import ThanCue.Cues.Cue;
 import ThanCue.Cues.CueBehaviour;
 import ThanCue.Cues.SoundCue;
 import ThanCue.Cues.VideoCue;
+import ThanCue.Exceptions.EmptyCueCollectionException;
 import ThanCue.Files.CueFileManager;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;

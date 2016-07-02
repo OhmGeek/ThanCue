@@ -1,4 +1,4 @@
-package ThanCue;
+package ThanCue.Exceptions;
 
 /**
  * Created by ryan on 27/06/16.

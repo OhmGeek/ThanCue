@@ -20,11 +20,12 @@ public abstract class FileCue extends Cue {
 
     public FileCue(){
         super();
-        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
+        this.setCueFilePath("/default/path/to/cue.cue"); // let's keep the youtube links for child cues, not to be inherited
     }
 
     @Override
     public void setCueStartPoint(int time) { cueStartPoint.set(time); }
+
     @Override
     public void setCueDuration(int time) { cueDuration.set(time); }
 

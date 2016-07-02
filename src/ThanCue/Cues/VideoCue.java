@@ -6,7 +6,9 @@ import ThanCue.VLC.VLCVideoPlayer;
  * Created by mike on 08/06/16.
  */
 public class VideoCue extends FileCue {
+
     private VLCVideoPlayer player = null;
+
     public VideoCue() {
         super();
         this.setCueType(CueType.VIDEO);
@@ -18,6 +20,8 @@ public class VideoCue extends FileCue {
         player = new VLCVideoPlayer(soundPath.toAbsolutePath().toString());
         player.play();
     }
+
+    @Override
     public void stopCue() {
         player.stop();
     }
