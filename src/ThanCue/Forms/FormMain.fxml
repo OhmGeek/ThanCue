@@ -47,6 +47,7 @@
                     <Button fx:id="btnEditCue" text="Edit cue" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                     <Button fx:id="btnMoveUp" text="Move up" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
                     <Button fx:id="btnMoveDown" text="Move down" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    <Button fx:id="btnDeleteCue" text="Delete cue" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
                 </GridPane>
 
                 <TableView fx:id="tblView" GridPane.columnIndex="0" GridPane.rowIndex="2"/>

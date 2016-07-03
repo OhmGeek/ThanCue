@@ -1,0 +1,40 @@
+#VLC Commands
+
+##File Paths:
+    file:///path/file plays a normal media file
+    http://host:port/file plays HTML (we can use YouTube for that)
+    over ftp, and mms too in much the same way
+    screen:// can be used for screen capture
+    dvd://[device] for playing a DVD
+    udp:// for streaming server (have to enter addresses too
+   
+##Controlling VLC using paths
+    vlc://pause:<seconds> pause for a set amount of time
+    vlc://quit which simply quits vlc
+
+##Audio Filters
+    One can apply audio filters to a vlc sound by using copmmands like so:
+
+	--audio-filter <filter name>
+
+    Examples of filters include: equalizer, normvol.
+
+    For each of these filters, there could potentially be some attributes
+    e.g.
+	
+	--equaliser-preset largehall
+
+    OR
+	--norm-max-level 3.0000
+
+    More than one filter can be put out by using:
+
+	--audio-filter equalizer, normvol
+
+    As the comma allows more than one filter to be applied.
+
+#File Addressing:
+
+    In VLC, files are addressed using the Media Resource Locator (MRL). This is also used by the Java Media Framework API, so we could potentially adapt this to work with ThanCue (rather than relying on Paths and Files, which work but sometimes restrict what we can do).
+
+    

@@ -96,6 +96,8 @@ public class FormMainController {
     private Button btnAddCue;
     @FXML
     private Button btnEditCue;
+    @FXML
+    private Button btnDeleteCue;
 
     private ObservableList<Cue> cueCollection = FXCollections.observableArrayList();
 
@@ -361,6 +363,7 @@ public class FormMainController {
         btnEditCue.setMaxWidth(Double.MAX_VALUE);
         btnMoveUp.setMaxWidth(Double.MAX_VALUE);
         btnMoveDown.setMaxWidth(Double.MAX_VALUE);
+        btnDeleteCue.setMaxWidth(Double.MAX_VALUE);
         btnGo.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         btnGo.setPrefHeight(140);
         btnGo.setFont(new Font(btnGo.getFont().getFamily(), 30));
@@ -376,21 +379,22 @@ public class FormMainController {
         columnConstraintForMaxWidth.setHgrow(Priority.ALWAYS);
         columnConstraintForMaxWidth.setFillWidth(true);
         grid_pane.getColumnConstraints().add(columnConstraintForMaxWidth);
-        ColumnConstraints percent25Width = new ColumnConstraints();
-        percent25Width.setPercentWidth(25);
-        top_row_button_container.getColumnConstraints().addAll(percent25Width, percent25Width, percent25Width, percent25Width);
+        ColumnConstraints percent20Width = new ColumnConstraints();
+        percent20Width.setPercentWidth(20);
+        top_row_button_container.getColumnConstraints().addAll(percent20Width, percent20Width, percent20Width,
+                percent20Width, percent20Width);
 
         //make grid pane tall as parent (on a row by row basis)
         RowConstraints rowConstraintNoGrow = new RowConstraints();
         RowConstraints rowConstraintMaybeGrow = new RowConstraints();
         RowConstraints rowConstraintGrow = new RowConstraints();
         rowConstraintNoGrow.setVgrow(Priority.NEVER);
-        rowConstraintMaybeGrow.setVgrow(Priority.SOMETIMES);
+        rowConstraintMaybeGrow.setVgrow(Priority.SOMETIMES);    // ALL VERTICAL GROWTH
         rowConstraintGrow.setVgrow(Priority.ALWAYS);
-        grid_pane.getRowConstraints().add(rowConstraintNoGrow);
-        grid_pane.getRowConstraints().add(rowConstraintNoGrow);
-        grid_pane.getRowConstraints().add(rowConstraintGrow);
-        grid_pane.getRowConstraints().add(rowConstraintMaybeGrow);
+        grid_pane.getRowConstraints().add(rowConstraintNoGrow); //Menu bar
+        grid_pane.getRowConstraints().add(rowConstraintNoGrow); //Top buttons
+        grid_pane.getRowConstraints().add(rowConstraintGrow);   //Table
+        grid_pane.getRowConstraints().add(rowConstraintMaybeGrow); //Go button
 
         //make btnGo grow
         GridPane.setFillWidth(btnGo, true);
@@ -399,6 +403,7 @@ public class FormMainController {
         GridPane.setHgrow(btnEditCue, Priority.ALWAYS);
         GridPane.setHgrow(btnMoveUp, Priority.ALWAYS);
         GridPane.setHgrow(btnMoveDown, Priority.ALWAYS);
+        GridPane.setHgrow(btnDeleteCue, Priority.ALWAYS);
 
         //update layouts
         anchor_pane.layout();
@@ -412,48 +417,8 @@ public class FormMainController {
 
         //File Menu
         btnNew.setOnAction(event -> System.out.println("New Cue Stack"));
-        btnOpen.setOnAction(event -> {
-            CueFileManager man = new CueFileManager();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Specify file to load");
-            File file = fileChooser.showOpenDialog(anchor_pane.getScene().getWindow());
-            if (file != null) {
-                try {
-                    List<Cue> cues = man.readCue(file);
-                    if (cues != null) {
-                        cueCollection.clear();
-                        cueCollection.addAll(cues);
-                    } else {
-                        throw new EmptyCueCollectionException(); // todo could this not just be null pointer exception anyway? if null, this throws...
-                    }
-                    //todo add in additional exceptions thrown
-                } catch (EmptyCueCollectionException ex1) {
-                    System.out.println("The Cue Collection was null");
-                    ex1.printStackTrace();
-                } catch (Exception ex) {
-                    System.out.println("An unknown exception occurred");
-                    ex.printStackTrace();
-                }
-            }
-
-
-        });
-        btnSave.setOnAction(event -> {
-            CueFileManager man = new CueFileManager();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Specify Destination");
-            File file = fileChooser.showSaveDialog(anchor_pane.getScene().getWindow());
-            if (file != null) {
-                try {
-                    man.writeCue(file, cueCollection);
-                } catch (Exception ex) {
-                    System.out.println("Error occurred in writing");
-                    ex.printStackTrace();
-                }
-            } else {
-                System.out.println("User didn't want to save after all :( i cri evrtym");
-            }
-        });
+        btnOpen.setOnAction(event -> openCueSaveFile());
+        btnSave.setOnAction(event -> saveCueSaveFile());
         btnSaveAs.setOnAction(event -> System.out.println("Save As"));
         chkShowMode.setOnAction(event -> toggleShowMode());
         btnAbout.setOnAction(event -> showAbout());
@@ -469,9 +434,62 @@ public class FormMainController {
         btnEditCue.setOnAction(event -> editSelectedCue());
         btnMoveUp.setOnAction(event -> moveSelectedCueUp());
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
+        btnDeleteCue.setOnAction(event -> deleteSelectedCue());
 
         //Table
         tblView.getSelectionModel().selectedItemProperty().addListener((observableValue, cue, t1) -> selectionChanged());
+    }
+
+    private void deleteSelectedCue() {
+        if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
+            int firstSelection = tblView.getSelectionModel().getSelectedIndex();
+            cueCollection.remove(firstSelection);
+            refreshTable();
+        } else {
+            showDialogNothingSelected();
+        }
+    }
+
+    private void saveCueSaveFile() {
+        CueFileManager man = new CueFileManager();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Specify Destination");
+        File file = fileChooser.showSaveDialog(anchor_pane.getScene().getWindow());
+        if (file != null) {
+            try {
+                man.writeCue(file, cueCollection);
+            } catch (Exception ex) {
+                System.out.println("Error occurred in writing");
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("User didn't want to save after all :( i cri evrtym");
+        }
+    }
+
+    private void openCueSaveFile() {
+        CueFileManager man = new CueFileManager();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Specify file to load");
+        File file = fileChooser.showOpenDialog(anchor_pane.getScene().getWindow());
+        if (file != null) {
+            try {
+                List<Cue> cues = man.readCue(file);
+                if (cues != null) {
+                    cueCollection.clear();
+                    cueCollection.addAll(cues);
+                } else {
+                    throw new EmptyCueCollectionException(); // todo could this not just be null pointer exception anyway? if null, this throws...
+                }
+                //todo add in additional exceptions thrown
+            } catch (EmptyCueCollectionException ex1) {
+                System.out.println("The Cue Collection was null");
+                ex1.printStackTrace();
+            } catch (Exception ex) {
+                System.out.println("An unknown exception occurred");
+                ex.printStackTrace();
+            }
+        }
     }
 
     private void showAbout() {
