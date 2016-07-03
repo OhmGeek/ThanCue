@@ -142,7 +142,7 @@ public class FormEditCueController {
     private void chooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose file for cue");
-        fileChooser.setInitialDirectory(((FileCue) editingCue).getFilePath().getParent().toFile());
+        //fileChooser.setInitialDirectory(((FileCue) editingCue).getFilePath().getParent().toFile());
         File file = fileChooser.showOpenDialog(btnChooseFile.getScene().getWindow());
         if (file != null) {
             changeFilePath(file);

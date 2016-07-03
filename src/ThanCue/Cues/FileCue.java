@@ -1,15 +1,10 @@
 package ThanCue.Cues;
 
-import ThanCue.Cues.Cue;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static ThanCue.Constants.endFieldCharacter;
-import static ThanCue.Constants.endRecordCharacter;
 
 /**
  * Created by mike on 08/06/16.

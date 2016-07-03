@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ThanCue.Cues.FileCue;
+import ThanCue.Variables.Environment;
 import org.zeroturnaround.zip.*;
 /**
  * Created by ryan on 18/05/16.
@@ -32,7 +33,7 @@ public class CueFileManager {
             System.out.println("Invalid File");
             throw new InvalidFileTypeException();
         }
-        Path dest = Files.createTempDirectory(zipFile.toPath().getParent(),""); //TODO make hidden directory
+        Path dest = Files.createTempDirectory(zipFile.toPath().getParent(),""); //TODO make hidden directory and change to use of files throughout
 
         ZipUtil.unpack(zipFile,dest.toFile());
 
@@ -66,7 +67,8 @@ public class CueFileManager {
         });
 
 
-        //todo delete this temp directory
+
+        Environment.tempDirectories.add(dest.toFile());
         return cuesLoaded;
     }
 

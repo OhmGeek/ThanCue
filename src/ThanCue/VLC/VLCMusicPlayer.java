@@ -20,7 +20,7 @@ public class VLCMusicPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc", fileToPlayURL, "--sout-delay-delay=" + startPoint}); // todo USE duration
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc","-I dummy", fileToPlayURL, "--sout-delay-delay=" + startPoint,"--play-and-exit"}); // todo USE duration
         }
         catch(Exception ex) {
             ex.printStackTrace();

@@ -1,6 +1,6 @@
 package ThanCue.UndoRedo;
 
-import ThanCue.Constants;
+import ThanCue.Variables.Constants;
 
 /**
  * Created by ryan on 28/06/16.
