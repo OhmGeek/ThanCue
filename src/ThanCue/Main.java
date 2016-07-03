@@ -16,6 +16,13 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
+    private static final String IMG_ICO_PNG = "/img/ico.png"; // todo move to constants
+    private static Image icon16;
+    private static Image icon22;
+    private static Image icon24;
+    private static Image icon32;
+    private static Image icon48;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -25,20 +32,16 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 
-        primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo stop showing release ID (only for dev)
+        primaryStage.getIcons().addAll(icon16, icon22, icon24, icon32, icon48); // todo get this to work more than 5% of the time
+        primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo maybe stop showing release ID (only for dev)
         primaryStage.setScene(new Scene(root, 1000, 800));
-        primaryStage.getIcons().add(new Image("/img/appicon.png", true)); // todo get this to work more than 5% of the time
         primaryStage.show();
-
-
 
         //we go through the list of temporary directories that have been opened and delete them!
         //Only do this when the main window itself has closed.
         primaryStage.setOnCloseRequest(we -> {
             Environment.tempDirectories.forEach(file -> file.delete());
         });
-
-
 
         Platform.runLater(() -> {
             // todo fix updateFX files, as currently updating runs a temp copy of the new version, does not replace the old version
@@ -52,12 +55,17 @@ public class Main extends Application {
                 ex.printStackTrace();
             }
         });
-
-
     }
-
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public Main(){
+        icon16 = new Image(Main.class.getResource(IMG_ICO_PNG).toExternalForm(), 16,16,true,true);
+        icon22 = new Image(Main.class.getResource(IMG_ICO_PNG).toExternalForm(), 22,22,true,true);
+        icon24 = new Image(Main.class.getResource(IMG_ICO_PNG).toExternalForm(), 24,24,true,true);
+        icon32 = new Image(Main.class.getResource(IMG_ICO_PNG).toExternalForm(), 32,32,true,true);
+        icon48 = new Image(Main.class.getResource(IMG_ICO_PNG).toExternalForm(), 48,48,true,true);
     }
 }

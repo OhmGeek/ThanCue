@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ThanCue.Cues.FileCue;
+import ThanCue.Exceptions.InvalidFileTypeException;
 import ThanCue.Variables.Environment;
 import org.zeroturnaround.zip.*;
 /**
