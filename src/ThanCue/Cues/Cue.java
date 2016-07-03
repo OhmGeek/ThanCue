@@ -45,6 +45,7 @@ public abstract class Cue implements Serializable{
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
     private ProgressBar prgDelay = null;
+    private ProgressBar prgDuration = null;
 
     public Cue() {
         ind = new SimpleIntegerProperty(0);
@@ -133,6 +134,17 @@ public abstract class Cue implements Serializable{
         prgDelay.setProgress(d);
     }
 
+    public ProgressBar getPrgDuration() {
+        return prgDuration;
+    }
+
+    public void setPrgDuration(ProgressBar prgDuration) {
+        this.prgDuration = prgDuration;
+    }
+
+    public void setPrgDurationProgress(double d){
+        prgDuration.setProgress(d);
+    }
 
     @Override
     public String toString() {

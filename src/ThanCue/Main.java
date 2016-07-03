@@ -20,7 +20,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("ThanCue " + Constants.VERSION_NAME + " (" + Constants.RELEASE_ID + ")"); // todo stop showing release ID (only for dev)
         primaryStage.setScene(new Scene(root, 1000, 800));
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/appicon.png"))); // todo get this to work more than 5% of the time
+        primaryStage.getIcons().add(new Image("/img/appicon.png", true)); // todo get this to work more than 5% of the time
         primaryStage.show();
 
         Platform.runLater(() -> {

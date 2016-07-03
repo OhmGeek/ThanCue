@@ -208,11 +208,11 @@ public class FormMainController {
         clmBehaviour.setSortable(false);
         TableColumn clmFilePath = new TableColumn("File path");
         clmFilePath.setSortable(false);
-        TableColumn<Cue, Cue> clmDelay = new TableColumn<>("Start delay (ms)");
+        TableColumn<Cue, Cue> clmDelay = new TableColumn<>("Delay (ms)");
         clmDelay.setSortable(false);
         TableColumn<Cue, Integer> clmStartPoint = new TableColumn<>("Start point (ms)");
         clmStartPoint.setSortable(false);
-        TableColumn<Cue, Integer> clmDuration = new TableColumn<>("Duration (ms)");
+        TableColumn<Cue, Cue> clmDuration = new TableColumn<>("Duration (ms)");
         clmDuration.setSortable(false);
 
         //set cell 'renderers'
@@ -305,17 +305,37 @@ public class FormMainController {
             return cell;
         });
 
-        clmDuration.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCueDuration()).asObject());
+        clmDuration.setCellValueFactory(cellData -> new ObservableValueBase<Cue>() {
+            @Override
+            public Cue getValue() {
+                return cellData.getValue();
+            }
+        });
         clmDuration.setCellFactory(param -> {
-            TableCell<Cue, Integer> cell = new TableCell<Cue, Integer>() {
+            TableCell<Cue, Cue> cell = new TableCell<Cue, Cue>() {
                 @Override
-                public void updateItem(Integer item, boolean empty) {
+                public void updateItem(Cue item, boolean empty) {
                     if (item != null) {
-                        if (item == 0) {
-                            setText("to end");
+                        //super.updateItem(item, empty);
+                        ProgressBar prgCountdown = new ProgressBar();
+                        prgCountdown.setMaxWidth(Double.MAX_VALUE);
+                        prgCountdown.setProgress(0.0);
+
+                        Label lblNum = new Label();
+                        int dur = item.getCueDuration();
+                        if (dur < 1) {
+                            lblNum.setText("to end");
                         } else {
-                            setText(item.toString());
+                            lblNum.setText("" + item.getCueDuration());
                         }
+                        
+                        StackPane stackPane = new StackPane();
+                        stackPane.getChildren().addAll(prgCountdown, lblNum);
+
+                        item.setPrgDuration(prgCountdown);
+
+                        setGraphic(stackPane);
+                        // todo why does the label go invisible when the row is selected in the table?
                     }
                 }
             };

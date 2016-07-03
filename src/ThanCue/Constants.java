@@ -18,6 +18,7 @@ public class Constants {
 
     //progress
     public static final int UPDATE_DELAY_prgDelay = 10;
+    public static final int UPDATE_DELAY_prgDuration = 10;
 
     //URLs
     public static final String URL_GITHUB_THANCUE = "https://www.github.com/OhmGeek/ThanCue/";
