@@ -7,7 +7,7 @@ import ThanCue.VLC.VLCVideoPlayer;
  */
 public class VideoCue extends FileCue {
 
-    private VLCVideoPlayer player = null;
+    private transient VLCVideoPlayer player = null;
 
     public VideoCue() {
         super();

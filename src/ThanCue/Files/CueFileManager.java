@@ -13,6 +13,8 @@ import ThanCue.Cues.FileCue;
 import ThanCue.Exceptions.InvalidFileTypeException;
 import ThanCue.Variables.Environment;
 import org.zeroturnaround.zip.*;
+import org.zeroturnaround.zip.commons.FileUtils;
+
 /**
  * Created by ryan on 18/05/16.
  */
@@ -117,7 +119,8 @@ public class CueFileManager {
         //4. compress the folder into a zip file (.cues)
         ZipUtil.pack(tempDirectory.toFile(),destination);
 
-        tempDirectory.toFile().delete();
+        //recursively delete directory and all stuff inside
+        FileUtils.deleteDirectory(tempDirectory.toFile());
     }
 
 

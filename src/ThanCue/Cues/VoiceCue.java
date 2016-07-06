@@ -5,7 +5,7 @@ package ThanCue.Cues;
  */
 public class VoiceCue extends Cue {
 
-    Process voice;
+    private transient Process voice;
 
     public VoiceCue(){
         this.setCueType(CueType.VOICE);
@@ -24,5 +24,6 @@ public class VoiceCue extends Cue {
     public void stopCue() {
         voice.destroy();
         // voice destruction works like this (@Mike)
+
     }
 }

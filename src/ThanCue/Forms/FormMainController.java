@@ -43,7 +43,8 @@ public class FormMainController {
 
     }};*/ //
 
-    //todo create a CueManager to deal with managing cues. Also makes undoing nicer (once it's written) :P
+    //todo create a CueManager to deal with managing cues. Also makes undoing nicer (once it's written) :P IN addition, write a class loader
+    //to load in additional plugins (i.e. custom cues, and other things).
 
     //Container panes
     @FXML

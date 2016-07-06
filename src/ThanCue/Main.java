@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.zeroturnaround.zip.commons.FileUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +41,17 @@ public class Main extends Application {
         //we go through the list of temporary directories that have been opened and delete them!
         //Only do this when the main window itself has closed.
         primaryStage.setOnCloseRequest(we -> {
-            Environment.tempDirectories.forEach(file -> file.delete());
+            Environment.tempDirectories.forEach(file -> {
+                try {
+                    FileUtils.deleteDirectory(file);
+                } catch (IOException ex1) {
+                    System.out.println("IO Exception occurs");
+                    //todo handle exception
+                } catch (Exception ex2) {
+                    System.out.println("Unknown exception occurs");
+                    //todo handle
+                }
+            });
         });
 
         Platform.runLater(() -> {
