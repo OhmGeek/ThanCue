@@ -8,11 +8,15 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.zeroturnaround.zip.commons.FileUtils;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -59,10 +63,19 @@ public class Main extends Application {
             //check for updates
             System.out.println("Checking for updates...");
             try {
-                UpdateFX updater = new UpdateFX(Main.class);
+                Path currentInstallPath = Paths.get(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+                System.out.println(currentInstallPath);
+
+                //todo determine if this is actually a .jar file. It should be, but not if running from debug.
+                UpdateFX updater = new UpdateFX(Main.class,currentInstallPath);
+
                 updater.checkUpdates();
             } catch (IOException ex) {
                 System.out.println("Updating failed");
+                ex.printStackTrace();
+            }
+            catch(Exception ex) {
+                System.out.println("Unknown Exception: " + ex.getMessage());
                 ex.printStackTrace();
             }
         });

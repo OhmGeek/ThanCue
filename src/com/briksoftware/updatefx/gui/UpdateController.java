@@ -24,9 +24,11 @@
 package com.briksoftware.updatefx.gui;
 
 import java.net.URL;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import com.briksoftware.updatefx.util.JARPath;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,7 +59,11 @@ public class UpdateController {
 
 	private Release release;
 	private UpdateDownloadService service;
+    private Path jarInstallLocation = null;
 
+    public void setJarInstallLocation(Path jarInstallLocation) {
+        this.jarInstallLocation = jarInstallLocation;
+    }
 	public static void performUpdate(Release release, URL css) {
 		try {
 			ResourceBundle i18nBundle = ResourceBundle.getBundle("com.briksoftware.updatefx.gui.i18n.UpdateProgressDialog");
@@ -144,16 +150,19 @@ public class UpdateController {
 		progressBar.setProgress(-1.0);
 		progressLabel.setText("");
 		stepLabel.setText(resources.getString("label.installing"));
-		
+		Path jarPath = JARPath.applicationInstallPath;
+
+
 		InstallerService installService = new InstallerService(service.getValue());
-		
+		installService.setInitialJARLocation(jarPath);
 		installService.setOnFailed((evt) -> Platform.runLater(() -> {
+
             actionButton.setDisable(false);
             actionButton.setOnAction((clickEvent) -> close());
             actionButton.setText(resources.getString("button.cancel"));
             actionButton.autosize();
             progressBar.setProgress(1.0);
-            stepLabel.setText(resources.getString("label.installfailed"));
+            stepLabel.setText(resources.getString(evt.toString()));
         }));
 		
 		installService.start();

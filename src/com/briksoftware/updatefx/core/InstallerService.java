@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Michele Balistreri
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -8,10 +8,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,19 +23,29 @@
  */
 package com.briksoftware.updatefx.core;
 
+import com.briksoftware.updatefx.util.JARPath;
 import com.briksoftware.updatefx.util.PIDUtil;
 import com.briksoftware.updatefx.util.ScriptUtil;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class InstallerService extends Service<Void> {
 	private Path installer;
+	private Path oldJarLocation = null;
 	public InstallerService(Path installer) {
 		this.installer = installer;
 	}
+
+	public void setInitialJARLocation(Path locationOfJAR) {
+		this.oldJarLocation = locationOfJAR;
+	}
+
+
+
 
 	@Override
 	protected Task<Void> createTask() {
@@ -43,13 +53,13 @@ public class InstallerService extends Service<Void> {
 			@Override
 			protected Void call() throws Exception {
 				String[] nameComponents = installer.getFileName().toString().split("\\.");
-				
+
 				if (nameComponents.length < 2) {
 					throw new IllegalArgumentException("Files without extensions are not supported yet");
 				}
-				
+
 				String extension = nameComponents[nameComponents.length - 1].toLowerCase();
-				
+
 				switch(extension) {
 				case "dmg":
 					handleDMGInstallation();
@@ -66,7 +76,7 @@ public class InstallerService extends Service<Void> {
 				default:
 					throw new IllegalArgumentException(String.format("installers with extension %s are not supported", extension));
 				}
-				
+
 				Platform.exit();
 				return null;
 			}
@@ -77,21 +87,26 @@ public class InstallerService extends Service<Void> {
 		Path tmpScript = ScriptUtil.copyScript("installdmg.sh");
 		new ProcessBuilder("/bin/sh", tmpScript.toAbsolutePath().toString(), installer.toAbsolutePath().toString(), String.format("%d", PIDUtil.getPID())).start();
 	}
-	
+
 	private void handleEXEInstallation() throws Exception {
 		new ProcessBuilder(installer.toAbsolutePath().toString(), "/SILENT", "/SP-", "/SUPPRESSMSGBOXES").start();
 	}
-	
+
 	private void handleMSIInstallation() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void handleJARInstallation() throws Exception {
+        oldJarLocation = JARPath.applicationInstallPath;
+		if(oldJarLocation == null) {
+			//this means that we haven't set a JAR path, which indicates JAR Installation hasn't occurred correctly
+			throw new NoJARPathDeclaredException();
+		}
 
+        Files.copy(installer.toAbsolutePath(), oldJarLocation);
 
-
-		new ProcessBuilder("java", "-jar", installer.toAbsolutePath().toString()).start();
+		new ProcessBuilder("java", "-jar", oldJarLocation.toString()).start();
 		//todo RYAN this only runs the new jar, does not replace the current jar
 	}
 }

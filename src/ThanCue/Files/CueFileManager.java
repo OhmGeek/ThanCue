@@ -113,6 +113,8 @@ public class CueFileManager {
         }
         finally {
             output.close();
+            buffer.close();
+            indexFile.close();
         }
 
 

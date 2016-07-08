@@ -25,10 +25,12 @@ package com.briksoftware.updatefx.core;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Properties;
 
 import com.briksoftware.updatefx.gui.UpdateDialogController;
 
+import com.briksoftware.updatefx.util.JARPath;
 import javafx.application.Platform;
 
 /**
@@ -39,6 +41,7 @@ import javafx.application.Platform;
  */
 public class UpdateFX {
 	private URL updateXML;
+	private Path applicationInstallPath;
 	private int releaseID;
 	private String version;
 	private int licenseVersion;
@@ -59,6 +62,7 @@ public class UpdateFX {
 		this.version = version;
 		this.licenseVersion = licenseVersion;
 		this.css = css;
+		this.applicationInstallPath = null; //we leave this as null, unless we specifically specify it.
 	}
 	
 	/**
@@ -86,7 +90,13 @@ public class UpdateFX {
 	public UpdateFX(Class<?> applicationMain) throws IOException {
 		this(getPropertiesForApp(applicationMain), getCSSForApp(applicationMain));
 	}
-	
+
+	public UpdateFX(Class<?> applicationMain,Path applicationInstallPath) throws IOException {
+		this(getPropertiesForApp(applicationMain), getCSSForApp(applicationMain));
+		setApplicationInstallPath(applicationInstallPath);
+	}
+
+
 	private static Properties getPropertiesForApp(Class<?> applicationMain) throws IOException {
 		Properties properties = new Properties();
 		properties.load(applicationMain.getResourceAsStream("app-info.properties"));
@@ -112,6 +122,12 @@ public class UpdateFX {
 	public String getVersion() {
 		return version;
 	}
+
+	public void setApplicationInstallPath(Path applicationInstallPath) {
+		JARPath.applicationInstallPath = applicationInstallPath;
+	}
+
+
 
 	/**
 	 * Checks for updates and prompts the user to eventually install them.

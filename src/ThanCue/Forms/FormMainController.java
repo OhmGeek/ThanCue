@@ -28,6 +28,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.runtime.Debug;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
@@ -517,12 +518,22 @@ public class FormMainController {
     }
 
     private void playSelectedCue() {
+
+        //todo refactor this entire thing: allow for stopping previous cues, playing new cues, delaying, changing cue behaviour, selecting one cue at once
+        //todo deal with the cue manager rather than the cues directly. This will be nicer :)
+
+
         // NOTE: I changed this a fair bit, as we only want to have ONE cue selected at once, and use behaviour to play many cues
         // as such, todo use behaviour to play more than the one selected (while next one is play on/after this?)
         Cue cue = tblView.getSelectionModel().getSelectedItem();
         delayPlay(cue);
 
         int currentCueIndex = tblView.getSelectionModel().getSelectedIndex();
+
+
+
+
+
         //todo below is untested
         while (currentCueIndex + 1 < cueCollection.size() && cueCollection.get(currentCueIndex + 1).cueBehaviourEnum == CueBehaviour.PLAY_WITH_PREVIOUS) {
             currentCueIndex++;
@@ -530,6 +541,12 @@ public class FormMainController {
             delayPlay(cue);
         }
         //todo also somehow account for play after previous?
+
+
+
+
+
+
 
         currentCueIndex++;
         if (currentCueIndex == cueCollection.size()) {
@@ -694,6 +711,7 @@ public class FormMainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "You must have a cue selected to do that!", ButtonType.OK);
         alert.setHeaderText("Selection issue");
         alert.showAndWait();
+
     }
 
     public int getCueCollectionSize() {
