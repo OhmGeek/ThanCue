@@ -95,47 +95,59 @@ public class FormEditCueController {
 
     private void changeCueDuration(String newValue) {
         newValue = newValue.replaceAll("[^\\d]", "");
-        if (newValue.isEmpty()) { nmrCueDuration.setText(""); return; }
+        if (newValue.isEmpty()) {
+            nmrCueDuration.setText("");
+            return;
+        }
         nmrCueDuration.setText(newValue);
 
         long duration = Long.parseLong(newValue);
         if (duration > 0 && duration <= Integer.MAX_VALUE) {
             if (editingCue != null) {
-                editingCue.setCueDuration((int)duration);
+                editingCue.setCueDuration((int) duration);
             }
-        }else{
+        } else {
             nmrCueDuration.setText("0");
         }
     }
 
     private void changeCueStartPoint(String newValue) {
         newValue = newValue.replaceAll("[^\\d]", "");
-        if (newValue.isEmpty()) { nmrCueStartPoint.setText(""); return; }
+        if (newValue.isEmpty()) {
+            nmrCueStartPoint.setText("");
+            return;
+        }
         nmrCueStartPoint.setText(newValue);
 
         long startpoint = Long.parseLong(newValue);
         if (startpoint > 0 && startpoint <= Integer.MAX_VALUE) {
             if (editingCue != null) {
-                editingCue.setCueStartPoint((int)startpoint);
+                editingCue.setCueStartPoint((int) startpoint);
             }
-        }else{
+        } else {
             nmrCueStartPoint.setText("0");
         }
     }
 
     private void changeCuePlayDelay(String newValue) {
         newValue = newValue.replaceAll("[^\\d]", "");
-        if (newValue.isEmpty()) { nmrCuePlayDelay.setText(""); return; }
+        if (newValue.isEmpty()) {
+            nmrCuePlayDelay.setText("");
+            return;
+        }
         nmrCuePlayDelay.setText(newValue);
 
         long delay = Long.parseLong(newValue);
         if (delay >= 0 && delay <= Integer.MAX_VALUE) {
             if (editingCue != null) {
-                editingCue.setCuePlayDelay((int)delay);
+                editingCue.setCuePlayDelay((int) delay);
             }
-        }else{
-            if (delay < 0) { nmrCuePlayDelay.setText("0"); }
-            else { nmrCuePlayDelay.setText("" + Integer.MAX_VALUE);}
+        } else {
+            if (delay < 0) {
+                nmrCuePlayDelay.setText("0");
+            } else {
+                nmrCuePlayDelay.setText("" + Integer.MAX_VALUE);
+            }
         }
     }
 
@@ -235,7 +247,7 @@ public class FormEditCueController {
                 editingCue.setCuePlayDelay(c.getCuePlayDelay());
                 editingCue.setCueStartPoint(c.getCueStartPoint());
                 editingCue.setCueDuration(c.getCueDuration());
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 editingCue = new UnknownCue();
                 editingCue.setIndex(parentController.getCueCollectionSize());
@@ -276,16 +288,20 @@ public class FormEditCueController {
         boolean wasFile = editingCue instanceof FileCue;
         switch ((CueType) cmbCueType.getSelectionModel().getSelectedItem()) {
             case UNKNOWN:
-                editingCue = new UnknownCue(); break;
+                editingCue = new UnknownCue();
+                break;
             case SOUND:
-                editingCue = new SoundCue(); break;
+                editingCue = new SoundCue();
+                break;
             case LIGHT:
                 //todo make light cue a thing
                 throw new NotImplementedException(); //break;
             case VIDEO:
-                editingCue = new VideoCue(); break;
+                editingCue = new VideoCue();
+                break;
             case VOICE:
-                editingCue = new VoiceCue(); break;
+                editingCue = new VoiceCue();
+                break;
             default:
                 System.out.println("Tried to create cue that isn't accounted for!");
                 throw new NotImplementedException();
@@ -299,7 +315,7 @@ public class FormEditCueController {
         editingCue.setCuePlayDelay(Integer.parseInt(nmrCuePlayDelay.getText()));
         editingCue.setCueStartPoint(Integer.parseInt(nmrCueStartPoint.getText()));
         editingCue.setCueDuration(Integer.parseInt(nmrCueDuration.getText()));
-        
+
         updateFieldEntries(false);
     }
 }

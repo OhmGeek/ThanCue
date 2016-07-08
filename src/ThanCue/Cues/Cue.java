@@ -44,6 +44,7 @@ public abstract class Cue implements Serializable{
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
+    public long totalPlayTime = -1;
     private transient ProgressBar prgDelay = null;
     private transient ProgressBar prgDuration = null;
 

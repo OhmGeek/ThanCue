@@ -6,11 +6,13 @@ import ThanCue.VLC.VLCMusicPlayer;
  * Created by ryan on 15/05/16.
  */
 public class SoundCue extends FileCue {
+
     private transient VLCMusicPlayer player = null;
+
     public SoundCue() {
         super();
         this.setCueType(CueType.SOUND);
-        this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
+        //this.setCueFilePath("https://youtu.be/dQw4w9WgXcQ");
     }
 
     @Override
