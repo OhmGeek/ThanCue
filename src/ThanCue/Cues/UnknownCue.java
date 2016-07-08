@@ -5,6 +5,9 @@ package ThanCue.Cues;
  */
 public class UnknownCue extends Cue {
 
+    private long serialVersionUID = 100L;
+
+
     public UnknownCue() {
         this.setCueType(CueType.UNKNOWN);
     }

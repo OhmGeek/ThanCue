@@ -18,6 +18,10 @@ public abstract class FileCue extends Cue {
 
     protected transient Path soundPath;
 
+
+    private long serialVersionUID = 101L;
+
+
     public FileCue() {
         super();
         this.setCueFilePath("/default/path/to/cue.cue"); // let's keep the youtube links for child cues, not to be inherited

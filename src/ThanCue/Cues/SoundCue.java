@@ -9,6 +9,9 @@ public class SoundCue extends FileCue {
 
     private transient VLCMusicPlayer player = null;
 
+    private long serialVersionUID = 10101L;
+
+
     public SoundCue() {
         super();
         this.setCueType(CueType.SOUND);
