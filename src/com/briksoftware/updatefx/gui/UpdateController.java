@@ -162,7 +162,7 @@ public class UpdateController {
             actionButton.setText(resources.getString("button.cancel"));
             actionButton.autosize();
             progressBar.setProgress(1.0);
-            stepLabel.setText(resources.getString(evt.toString()));
+            stepLabel.setText("Failed");
         }));
 		
 		installService.start();

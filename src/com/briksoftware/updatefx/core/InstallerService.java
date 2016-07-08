@@ -26,12 +26,14 @@ package com.briksoftware.updatefx.core;
 import com.briksoftware.updatefx.util.JARPath;
 import com.briksoftware.updatefx.util.PIDUtil;
 import com.briksoftware.updatefx.util.ScriptUtil;
+import com.sun.xml.internal.bind.api.impl.NameConverter;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class InstallerService extends Service<Void> {
 	private Path installer;
@@ -101,12 +103,15 @@ public class InstallerService extends Service<Void> {
         oldJarLocation = JARPath.applicationInstallPath;
 		if(oldJarLocation == null) {
 			//this means that we haven't set a JAR path, which indicates JAR Installation hasn't occurred correctly
-			throw new NoJARPathDeclaredException();
+          //  new ProcessBuilder("espeak","NO JAR PATH DECLARED").start();
+            throw new NoJARPathDeclaredException();
 		}
 
-        Files.copy(installer.toAbsolutePath(), oldJarLocation);
+        Files.copy(installer.toAbsolutePath(), oldJarLocation, StandardCopyOption.REPLACE_EXISTING);
+       // new ProcessBuilder("espeak","Jar copied to overwrite").start();
+        new ProcessBuilder("java", "-jar", oldJarLocation.toString()).start();
 
-		new ProcessBuilder("java", "-jar", oldJarLocation.toString()).start();
-		//todo RYAN this only runs the new jar, does not replace the current jar
+       // new ProcessBuilder("espeak","Process created to run").start();
+        //todo RYAN this only runs the new jar, does not replace the current jar
 	}
 }

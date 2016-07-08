@@ -3,7 +3,7 @@
 vname=$1
 release=$2
 
-file=src/ThanCue/Constants.java
+file=src/ThanCue/Variables/Constants.java
 sed -i 's/\(VERSION_NAME = "\).*/VERSION_NAME = "'$vname'";/g' $file
 sed -i 's/\(RELEASE_ID = \).*/RELEASE_ID = '$release';/g' $file
 
