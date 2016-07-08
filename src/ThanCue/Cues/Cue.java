@@ -48,7 +48,7 @@ public abstract class Cue implements Serializable{
     private transient ProgressBar prgDelay = null;
     private transient ProgressBar prgDuration = null;
 
-    private long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
     public Cue() {

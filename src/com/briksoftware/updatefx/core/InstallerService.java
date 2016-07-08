@@ -88,6 +88,9 @@ public class InstallerService extends Service<Void> {
 	}
 
 	private void handleJARInstallation() throws Exception {
+
+
+
 		new ProcessBuilder("java", "-jar", installer.toAbsolutePath().toString()).start();
 		//todo RYAN this only runs the new jar, does not replace the current jar
 	}

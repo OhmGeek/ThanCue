@@ -9,7 +9,7 @@ public class SoundCue extends FileCue {
 
     private transient VLCMusicPlayer player = null;
 
-    private long serialVersionUID = 10101L;
+    private static final long serialVersionUID = 10101L;
 
 
     public SoundCue() {

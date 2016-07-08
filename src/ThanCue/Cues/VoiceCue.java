@@ -7,7 +7,7 @@ public class VoiceCue extends Cue {
 
     private transient Process voice;
 
-    private long serialVersionUID = 102L;
+    private static final long serialVersionUID = 102L;
     public VoiceCue(){
         this.setCueType(CueType.VOICE);
     }

@@ -19,7 +19,7 @@ public abstract class FileCue extends Cue {
     protected transient Path soundPath;
 
 
-    private long serialVersionUID = 101L;
+    private static final long serialVersionUID = 101L;
 
 
     public FileCue() {

@@ -40,8 +40,6 @@ public class CueFileManager {
 
         ZipUtil.unpack(zipFile,dest.toFile());
 
-        Path index = Paths.get(dest.toString() + "/index.dat");
-
         File[] filesToRead = dest.toFile().listFiles();
         for (File file : filesToRead) {
             if(file.getName().equals("cueCollection.ser")) {
@@ -60,13 +58,16 @@ public class CueFileManager {
             else {
                 //copy files across
                 Files.copy(file.toPath(),Paths.get(dest.toString() + "/" + file.getName()));
+
             }
         }
 
         //now we've copied files over, go through and adjust the paths appropriately. Add the temp folder in to the correct place.
         cuesLoaded.forEach(c -> {
-            String oldFilePath = c.getCueFilePath();
-            c.setCueFilePath(Paths.get(dest.toString() + "/" + oldFilePath));
+            if(c instanceof FileCue) {
+                c.setCueFilePath(Paths.get(dest.toString() + "/" + ((FileCue) c).getFilePath().getFileName().toString()));
+            }
+            //otherwise, it's not a filecue so we don't need to worry
         });
 
 
@@ -85,7 +86,7 @@ public class CueFileManager {
             try {
                 if (c instanceof FileCue) {
 
-                    Path filePath = Paths.get(tempDirectory.toString() + "/" + ((FileCue) c).getFilePath().getFileName().toString());
+                    Path filePath = Paths.get(tempDirectory.toString() + "/" + ((FileCue) c).getFilePath().toAbsolutePath().getFileName().toString());
                     System.out.println(filePath);
                     Files.copy(((FileCue) c).getFilePath(), filePath);
                 }

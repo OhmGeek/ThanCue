@@ -8,7 +8,7 @@ import ThanCue.VLC.VLCVideoPlayer;
 public class VideoCue extends FileCue {
 
     private transient VLCVideoPlayer player = null;
-    private long serialVersionUID = 10102L;
+    private static final long serialVersionUID = 10102L;
 
     public VideoCue() {
         super();
