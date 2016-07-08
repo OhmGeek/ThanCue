@@ -1,5 +1,8 @@
 package ThanCue.VLC;
 
+import ThanCue.Variables.Constants;
+import ThanCue.Variables.Environment;
+
 /**
  * Created by ryan on 11/06/16.
  */
@@ -11,7 +14,7 @@ public class VLCMusicPlayer {
     public VLCMusicPlayer(String fileToPlayURL, int startPoint, int duration) {
 
         vlcInstance = null; //stores the vlc process. Ignore for now
-        operatingSysName = System.getProperty("os.name"); //gets the operating system name
+        operatingSysName = Environment.operatingSystem;//gets the operating system name
         this.fileToPlayURL = fileToPlayURL;
         this.startPoint = -1 * startPoint; // negative means advance through track, as we are using the delay argument in the command line
         this.duration = duration;
