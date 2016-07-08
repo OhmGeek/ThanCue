@@ -8,6 +8,7 @@ public class VLCMusicPlayer {
     private String operatingSysName;
     private String fileToPlayURL;
     private int startPoint, duration;
+
     public VLCMusicPlayer(String fileToPlayURL, int startPoint, int duration) {
 
         vlcInstance = null; //stores the vlc process. Ignore for now

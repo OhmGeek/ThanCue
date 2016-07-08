@@ -26,11 +26,13 @@ public abstract class FileCue extends Cue {
     @Override
     public void setCueStartPoint(int time) {
         cueStartPoint.set(time);
+        findTotalPlayTime();
     }
 
     @Override
     public void setCueDuration(int time) {
         cueDuration.set(time);
+        findTotalPlayTime();
     }
 
     public Path getFilePath() {
@@ -82,7 +84,7 @@ public abstract class FileCue extends Cue {
             }
             //todo support video durations too
         }
-
+        foundDuration -= getCueStartPoint();
         if (foundDuration == -1) { // no such file
             totalPlayTime = -1;
         } else if (getCueDuration() <= 0) { // file and play to end

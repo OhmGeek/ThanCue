@@ -585,6 +585,24 @@ public class FormMainController {
                 }
             }).start();
         } else {
+            if (c.totalPlayTime > 0) {
+                new Thread(() -> {
+                    try {
+                        double initiatedB = System.currentTimeMillis();
+                        double finishTime = initiatedB + c.totalPlayTime;
+
+                        while (System.currentTimeMillis() < finishTime) {
+                            if (c.getPrgDuration() != null) {
+                                c.setPrgDurationProgress(1.0 - ((finishTime - System.currentTimeMillis()) / c.totalPlayTime));
+                            }
+                            Thread.sleep(Constants.UPDATE_DELAY_prgDuration);
+                        }
+                        c.setPrgDelayProgress(1);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }).start();
+            }
             c.playCue();
         }
     }
