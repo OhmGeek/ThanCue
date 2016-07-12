@@ -1,5 +1,7 @@
 package ThanCue.VLC;
 
+import ThanCue.Variables.Environment;
+
 import java.nio.file.Path;
 
 /**
@@ -21,12 +23,10 @@ public class VLCVideoPlayer {
     private void linuxPlay() {
         //todo deal with exceptions
         try {
-            //todo quit after playing: vlc://quit or something like that
             //todo allow more properties to be created
             //do something. Currently uses mplayer which works, but VLC should work once we
             //fix it.
-            vlcInstance = Runtime.getRuntime().exec(new String[]{"vlc","-f",fileToPlayURL, "--play-and-exit"});
-        }
+          }
         catch(Exception ex) {
 
         }
@@ -37,35 +37,58 @@ public class VLCVideoPlayer {
         linuxPlay();
     }
     private void macPlay() {
-        linuxPlay();
-    }
-    public void play() {
 
-        //todo use an ENUM here with switch. it'll be nicer!
-        //todo exceptions here to be thrown if errors occur
-        if(operatingSysName.startsWith("Windows")) {
-            windowsPlay();
+        //todo deal with exceptions
+        try {
+
+            //todo allow more properties to be created
+            //do something. Currently uses mplayer which works, but VLC should work once we
+            //fix it.
+
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"/Applications/VLC.app/Contents/MacOS/VLC","-f",fileToPlayURL, "--play-and-exit"});
+
         }
-        else if(operatingSysName.contains("mac os") || operatingSysName.contains("macos") || operatingSysName.contains("darwin")) {
-            macPlay();
+        catch(Exception ex) {
+
         }
-        else if(operatingSysName.contains("nix") || operatingSysName.contains("nux")) {
-            linuxPlay();
+
+
+
+
+
+
+
+    }
+
+    public void play() {
+        //todo exceptions
+        switch(Environment.operatingSystem) {
+            case WINDOWS:
+                System.out.println("Play on windows");
+                windowsPlay();
+                break;
+            case LINUX:
+                System.out.println("Linux Play");
+                linuxPlay();
+                break;
+            case SOLARIS:
+                System.out.println("Solaris isn't currently supported properly. Try linux play");
+                linuxPlay();
+                break;
+            case MACOSX:
+                System.out.println("Mac Play");
+                macPlay();
+                break;
+            case UNKNOWN:
+                System.out.println("Unknown: Assume some type of nix system");
+                linuxPlay();
+                break;
         }
     }
 
     public void stop() {
 
-        //todo use an ENUM here with switch. it'll be nicer!
-        if(operatingSysName.startsWith("Windows")) {
-            vlcInstance.destroy();
-        }
-        else if(operatingSysName.contains("mac os") || operatingSysName.contains("macos") || operatingSysName.contains("darwin")) {
-            vlcInstance.destroy();
-        }
-        else if(operatingSysName.contains("nix") || operatingSysName.contains("nux")) {
-            vlcInstance.destroy();
-        }
+       vlcInstance.destroy();
     }
 
 }

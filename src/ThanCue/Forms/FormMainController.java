@@ -141,52 +141,51 @@ public class FormMainController {
     }
 
     private void registerDragAndDrop() {
-        for (Node c : anchor_pane.getChildren()) {
-            if (c instanceof Region) {
-                Region r = (Region) c;
+        //todo put in a nice method to make more readable
+        anchor_pane.getChildren().stream().filter(c -> c instanceof Region).forEach(c -> {
+            Region r = (Region) c;
 
-                r.setOnDragOver(event -> {
-                    event.acceptTransferModes(TransferMode.ANY);
-                });
+            r.setOnDragOver(event -> {
+                event.acceptTransferModes(TransferMode.ANY);
+            });
 
-                r.setOnDragDropped(event -> {
-                    System.out.println("DRAGGING AND DROPPIN'");
-                    Dragboard db = event.getDragboard();
-                    if (db.hasFiles()) {
-                        List<File> fileList = db.getFiles();
-                        for (File f : fileList) {
-                            System.out.println("File to add: " + f.getName());
-                            String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
-                            System.out.println("Found extension: " + ext);
-
-
-                            //todo put in a nice method to make more readable
-                            try {
-                                AudioFileFormat foramt = AudioSystem.getAudioFileFormat(f);
-                                SoundCue cToAdd = new SoundCue();
-                                cToAdd.setCueName(f.getName());
-                                cToAdd.setCueFilePath(f.getAbsolutePath());
-                                cueCollection.add(cToAdd);
-                            } catch (Exception ex) {
-                                System.out.println("Not a sound cue");
-                            }
-
-                            if (ext.contains("mp4") || ext.contains("m4v")) {
-                                VideoCue cToAdd = new VideoCue();
-                                cToAdd.setCueName(f.getName());
-                                cToAdd.setCueFilePath(f.getAbsolutePath());
-                                cueCollection.add(cToAdd);
-                            }
+            r.setOnDragDropped(event -> {
+                System.out.println("DRAGGING AND DROPPIN'");
+                Dragboard db = event.getDragboard();
+                if (db.hasFiles()) {
+                    List<File> fileList = db.getFiles();
+                    for (File f : fileList) {
+                        System.out.println("File to add: " + f.getName());
+                        String ext = f.getName().substring(f.getName().length() - 3, f.getName().length());
+                        System.out.println("Found extension: " + ext);
 
 
+                        //todo put in a nice method to make more readable
+                        try {
+                            AudioFileFormat foramt = AudioSystem.getAudioFileFormat(f);
+                            SoundCue cToAdd = new SoundCue();
+                            cToAdd.setCueName(f.getName());
+                            cToAdd.setCueFilePath(f.getAbsolutePath());
+                            cueCollection.add(cToAdd);
+                        } catch (Exception ex) {
+                            System.out.println("Not a sound cue");
                         }
-                        event.setDropCompleted(true);
+
+                        if (ext.contains("mp4") || ext.contains("m4v")) {
+                            VideoCue cToAdd = new VideoCue();
+                            cToAdd.setCueName(f.getName());
+                            cToAdd.setCueFilePath(f.getAbsolutePath());
+                            cueCollection.add(cToAdd);
+                        }
+
+
                     }
-                    refreshTable();
-                    event.consume();
-                });
-            }
-        }
+                    event.setDropCompleted(true);
+                }
+                refreshTable();
+                event.consume();
+            });
+        });
     }
 
     private void refreshTable() {

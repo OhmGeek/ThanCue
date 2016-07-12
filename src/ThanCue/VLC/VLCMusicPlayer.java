@@ -48,15 +48,11 @@ public class VLCMusicPlayer {
         catch(Exception ex) {
             ex.printStackTrace();
         }
-
-
-
-
     }
+
     public void play() {
         //todo exceptions
         switch(Environment.operatingSystem) {
-
             case WINDOWS:
                 System.out.println("Play on windows");
                 windowsPlay();
@@ -78,11 +74,6 @@ public class VLCMusicPlayer {
                 linuxPlay();
                 break;
         }
-
-
-
-
-
     }
 
     public void stop() {
