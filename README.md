@@ -22,15 +22,6 @@ Make the jar executable...
     chmod +x /path/to/dev.jar
 and simply double click it!
 
-To use the script to change release id and name, open a terminal in the main repo directory.
-Make sure the script is executable:
-
-    chmod +x cv.sh
-Run the script:
-
-    ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
-and check your files updated!
-
 ThanCue is developed on Ubuntu, and extensively tested for Ubuntu. Let us know if something doesn't work on your distro, and feel free to send a pull request to fix the issue!
 
 ## macOS (or MAC OS X as it used to be known)
@@ -40,10 +31,21 @@ The VLC app MUST be located in the Applications folder on the mac, otherwise Tha
 
 Now download the JAR package from our repo. As we are currently an 'unidentified developer', one might have to go into System Preferences and allow the app to run. This is something that we will fix at a later date.
 
-ThanCue now works, enjoy it!
+ThanCue for trying out our wonderful program; it's still in development but we hope you like it!
 
-### Planned Features
-#### Audio Cues
+
+## Versioning Script
+
+To use the script to change release id and name, open a terminal in the main repo directory.
+Make sure the script is executable:
+
+    chmod +x cv.sh
+Run the script:
+
+    ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
+and check your files updated!
+## Planned Features
+### Audio Cues
 - Display duration, description, elapsed time, and remaining time **(Mike)
 - Set volume, pitch, fade in and fade out effects
 - Set start and end positions in a given track (avoids opening it in some sound editing software)
@@ -61,7 +63,7 @@ ThanCue now works, enjoy it!
 - Video effects
 - Same type of things for audio, but for video as well
 
-#### Other
+### Other
 - Updates (partially implemented, but this needs a partial rewrite)
 - Ability to Undo and Redo thing **(Ryan)
 - Check for VLC on installation
@@ -71,7 +73,7 @@ ThanCue now works, enjoy it!
 - Cue numbers on the go button
 - Pausing of cues, and ability to go back to a previous cue (both previous, as well as any cue through a goto cue button)
 
-### Features implemented
+## Features implemented
 
 - A larger Go Button
 - Cue Numbering (useful for sound cues on a script)
@@ -83,7 +85,7 @@ ThanCue now works, enjoy it!
 - Drag n drop cue creation
 - Voice Cues using Espeak
 
-### Problems that need addressing
+## Problems that need addressing
 
 - Mac doesn't appear to update well. Fix this, as it's due to our addition to UpdateFX (that I need to clean up) ** Ryan
 - Generally clean up the code, as it's terrible in some cases (particularly drag and drop)
