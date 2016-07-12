@@ -6,6 +6,7 @@ Cue software designed by an Abba fan and someone who isn't as keen on Abba.
 This software is being developed jointly by [Mike Croall](https://www.github.com/MikeCroall "Mike Croall") and [Ryan Collins](https://www.github.com/OhmGeek "Ryan Collins").
 
 # Usage
+## Linux
 First, install the required dependencies:
     
     sudo apt-get install vlc
@@ -30,6 +31,16 @@ Run the script:
     ./cv.sh MyNewVersionNameNoSpaces VersionIdAsAnInteger
 and check your files updated!
 
+ThanCue is developed on Ubuntu, and extensively tested for Ubuntu. Let us know if something doesn't work on your distro, and feel free to send a pull request to fix the issue!
+
+## macOS (or MAC OS X as it used to be known)
+With MacOS, first ensure you have a JVM installed, along with the latest edition of VLC.
+
+The VLC app MUST be located in the Applications folder on the mac, otherwise ThanCue won't be able to play anything.
+
+Now download the JAR package from our repo. As we are currently an 'unidentified developer', one might have to go into System Preferences and allow the app to run. This is something that we will fix at a later date.
+
+ThanCue now works, enjoy it!
 
 ### Planned Features
 #### Audio Cues
@@ -61,6 +72,7 @@ and check your files updated!
 - Pausing of cues, and ability to go back to a previous cue (both previous, as well as any cue through a goto cue button)
 
 ### Features implemented
+
 - A larger Go Button
 - Cue Numbering (useful for sound cues on a script)
 - VLC support
@@ -71,5 +83,10 @@ and check your files updated!
 - Drag n drop cue creation
 - Voice Cues using Espeak
 
+### Problems that need addressing
+
+- Mac doesn't appear to update well. Fix this, as it's due to our addition to UpdateFX (that I need to clean up) ** Ryan
+- Generally clean up the code, as it's terrible in some cases (particularly drag and drop)
+- When working with files, sometimes one gets a 'phantom cue' which you can't play, but also can't touch at all. What's causing this? 
 
 ** denotes a task actively being worked on. The name in brackets is the person working on it.
