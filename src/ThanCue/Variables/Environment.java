@@ -1,5 +1,7 @@
 package ThanCue.Variables;
 
+import sun.awt.OSInfo;
+
 import java.io.File;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 public class Environment {
     public static List<File> tempDirectories;
 
-    public static String operatingSystem;
+    public static OSInfo.OSType operatingSystem;
 
 
 }

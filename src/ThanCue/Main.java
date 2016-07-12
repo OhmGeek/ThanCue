@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.zeroturnaround.zip.commons.FileUtils;
+import sun.awt.OSInfo;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,7 +34,7 @@ public class Main extends Application {
 
         //Load up details about the Environment :)
         Environment.tempDirectories = new ArrayList<>();
-        Environment.operatingSystem = System.getProperty("os.name");
+        Environment.operatingSystem = OSInfo.getOSType();
 
         Parent root = FXMLLoader.load(getClass().getResource("Forms/FormMain.fxml"));
 
