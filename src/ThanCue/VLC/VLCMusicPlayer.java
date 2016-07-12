@@ -37,7 +37,18 @@ public class VLCMusicPlayer {
     }
 
     private void macPlay() {
-        linuxPlay();
+
+        //todo deal with exceptions properly
+        try {
+            vlcInstance = Runtime.getRuntime().exec(new String[]{"/Applications/VLC.app/Contents/MacOS/VLC","-I dummy", fileToPlayURL, "--sout-delay-delay=" + startPoint,"--play-and-exit"}); // todo USE duration
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+
+
     }
     public void play() {
 
