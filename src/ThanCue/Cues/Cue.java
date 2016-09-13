@@ -1,7 +1,7 @@
 package ThanCue.Cues;
 
-import ThanCue.Variables.Constants;
 import ThanCue.UndoRedo.EventTypeInterface;
+import ThanCue.Variables.Constants;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.ProgressBar;

@@ -1,12 +1,12 @@
 package ThanCue.Forms;
 
-import ThanCue.Variables.Constants;
 import ThanCue.Cues.Cue;
 import ThanCue.Cues.CueBehaviour;
 import ThanCue.Cues.SoundCue;
 import ThanCue.Cues.VideoCue;
 import ThanCue.Exceptions.EmptyCueCollectionException;
 import ThanCue.Files.CueFileManager;
+import ThanCue.Variables.Constants;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValueBase;
@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,7 +27,6 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.runtime.Debug;
 
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
@@ -111,7 +109,7 @@ public class FormMainController {
         setSizes();
         setTableData();
         registerDragAndDrop();
-        //setEffects(); // todo decide if this is awesome or shit | UPDATE: this is not great looking
+        //one could setEffects here, but it looks pretty bad. Later customisation?
     }
 
     private void setKeyCombos() {
@@ -437,9 +435,28 @@ public class FormMainController {
         btnMoveDown.setOnAction(event -> moveSelectedCueDown());
         btnDeleteCue.setOnAction(event -> deleteSelectedCue());
 
+
         //Table
         tblView.getSelectionModel().selectedItemProperty().addListener((observableValue, cue, t1) -> selectionChanged());
+
+        tblView.setOnKeyPressed(event -> dealWithKeyPress(event));
+
+
     }
+
+    private void dealWithKeyPress(KeyEvent event) {
+        KeyCode input = event.getCode();
+
+        switch(input) {
+            case DELETE:
+                deleteSelectedCue();
+                break;
+            default:
+                //do nothing
+                break;
+        }
+    }
+
 
     private void deleteSelectedCue() {
         if (tblView.getSelectionModel().getSelectedCells().size() > 0) {
