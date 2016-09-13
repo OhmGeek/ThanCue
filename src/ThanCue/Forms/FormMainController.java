@@ -452,7 +452,13 @@ public class FormMainController {
                 deleteSelectedCue();
                 break;
             default:
-                //do nothing
+                //go through hotkeys and play if necessary.
+                //NB: probably should do this in another thread.
+                for(Cue c : cueCollection) {
+                    if(input == c.getHotKey()) {
+                        c.playCue();
+                    }
+                }
                 break;
         }
     }

@@ -3,7 +3,7 @@
 -->
 <application xmlns="http://www.briksoftware.com/updatefx" name="ThanCue" changelog="http://example.com/changelog">
     <release 
-        id="28"
+        id="30"
         version="0.7.2"
         releaseDate="2016-05-25T00:00:00.000+00:00"
         licenseVersion="23">

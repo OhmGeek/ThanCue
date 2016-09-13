@@ -10,6 +10,8 @@ public class BashCue extends Cue {
 
     private transient Process instance;
 
+    private static final long serialVersionUID = 101014835L; //this is just a random number now
+
     public BashCue() {
         super();
         this.setCueType(CueType.BASH);

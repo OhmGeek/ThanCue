@@ -2,7 +2,11 @@ package ThanCue.Forms;
 
 import ThanCue.Cues.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -42,12 +46,16 @@ public class FormEditCueController {
     private Label lblFilePath;
     @FXML
     private Label lblMS, lblMS2, lblMS3;
+    @FXML
+    private Label lblHotKey;
 
     //Selectors
     @FXML
     private ComboBox cmbCueType;
     @FXML
     private ComboBox cmbCueBehaviour;
+    @FXML
+    private ComboBox cmbHotKey;
 
     //Text areas
     @FXML
@@ -76,6 +84,10 @@ public class FormEditCueController {
         cmbCueType.getSelectionModel().select(CueType.UNKNOWN);
         cmbCueBehaviour.getItems().setAll(CueBehaviour.values());
         cmbCueBehaviour.getSelectionModel().select(CueBehaviour.PLAY_ON_GO);
+        //todo change to combination
+        //todo use a better enum
+        cmbHotKey.getItems().setAll(KeyCode.values());
+        cmbHotKey.getSelectionModel().select(KeyCode.NONCONVERT);
     }
 
     private void setActions() {
@@ -91,6 +103,12 @@ public class FormEditCueController {
         nmrCuePlayDelay.textProperty().addListener((observableValue, old, newValue) -> changeCuePlayDelay(newValue));
         nmrCueStartPoint.textProperty().addListener((observableValue, old, newValue) -> changeCueStartPoint(newValue));
         nmrCueDuration.textProperty().addListener((observableValue, old, newValue) -> changeCueDuration(newValue));
+        cmbHotKey.setOnAction(event -> changeCueHotKey());
+    }
+
+    private void changeCueHotKey() {
+      editingCue.setHotKey((KeyCode) cmbHotKey.getSelectionModel().getSelectedItem());
+
     }
 
     private void changeCueDuration(String newValue) {

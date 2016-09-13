@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,6 +21,8 @@ import java.util.List;
  * Created by ryan on 15/05/16.
  */
 public abstract class Cue implements Serializable{
+
+
 
     public enum CueEvents implements EventTypeInterface {
         INDEX_CHANGE, CUE_TYPE_CHANGE, CUE_NAME_CHANGE, CUE_BEHAVIOUR_CHANGE,
@@ -40,7 +43,7 @@ public abstract class Cue implements Serializable{
     private transient SimpleIntegerProperty cuePlayDelay;
     protected transient SimpleIntegerProperty cueStartPoint;
     protected transient SimpleIntegerProperty cueDuration;
-
+    private transient KeyCode hotKey;
     //fields that can't be a property (and thus are wrapped by one above)
     public CueType cueTypeEnum;
     public CueBehaviour cueBehaviourEnum;
@@ -62,6 +65,8 @@ public abstract class Cue implements Serializable{
         cuePlayDelay = new SimpleIntegerProperty(0);
         cueStartPoint = new SimpleIntegerProperty(0);
         cueDuration = new SimpleIntegerProperty(0);
+
+        this.hotKey = KeyCode.NONCONVERT;
     }
 
     // NOTE: below, IntelliJ may suggest that these can be packageLocal. While true, this WILL break the tableview
@@ -132,6 +137,12 @@ public abstract class Cue implements Serializable{
 
     public void setPrgDelay(ProgressBar prgDelay) {
         this.prgDelay = prgDelay;
+    }
+    public void setHotKey(KeyCode hotKey) {
+        this.hotKey = hotKey;
+    }
+    public KeyCode getHotKey() {
+        return this.hotKey;
     }
 
     public void setPrgDelayProgress(double d){
