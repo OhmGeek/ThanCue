@@ -50,7 +50,7 @@ and check your files updated!
 - Set volume, pitch, fade in and fade out effects
 - Set start and end positions in a given track (avoids opening it in some sound editing software)
 - Built in stopwatch and clock for timing cues/show operation (more for Show Mode)
-- Hotkeys for each cue
+- Hotkeys for each cue (somewhat implemented, but need to add key combos/actual checking to avoid overwriting important keys)
 - EQ
 - MIDI control
 - Loops
@@ -68,7 +68,6 @@ and check your files updated!
 - Ability to Undo and Redo thing **(Ryan)
 - Check for VLC on installation
 - Mac support
-- Add custom cue support (using Bash scripts).
 - Make the program itself be relatively lightweight when playing many cues!
 - Cue numbers on the go button
 - Pausing of cues, and ability to go back to a previous cue (both previous, as well as any cue through a goto cue button)
@@ -84,6 +83,7 @@ and check your files updated!
 - Basic show mode
 - Drag n drop cue creation
 - Voice Cues using Espeak
+- Add custom cue support (using Bash scripts). (needs custom GUI)
 
 ## Problems that need addressing
 
