@@ -88,6 +88,7 @@ public abstract class FileCue extends Cue {
             }
             //todo support video durations too
         }
+
         foundDuration -= getCueStartPoint();
         if (foundDuration == -1) { // no such file
             totalPlayTime = -1;

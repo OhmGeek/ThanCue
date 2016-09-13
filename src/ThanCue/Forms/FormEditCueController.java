@@ -302,6 +302,9 @@ public class FormEditCueController {
             case VOICE:
                 editingCue = new VoiceCue();
                 break;
+            case BASH:
+                editingCue = new BashCue();
+                break; //NB: remember to break here, as otherwise things literally break.
             default:
                 System.out.println("Tried to create cue that isn't accounted for!");
                 throw new NotImplementedException();

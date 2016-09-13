@@ -10,7 +10,8 @@ public enum CueType {
     VIDEO,
     LIGHT,
     VOICE,
-    UNKNOWN;
+    UNKNOWN,
+    BASH;
 
     @Override
     public String toString() {
