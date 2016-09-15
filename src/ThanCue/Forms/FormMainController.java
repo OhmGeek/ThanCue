@@ -667,7 +667,8 @@ public class FormMainController {
             stage.setTitle("Edit Cue");
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(anchor_pane.getScene().getWindow());
-            stage.setScene(new Scene(root.load(), 400, 400));
+            Scene scene = new Scene(root.load());
+            stage.setScene(scene);
             root.<FormEditCueController>getController().setCueIsToAdd(cueIsToAdd);
             root.<FormEditCueController>getController().setParentController(this);
             root.<FormEditCueController>getController().setEditObject(cueToEdit);
