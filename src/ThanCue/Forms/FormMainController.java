@@ -688,7 +688,7 @@ public class FormMainController {
     }
 
     private void printAllCues() {
-        System.out.println("\nCues:");
+        System.out.println("\nCues (" + cueCollection.size() + "):");
         for (Cue cue : cueCollection) {
             System.out.print("\t");
             cue.print();
